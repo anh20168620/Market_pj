@@ -1,11 +1,11 @@
-const express = require('express');
+const mongoose = require('mongoose');
 // fullName
 // email
 // password
 // avatar
 // notify
 
-const Schema = express.Schema;
+const Schema = mongoose.Schema;
 
 const adminSchema = new Schema({
     fullName: {
@@ -30,4 +30,4 @@ const adminSchema = new Schema({
         type: Array
     }
 })
-module.exports = mongoose.model('Admin', adminSchema)
+module.exports = mongoose.model('admin', adminSchema)

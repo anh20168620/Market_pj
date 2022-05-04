@@ -1,4 +1,4 @@
-const express = require('express');
+const mongoose = require('mongoose');
 // fullName
 // birthday
 // email
@@ -13,7 +13,7 @@ const express = require('express');
 // numberPhone
 
 
-const Schema = express.Schema;
+const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     fullName: {
@@ -22,7 +22,6 @@ const userSchema = new Schema({
     },
     birthday: {
         type: Date,
-        required: true
     },
     email: {
         type: String,
@@ -40,14 +39,13 @@ const userSchema = new Schema({
     },
     address: {
         type: String,
-        required: true,
     },
     notify: {
         type: Array
     },
     isActive: {
-        type: Number,
-        default: 0
+        type: Boolean,
+        default: false
     },
     rate: {
         type: Array
@@ -63,4 +61,4 @@ const userSchema = new Schema({
     { timestamps: true }
 )
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('user', userSchema)

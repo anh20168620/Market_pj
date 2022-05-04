@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
+const userRouter = require('./routes/user')
+
 
 mongoose.connect('mongodb://localhost:27017/market', async (error) => {
     if (error) {
@@ -23,6 +25,8 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
         app.use(express.json({ limit: '50mb' }));
 
         // routers
+        app.use('/user', userRouter);
+
 
         // start server
         app.listen(process.env.PORT || 3001, (err) => {
