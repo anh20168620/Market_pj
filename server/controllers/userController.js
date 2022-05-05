@@ -13,7 +13,7 @@ const userController = {
                 password: hasdedPassword
             })
             await newUser.save()
-            res.json(newUser)
+            res.status(200).json({ success: true, data: newUser })
 
         } catch (error) {
             res.status(400).json({ success: false, message: error.message })
@@ -24,17 +24,17 @@ const userController = {
     login: async (req, res) => {
         try {
             const user = await User.findOne({ email: req.body.email })
-            if (!user) return res.json({ success: false, message: 'user not found with the given email' })
+            if (!user) return res.status(404).json({ success: false, message: 'Người dùng không tìm thấy với email này!' })
 
             // user found
             const passwordValid = await argon2.verify(user.password, req.body.password)
-            if (!passwordValid) return res.json({ success: false, message: 'email/ password does not match' })
+            if (!passwordValid) return res.status(401).json({ success: false, message: 'Email/ mật khẩu không chính xác' })
 
-            res.json({ success: true, user })
+            res.status(200).json({ success: true, user })
         } catch (error) {
-
+            res.status(400).json({ success: false, message: error.message })
         }
     }
 }
 
-module.exports = userController
+module.exports = userController;

@@ -6,23 +6,23 @@ exports.validateUserRegister = [
         .trim()
         .not()
         .isEmpty()
-        .withMessage('Name is required!')
+        .withMessage('Tên là bắt buộc!')
         .isLength({ min: 3, max: 20 })
-        .withMessage('Name must be within 3 characters to 20 characters!'),
+        .withMessage('Tên phải nằm trong phạm vi 3 ký tự đến 20 ký tự! '),
     check('numberPhone')
         .not()
         .isEmpty()
-        .withMessage('Phone is required!')
+        .withMessage('Số điện thoại là bắt buộc!')
         .matches(/(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b/)
-        .withMessage('Phone is not valid!'),
+        .withMessage('Số điện thoại không hợp lệ!'),
     check('email')
         .normalizeEmail()
         .isEmail()
-        .withMessage('Invalid email!')
+        .withMessage('Email không hợp lệ!')
         .custom(async value => {
             await User.findOne({ email: value }).then(user => {
                 if (user) {
-                    throw new Error('Email already in use!')
+                    throw new Error('Email đã tồn tại!')
                 }
             })
         }),
@@ -30,17 +30,17 @@ exports.validateUserRegister = [
         .trim()
         .not()
         .isEmpty()
-        .withMessage('Password is empty!')
+        .withMessage('Mật khẩu là bắt buộc!')
         .isLength({ min: 6, max: 20 })
-        .withMessage('Password must be 6 to 20 characters long!'),
+        .withMessage('Mật khẩu phải từ 6 đến 20 ký tự'),
     check('confirmPassword')
         .trim()
         .not()
         .isEmpty()
-        .withMessage('Confirm Password is required!')
+        .withMessage('Nhập lại mật khẩu là bắt buộc!')
         .custom((value, { req }) => {
             if (value != req.body.password) {
-                throw new Error('Password does not match!');
+                throw new Error('Mật khẩu không đúng!');
             }
             return true;
         })
@@ -51,7 +51,7 @@ exports.userValidation = (req, res, next) => {
     if (!result.length) return next();
 
     const error = result[0].msg;
-    res.json({ success: false, message: error });
+    res.status(401).json({ success: false, message: error });
 }
 
 exports.validateUserLogin = [
@@ -59,12 +59,12 @@ exports.validateUserLogin = [
         .trim()
         .not().
         isEmpty()
-        .withMessage('email / password is required')
+        .withMessage('email / mật khẩu là bắt buộc')
         .isEmail()
-        .withMessage('email invalid!'),
+        .withMessage('email không hợp lệ!'),
     check('password')
         .trim()
         .not()
         .isEmpty()
-        .withMessage('email / password is required')
+        .withMessage('email / mật khẩu là bắt buộc')
 ]

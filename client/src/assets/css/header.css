@@ -1,0 +1,92 @@
+.Header {
+  background-color: #ffba00;
+  height: 100px;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.container {
+  width: 1200px;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.header_up {
+  height: 50%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header_logo {
+  height: 100%;
+}
+
+.header_logo img {
+  height: 100%;
+}
+
+.header_list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 40%;
+}
+
+.header_item {
+  padding: 12px 0;
+  transition: all 0.1s linear;
+}
+
+.header_item:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.header_link {
+  font-size: 18px;
+  text-decoration: none;
+  color: black;
+}
+
+.header-under {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50%;
+}
+
+.header_search {
+  width: 70%;
+}
+
+.header_search input {
+  padding: 6px;
+  border: none;
+  border-radius: 4px;
+  font-size: 17px;
+  outline: none;
+  margin-right: 5px;
+  width: 50%;
+}
+
+.btn {
+  font-size: 18px;
+  padding: 6px;
+  border-radius: 4px;
+  border: none;
+  background-color: #fe9900;
+  transition: all 0.1s linear;
+}
+
+.btn:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.header_user {
+  display: flex;
+  justify-content: space-between;
+  width: 17%;
+}
