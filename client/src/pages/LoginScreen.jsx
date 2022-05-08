@@ -1,8 +1,33 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../assets/css/loginScreen.css";
 
 function LoginScreen() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    const auth = localStorage.getItem("user");
+    if (auth) {
+      navigate("/");
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const handleLogin = async () => {
+    let result = await fetch("http://localhost:3001/user/login", {
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+      headers: { "Content-Type": "application/json" },
+    });
+    result = await result.json();
+    console.warn(result);
+    if (result.success) {
+      localStorage.setItem("user", JSON.stringify(result));
+      navigate("/");
+    } else {
+      alert(result.message);
+    }
+  };
   return (
     <section className="Login">
       <div className="container_login">
@@ -18,6 +43,8 @@ function LoginScreen() {
                 type="email"
                 className="login_input"
                 placeholder="Nhập email của bạn"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
 
               <label className="login_label" htmlFor="">
@@ -27,8 +54,10 @@ function LoginScreen() {
                 type="password"
                 className="login_input"
                 placeholder="Nhập mật khẩu của bạn"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
-              <button className="btn" type="submit">
+              <button onClick={handleLogin} className="btn" type="button">
                 Đăng nhập
               </button>
               <button type="button" className="btn cancelbtn">

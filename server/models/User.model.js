@@ -35,7 +35,7 @@ const userSchema = new Schema({
     },
     avtar: {
         type: String,
-        default: 'avatar_default.png'
+        default: 'avatar/avatar_default.png'
     },
     address: {
         type: String,

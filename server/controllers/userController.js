@@ -24,11 +24,11 @@ const userController = {
     login: async (req, res) => {
         try {
             const user = await User.findOne({ email: req.body.email })
-            if (!user) return res.status(404).json({ success: false, message: 'Người dùng không tìm thấy với email này!' })
+            if (!user) return res.status(404).json({ success: false, message: 'Email/ mật khẩu không chính xác!' })
 
             // user found
             const passwordValid = await argon2.verify(user.password, req.body.password)
-            if (!passwordValid) return res.status(401).json({ success: false, message: 'Email/ mật khẩu không chính xác' })
+            if (!passwordValid) return res.status(401).json({ success: false, message: 'Email/ mật khẩu không chính xác!' })
 
             res.status(200).json({ success: true, user })
         } catch (error) {

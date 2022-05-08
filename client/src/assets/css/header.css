@@ -88,5 +88,14 @@
 .header_user {
   display: flex;
   justify-content: space-between;
-  width: 17%;
+}
+
+.img_avatar {
+  height: 35px;
+  border-radius: 50%;
+}
+
+.header_user_login {
+  margin-right: 20px;
+  margin-left: 5px;
 }

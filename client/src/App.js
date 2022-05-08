@@ -4,6 +4,8 @@ import HomeScreen from './pages/HomeScreen';
 import LoginScreen from './pages/LoginScreen';
 import Header from './components/Header';
 import RegisterScreen from './pages/RegisterScreen'
+import PrivateComponent from './components/PrivateComponent';
+import PostScreen from './pages/PostScreen'
 function App() {
   return (
     <div className="App">
@@ -11,8 +13,12 @@ function App() {
         <Header />
         <Routes>
           <Route path='/' exact={true} element={<HomeScreen />} />
-          <Route path='/login' element={<LoginScreen />} />
           <Route path='/register' element={<RegisterScreen />} />
+          <Route path='/login' element={<LoginScreen />} />
+
+          <Route element={<PrivateComponent />}>
+            <Route path='/post' element={<PostScreen />} />
+          </Route>
         </Routes>
       </Router>
     </div>

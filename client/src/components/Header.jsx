@@ -1,9 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/images/logo.png";
 import "../assets/css/header.css";
 
 function Header() {
+  const auth = localStorage.getItem("user");
+  const navigate = useNavigate();
+  const logOut = () => {
+    localStorage.clear();
+    navigate("/");
+  };
   return (
     <section className="Header">
       <div className="container">
@@ -55,13 +61,28 @@ function Header() {
             <button className="btn btn-search">Tìm kiếm</button>
           </div>
           <div className="header_user">
-            <div className="btn header_user_login">
-              <Link to="/login" className="header_link">
-                Đăng nhập
-              </Link>
-            </div>
+            {auth ? (
+              <>
+                <img
+                  src="http://localhost:3001/avatar/avatar_default.png"
+                  alt=""
+                  className="img_avatar"
+                />
+                <div className="btn header_user_login">
+                  <Link onClick={logOut} to="/" className="header_link">
+                    <div>{JSON.parse(auth).user.fullName}</div>
+                  </Link>
+                </div>
+              </>
+            ) : (
+              <div className="btn header_user_login">
+                <Link to="/login" className="header_link">
+                  Đăng nhập
+                </Link>
+              </div>
+            )}
             <div className="btn header_user_post">
-              <Link to="/" className="header_link">
+              <Link to="/post" className="header_link">
                 Đăng tin
               </Link>
             </div>

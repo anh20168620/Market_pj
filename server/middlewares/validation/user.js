@@ -16,6 +16,9 @@ exports.validateUserRegister = [
         .matches(/(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b/)
         .withMessage('Số điện thoại không hợp lệ!'),
     check('email')
+        .not()
+        .isEmpty()
+        .withMessage('Email là bắt buộc!')
         .normalizeEmail()
         .isEmail()
         .withMessage('Email không hợp lệ!')
@@ -40,7 +43,7 @@ exports.validateUserRegister = [
         .withMessage('Nhập lại mật khẩu là bắt buộc!')
         .custom((value, { req }) => {
             if (value != req.body.password) {
-                throw new Error('Mật khẩu không đúng!');
+                throw new Error('Mật khẩu nhập lại không đúng!');
             }
             return true;
         })
