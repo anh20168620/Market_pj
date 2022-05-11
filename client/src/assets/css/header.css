@@ -48,6 +48,7 @@
   font-size: 18px;
   text-decoration: none;
   color: black;
+  border: none;
 }
 
 .header-under {
@@ -92,10 +93,21 @@
 
 .img_avatar {
   height: 35px;
+  width: 35px;
   border-radius: 50%;
 }
 
 .header_user_login {
+  display: flex;
+  align-items: center;
   margin-right: 20px;
   margin-left: 5px;
+  background-color: #fe9900;
+  border-radius: 5px;
+}
+
+.user_name {
+  font-size: 18px;
+  background-color: #fe9900;
+  border: none;
 }

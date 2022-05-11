@@ -1,0 +1,12 @@
+.email_success {
+  width: 600px;
+  margin: 150px auto;
+  text-align: center;
+  border-top: 3px solid #f1f1f1;
+  box-shadow: 0 0 8px rgb(0 0 0 / 30%);
+  padding: 18px 24px;
+}
+
+.image_success {
+  width: 70px;
+}

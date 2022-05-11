@@ -21,7 +21,8 @@ const userSchema = new Schema({
         required: true
     },
     birthday: {
-        type: Date,
+        type: String,
+        default: "Chưa có ngày sinh"
     },
     email: {
         type: String,
@@ -33,12 +34,13 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    avtar: {
+    avatar: {
         type: String,
-        default: 'avatar/avatar_default.png'
+        default: 'avatar_default.png'
     },
     address: {
         type: String,
+        default: 'Chưa có địa chỉ'
     },
     notify: {
         type: Array

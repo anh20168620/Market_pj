@@ -46,3 +46,13 @@
   font-size: 13px;
   margin: 10px 0;
 }
+
+.success_msg {
+  padding: 10px 0;
+  font-size: 14px;
+  background-color: #5cdd5c;
+  color: #f1f1f1;
+  text-align: center;
+  width: 300px;
+  margin: 5px 0;
+}

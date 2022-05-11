@@ -1,9 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const userRouter = require('./routes/user')
-
+const passwordResetRouter = require('./routes/passwordReset')
+const uploadRouter = require('./routes/upload')
 
 mongoose.connect('mongodb://localhost:27017/market', async (error) => {
     if (error) {
@@ -26,6 +30,9 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
 
         // routers
         app.use('/user', userRouter);
+        app.use('/password-reset', passwordResetRouter);
+        app.use('/upload', uploadRouter);
+
 
 
         // start server

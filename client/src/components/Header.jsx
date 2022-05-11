@@ -1,15 +1,14 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
+import UserMenu from "../components/UserMenu";
 import Logo from "../assets/images/logo.png";
 import "../assets/css/header.css";
 
 function Header() {
   const auth = localStorage.getItem("user");
-  const navigate = useNavigate();
-  const logOut = () => {
-    localStorage.clear();
-    navigate("/");
-  };
+  const [show, setShow] = useState(false);
+
   return (
     <section className="Header">
       <div className="container">
@@ -64,14 +63,17 @@ function Header() {
             {auth ? (
               <>
                 <img
-                  src="http://localhost:3001/avatar/avatar_default.png"
+                  src={`http://localhost:3001/avatar/${
+                    JSON.parse(auth).avatar
+                  }`}
                   alt=""
                   className="img_avatar"
                 />
-                <div className="btn header_user_login">
-                  <Link onClick={logOut} to="/" className="header_link">
-                    <div>{JSON.parse(auth).user.fullName}</div>
-                  </Link>
+                <div className=" header_user_login">
+                  <button onClick={() => setShow(!show)} className="user_name">
+                    <div>{JSON.parse(auth).fullName}</div>
+                  </button>
+                  {show && <UserMenu />}
                 </div>
               </>
             ) : (

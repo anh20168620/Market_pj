@@ -1,0 +1,85 @@
+.Infor_user {
+  margin-top: 15px;
+}
+
+.container_border {
+  display: flex;
+  justify-content: space-between;
+  border-top: 3px solid #f1f1f1;
+  padding: 14px 24px;
+  box-shadow: 0 0 8px rgb(0 0 0 / 30%);
+}
+
+.infor_user-title {
+  font-size: 18px;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 30px;
+}
+
+.infor_user {
+  width: 70%;
+  padding: 40px 10px;
+}
+
+.avata_user {
+  width: 320px;
+}
+
+.avatar_infor {
+  width: 120px;
+  height: 120px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  margin-left: 100px;
+  margin-bottom: 10px;
+}
+
+.infor_user_detail {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  font-size: 15px;
+  background-color: #eee;
+  border-radius: 4px;
+  margin-right: 100px;
+  height: 16px;
+  width: 80%;
+  border: none;
+}
+
+.infor_user_lable {
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.infor_user_item {
+  margin: 15px 0;
+}
+
+.infor_user_btn {
+  border: none;
+  padding: 0 16px;
+  right: 20px;
+}
+
+.infor_user_btn:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.fa-solid {
+  color: #000;
+}
+
+.input_file {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.btn_change-avatar {
+  margin-left: 87px;
+}

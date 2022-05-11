@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const tokenAdminSchema = new Schema({
     user: {
-        type: Schema.Type.ObjectId,
+        type: Schema.Types.ObjectId,
         required: true,
         ref: 'admin',
     },

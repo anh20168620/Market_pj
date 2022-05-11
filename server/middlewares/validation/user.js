@@ -16,11 +16,15 @@ exports.validateUserRegister = [
         .matches(/(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b/)
         .withMessage('Số điện thoại không hợp lệ!'),
     check('email')
+        .matches(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
+        .withMessage('Email không hợp lệ!')
+        .isEmail()
+        .withMessage('Email không hợp lệ!')
         .not()
         .isEmpty()
         .withMessage('Email là bắt buộc!')
         .normalizeEmail()
-        .isEmail()
+        .isLowercase()
         .withMessage('Email không hợp lệ!')
         .custom(async value => {
             await User.findOne({ email: value }).then(user => {
@@ -62,12 +66,28 @@ exports.validateUserLogin = [
         .trim()
         .not().
         isEmpty()
-        .withMessage('email / mật khẩu là bắt buộc')
+        .withMessage('Email / mật khẩu là bắt buộc')
         .isEmail()
-        .withMessage('email không hợp lệ!'),
+        .withMessage('Email không hợp lệ!'),
     check('password')
         .trim()
         .not()
         .isEmpty()
-        .withMessage('email / mật khẩu là bắt buộc')
+        .withMessage('Email / mật khẩu là bắt buộc')
+]
+
+exports.validateUserUpdate = [
+    check('fullName')
+        .trim()
+        .not()
+        .isEmpty()
+        .withMessage('Tên là bắt buộc!')
+        .isLength({ min: 3, max: 20 })
+        .withMessage('Tên phải nằm trong phạm vi 3 ký tự đến 20 ký tự! '),
+    check('numberPhone')
+        .not()
+        .isEmpty()
+        .withMessage('Số điện thoại là bắt buộc!')
+        .matches(/(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b/)
+        .withMessage('Số điện thoại không hợp lệ!'),
 ]

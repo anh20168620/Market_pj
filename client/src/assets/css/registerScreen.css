@@ -47,3 +47,10 @@
   font-size: 13px;
   margin: 10px 0;
 }
+
+.err_msg {
+  color: red;
+  font-size: 13px;
+  font-style: italic;
+  margin-bottom: 8px;
+}
