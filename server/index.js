@@ -8,6 +8,7 @@ dotenv.config();
 const userRouter = require('./routes/user')
 const passwordResetRouter = require('./routes/passwordReset')
 const uploadRouter = require('./routes/upload')
+const categoryRouter = require('./routes/categoryRouter')
 
 mongoose.connect('mongodb://localhost:27017/market', async (error) => {
     if (error) {
@@ -32,6 +33,7 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
         app.use('/user', userRouter);
         app.use('/password-reset', passwordResetRouter);
         app.use('/upload', uploadRouter);
+        app.use('/category', categoryRouter)
 
 
 

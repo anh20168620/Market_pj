@@ -1,0 +1,29 @@
+.PostScreen {
+  margin-top: 15px;
+}
+
+.container_postScreen {
+  display: flex;
+  border-top: 3px solid #f1f1f1;
+  box-shadow: 0 0 8px rgb(0 0 0 / 30%);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.postScreen_img {
+  width: 30%;
+}
+
+.postScreen_infor {
+  width: 60%;
+}
+
+.choose_img_label {
+  display: flex;
+  width: 250px;
+  height: 250px;
+  border: 2px dashed #000;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.4;
+}

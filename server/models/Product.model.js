@@ -15,10 +15,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
     title: {
         type: String,
         required: true
@@ -57,6 +53,11 @@ const productSchema = new Schema({
         required: true,
         ref: 'category'
     },
+    sub_category: {
+        type: String,
+        required: true
+    },
+
     typeOfSell: {
         type: String,
         enum: ['Bán chuyên', 'Cá nhân']
@@ -69,3 +70,5 @@ const productSchema = new Schema({
 },
     { timestamps: true })
 module.exports = mongoose.model('product', productSchema)
+
+

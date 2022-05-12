@@ -11,6 +11,7 @@ import UpdateUserScreen from './pages/UpdateUserScreen';
 import ForgotPassword from './components/ForgotPassword';
 import PasswordReset from './components/PasswordReset';
 import ChangePasswordScreen from './pages/ChangePasswordScreen'
+import AdimnLoginScreen from './pages/AdminLoginScreen'
 function App() {
   return (
     <div className="App">
@@ -22,6 +23,8 @@ function App() {
           <Route path='/user/:id/verify/:token' element={<EmailVerify />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/password-reset/:id/:token' element={<PasswordReset />} />
+          <Route path='/admin/login' element={<AdimnLoginScreen />} />
+
 
           <Route element={<PrivateComponent />}>
             <Route path='/post' element={<PostScreen />} />
