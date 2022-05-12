@@ -112,8 +112,20 @@ const userController = {
         }
     },
     // change password
-    changePassword: (req, res) => {
-
+    changePassword: async (req, res) => {
+        try {
+            const user = await User.findOne({ _id: req.params.id })
+            const passwordValid = await argon2.verify(user.password, req.body.password)
+            if (!passwordValid) return res.status(400).json({ success: false, message: "Mật khẩu nhập vào không đúng" })
+            else {
+                const newHasdedPassword = await argon2.hash(req.body.newPassword)
+                user.password = newHasdedPassword
+                await user.save()
+                res.status(200).json({ success: true, message: "Đổi mật khẩu thành công" })
+            }
+        } catch (error) {
+            return res.status(500).json({ success: false, message: error.message })
+        }
     }
 
 }

@@ -10,6 +10,7 @@ import EmailVerify from './components/EmailVerify'
 import UpdateUserScreen from './pages/UpdateUserScreen';
 import ForgotPassword from './components/ForgotPassword';
 import PasswordReset from './components/PasswordReset';
+import ChangePasswordScreen from './pages/ChangePasswordScreen'
 function App() {
   return (
     <div className="App">
@@ -26,6 +27,7 @@ function App() {
             <Route path='/post' element={<PostScreen />} />
             <Route path='/infor-user' element={<InforUserScreen />} />
             <Route path='/user-update' element={<UpdateUserScreen />} />
+            <Route path='/change-password' element={<ChangePasswordScreen />} />
           </Route>
         </Routes>
       </Router>

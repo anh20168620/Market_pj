@@ -110,7 +110,7 @@ function InforUserScreen() {
                   <span className="infor_user_lable">Địa chỉ</span>
                   <div className="infor_user_detail">
                     <span>{JSON.parse(auth).address}</span>
-                    <Link to="/" className="infor_user_btn">
+                    <Link to="/user-update" className="infor_user_btn">
                       <i className="fa-solid fa-pen"></i>
                     </Link>
                   </div>
@@ -120,7 +120,7 @@ function InforUserScreen() {
                   <span className="infor_user_lable">Ngày sinh</span>
                   <div className="infor_user_detail">
                     <span> {JSON.parse(auth).birthday}</span>
-                    <Link to="/update-user" className="infor_user_btn">
+                    <Link to="/user-update" className="infor_user_btn">
                       <i className="fa-solid fa-pen"></i>
                     </Link>
                   </div>
@@ -130,7 +130,7 @@ function InforUserScreen() {
                   <span className="infor_user_lable">Mật khẩu</span>
                   <div className="infor_user_detail">
                     <span>********</span>
-                    <Link to="" className="infor_user_btn">
+                    <Link to="/change-password" className="infor_user_btn">
                       <i className="fa-solid fa-pen"></i>
                     </Link>
                   </div>

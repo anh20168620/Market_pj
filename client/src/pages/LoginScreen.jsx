@@ -23,8 +23,7 @@ function LoginScreen() {
       headers: { "Content-Type": "application/json" },
     });
     result = await result.json();
-    console.warn(result);
-    console.log(result);
+
     if (result.success) {
       localStorage.setItem("user", JSON.stringify(result.user));
       alert(result.message);
