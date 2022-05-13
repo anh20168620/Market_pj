@@ -9,6 +9,7 @@ const userRouter = require('./routes/user')
 const passwordResetRouter = require('./routes/passwordReset')
 const uploadRouter = require('./routes/upload')
 const categoryRouter = require('./routes/categoryRouter')
+const subCategoryRouter = require('./routes/subCategoryRouter')
 
 mongoose.connect('mongodb://localhost:27017/market', async (error) => {
     if (error) {
@@ -34,6 +35,7 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
         app.use('/password-reset', passwordResetRouter);
         app.use('/upload', uploadRouter);
         app.use('/category', categoryRouter)
+        app.use('/sub-category', subCategoryRouter)
 
 
 

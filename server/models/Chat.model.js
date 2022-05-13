@@ -3,11 +3,11 @@ const Schema = mongoose.Schema;
 
 const chatSchema = new Schema({
     user_1: {
-        type: Schema.Type.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'user'
     },
     user_2: {
-        type: Schema.Type.ObjectId,
+        type: Schema.Types.ObjectId,
         required: true,
         ref: 'user'
     },
@@ -16,7 +16,7 @@ const chatSchema = new Schema({
         required: true
     },
     product: {
-        type: Schema.Type.ObjectId,
+        type: Schema.Types.ObjectId,
         required: true,
         ref: 'product'
     }

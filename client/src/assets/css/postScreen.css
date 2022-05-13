@@ -1,5 +1,6 @@
 .PostScreen {
   margin-top: 15px;
+  margin-bottom: 50px;
 }
 
 .container_postScreen {
@@ -22,8 +23,41 @@
   display: flex;
   width: 250px;
   height: 250px;
-  border: 2px dashed #000;
+  border: 2px dashed rgb(192, 188, 188);
   justify-content: center;
   align-items: center;
-  opacity: 0.4;
+  color: rgb(151, 144, 144);
+}
+
+.select {
+  cursor: pointer;
+  padding: 10px;
+  display: block;
+  border: 1px solid #ccc;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 15px;
+  margin-bottom: 20px;
+  text-align: center;
+  outline: none;
+}
+
+.select_infor {
+  cursor: pointer;
+  padding: 12px;
+  display: block;
+  border: 1px solid #ccc;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 15px;
+  margin-bottom: 20px;
+  outline: none;
+}
+
+.textarea {
+  font-size: 15px;
+  outline: none;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  margin-top: 10px;
 }

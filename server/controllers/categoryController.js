@@ -1,5 +1,6 @@
 const Category = require('../models/Category.model')
 
+
 const category = {
     // get category
     get: async (req, res) => {
@@ -10,7 +11,12 @@ const category = {
             return res.status(500).json({ error: error.message });
         }
     },
-    post: async (req, res) => { }
+    add: async (req, res) => {
+
+    }
 }
 
 module.exports = category
+
+
+

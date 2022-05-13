@@ -23,9 +23,18 @@ const productSchema = new Schema({
         type: String,
         required: true
     },
+    insurance: {
+        type: String,
+        required: true
+    },
     brand: {
         type: String,
         required: true
+    },
+    description: {
+        type: String,
+        minLength: 10,
+        maxLength: 1500
     },
     address: {
         type: String,
@@ -33,39 +42,31 @@ const productSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['Mới', 'Đã sử dụng(chưa sủa chữa)', 'Đã sử dụng(qua sửa chữa'],
+        enum: ['Mới', 'Đã sử dụng(chưa sửa chữa)', 'Đã sử dụng(qua sửa chữa)'],
         require: true
-    },
-    description: {
-        type: String,
-        minLength: 10
     },
     image: {
         type: String,
         required: true
     },
-    video: {
-        type: String,
-        required: true
-    },
-    category: {
-        type: Schema.Type.ObjectId,
-        required: true,
-        ref: 'category'
-    },
-    sub_category: {
-        type: String,
-        required: true
-    },
-
     typeOfSell: {
         type: String,
         enum: ['Bán chuyên', 'Cá nhân']
     },
     user: {
-        type: Schema.Type.ObjectId,
+        type: Schema.Types.ObjectId,
         required: true,
         ref: 'user'
+    },
+    category: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: 'category'
+    },
+    subCategory: {
+        type: Schema.Types.ObjectId,
+        ref: 'subCategory',
+        required: true
     }
 },
     { timestamps: true })

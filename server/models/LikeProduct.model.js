@@ -3,12 +3,12 @@ const Schema = mongoose.Schema;
 
 const LikeProductSchema = new Schema({
     products: {
-        type: Schema.Type.ObjectId,
+        type: Schema.Types.ObjectId,
         required: true,
         ref: 'product'
     },
     user: {
-        type: Schema.Type.ObjectId,
+        type: Schema.Types.ObjectId,
         required: true,
         ref: 'user'
     }

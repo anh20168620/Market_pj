@@ -7,7 +7,7 @@ const categoryController = require('../controllers/categoryController')
 router.get('/get', categoryController.get)
 
 // Add categoryController
-router.post('/post', categoryController.post)
+router.post('/add-category', categoryController.add)
 
 
 module.exports = router
