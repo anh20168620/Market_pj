@@ -36,6 +36,7 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
         app.use('/upload', uploadRouter);
         app.use('/category', categoryRouter)
         app.use('/sub-category', subCategoryRouter)
+        app.use('/product', uploadRouter)
 
 
 

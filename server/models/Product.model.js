@@ -25,7 +25,7 @@ const productSchema = new Schema({
     },
     insurance: {
         type: String,
-        required: true
+        required: false
     },
     brand: {
         type: String,
@@ -43,7 +43,7 @@ const productSchema = new Schema({
     status: {
         type: String,
         enum: ['Mới', 'Đã sử dụng(chưa sửa chữa)', 'Đã sử dụng(qua sửa chữa)'],
-        require: true
+        require: false
     },
     image: {
         type: String,
@@ -51,19 +51,20 @@ const productSchema = new Schema({
     },
     typeOfSell: {
         type: String,
-        enum: ['Bán chuyên', 'Cá nhân']
+        enum: ['Bán chuyên', 'Cá nhân'],
+        required: true
     },
-    user: {
+    userId: {
         type: Schema.Types.ObjectId,
         required: true,
         ref: 'user'
     },
-    category: {
+    categoryId: {
         type: Schema.Types.ObjectId,
         required: true,
         ref: 'category'
     },
-    subCategory: {
+    subCategoryId: {
         type: Schema.Types.ObjectId,
         ref: 'subCategory',
         required: true

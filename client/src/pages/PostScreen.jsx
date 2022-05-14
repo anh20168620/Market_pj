@@ -3,8 +3,34 @@ import Header from "../components/Header";
 import "../assets/css/postScreen.css";
 
 function PostScreen() {
+  const auth = localStorage.getItem("user");
+
   const [categorys, setCategorys] = useState([]);
   const [subCategorys, setSubCategorys] = useState([]);
+  const [title, setTitle] = useState("");
+  const [price, setPrice] = useState("");
+  const [insurance, setInsurance] = useState("");
+  const [brand, setBrand] = useState("");
+  const [status, setStatus] = useState("");
+  const [description, setDescription] = useState("");
+  const [address, setAddress] = useState("");
+  const [typeOfSell, setTypeOfSell] = useState("");
+
+  const [images, setImages] = useState("");
+
+  const handleUploadImageProduct = async (e) => {
+    const files = e.target.files[0];
+    if (files) {
+      setImages([...images, files]);
+      files.preview = URL.createObjectURL(files);
+    }
+  };
+  const onDelete = (image) => {
+    const currentIndex = images.indexOf(image);
+    const newImages = [...images];
+    newImages.splice(currentIndex, 1);
+    setImages(newImages);
+  };
 
   useEffect(() => {
     const getCategory = async () => {
@@ -31,12 +57,43 @@ function PostScreen() {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          console.log(data);
+          // console.log(data);
           setSubCategorys(data.subCategory);
         } else {
           console.log("Lỗi");
         }
       });
+  };
+  // Submit Post
+  const handleSubmid = async () => {
+    //Upload image
+    try {
+      if (images) {
+        const formData = new FormData();
+        for (const image of images) {
+          formData.append("imageProduct", image);
+        }
+        await fetch(
+          `http://localhost:3001/product/image-product/${JSON.parse(auth)._id}`,
+          {
+            method: "POST",
+            credentials: "include",
+
+            body: formData,
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              console.log(data);
+            }
+          });
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    // Create product
   };
 
   return (
@@ -46,7 +103,8 @@ function PostScreen() {
         <div className="container container_postScreen">
           <div className="postScreen_img">
             <label htmlFor="choose_img" className="choose_img_label">
-              Chọn từ 1 đến 6 ảnh
+              <div> Chọn từ 1 đến 6 ảnh</div>
+              <small>Nhấn lại ảnh để xóa ảnh</small>
             </label>
             <input
               type="file"
@@ -54,7 +112,20 @@ function PostScreen() {
               multiple
               id="choose_img"
               name="choose_img"
+              onChange={handleUploadImageProduct}
             />
+            <div className="preview_img">
+              {images &&
+                images.map((image, index) => (
+                  <img
+                    onClick={() => onDelete(image)}
+                    key={index}
+                    className="preview_img_item"
+                    src={image.preview}
+                    alt="Preview"
+                  />
+                ))}
+            </div>
           </div>
           <div className="postScreen_infor">
             <select className="select" onChange={handleCategorySelect}>
@@ -88,8 +159,8 @@ function PostScreen() {
               type="text"
               className="register_input"
               placeholder="Nhập tiêu đề"
-              // value={}
-              // onChange={}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
             <label htmlFor="" className="register_label">
               <span>Giá :</span>
@@ -98,8 +169,8 @@ function PostScreen() {
               type="text"
               className="register_input"
               placeholder="Nhập giá sản phẩm"
-              // value={}
-              // onChange={}
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
             />
 
             <label htmlFor="" className="register_label">
@@ -109,14 +180,17 @@ function PostScreen() {
               type="text"
               className="register_input"
               placeholder="Nhập tiêu đề"
-              // value={}
-              // onChange={}
+              value={brand}
+              onChange={(e) => setBrand(e.target.value)}
             />
 
             <label htmlFor="" className="register_label">
               <span>Bảo hành :</span>
             </label>
-            <select className="select_infor">
+            <select
+              className="select_infor"
+              onChange={(e) => setInsurance(e.target.value)}
+            >
               <option hidden></option>
               <option>Còn bảo hành</option>
               <option>Hết bảo hành</option>
@@ -125,7 +199,10 @@ function PostScreen() {
             <label htmlFor="" className="register_label">
               <span>Tình trạng :</span>
             </label>
-            <select className="select_infor">
+            <select
+              className="select_infor"
+              onChange={(e) => setStatus(e.target.value)}
+            >
               <option hidden></option>
               <option>Mới</option>
               <option>Đã sử dụng(chưa sửa chữa)</option>
@@ -135,7 +212,10 @@ function PostScreen() {
             <label htmlFor="" className="register_label">
               <span>Dạng bán :</span>
             </label>
-            <select className="select_infor">
+            <select
+              onChange={(e) => setTypeOfSell(e.target.value)}
+              className="select_infor"
+            >
               <option hidden></option>
               <option>Cá nhân</option>
               <option>Bán chuyên</option>
@@ -143,6 +223,8 @@ function PostScreen() {
 
             <textarea
               className="textarea"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               cols="82"
               rows="8"
               placeholder="Viết tiếng việt có dấu
@@ -163,10 +245,10 @@ function PostScreen() {
               type="text"
               className="register_input"
               placeholder="Địa chỉ"
-              // value={}
-              // onChange={}
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
             />
-            <button className="btn" type="button">
+            <button className="btn" type="button" onClick={handleSubmid}>
               Đăng tin
             </button>
           </div>

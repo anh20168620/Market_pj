@@ -27,7 +27,6 @@ function InforUserScreen() {
             {
               method: "POST",
               credentials: "include",
-
               body: formData,
             }
           )

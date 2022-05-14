@@ -12,12 +12,12 @@ const categorySchema = new Schema({
     image: {
         type: String,
     },
-    subCategory: {
+    subCategoryId: {
         type: Schema.Types.ObjectId,
         ref: 'subCategory',
         required: false
     },
-    product: {
+    productId: {
         type: Schema.Types.ObjectId,
         ref: 'product',
         required: false
