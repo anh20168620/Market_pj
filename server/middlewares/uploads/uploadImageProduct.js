@@ -8,4 +8,15 @@ var storage = multer.diskStorage({
     }
 })
 
-module.exports = uploadImageProduct = multer({ storage: storage })
+module.exports = uploadImageProduct = multer({
+    storage: storage, fileFilter: (req, file, cb) => {
+        if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+            cb(null, true);
+        } else {
+            cb(null, false);
+            return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+        }
+
+    }, limits: { fileSize: 6000000, files: 3 }
+
+}).array('imageProduct')

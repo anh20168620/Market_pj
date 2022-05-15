@@ -15,14 +15,9 @@ const uploadController = {
         })
     },
 
-    imageProduct: async (req, res, next) => {
-        const files = req.files;
-        if (!files) {
-            const error = new Error('Vui lòng chọn file')
-            res.status(404).json({ success: false, message: error })
-        } else {
-            res.status(200).json({ success: true, files })
-        }
+    imageProduct: async (req, res) => {
+        const files = req.files
+        res.status(200).json({ success: true, files })
     }
 }
 

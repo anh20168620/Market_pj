@@ -4,6 +4,8 @@ import "../assets/css/postScreen.css";
 
 function PostScreen() {
   const auth = localStorage.getItem("user");
+  const [msg, setMsg] = useState("");
+  const [err, setErr] = useState("");
 
   const [categorys, setCategorys] = useState([]);
   const [subCategorys, setSubCategorys] = useState([]);
@@ -17,6 +19,9 @@ function PostScreen() {
   const [typeOfSell, setTypeOfSell] = useState("");
 
   const [images, setImages] = useState("");
+  const [imageSrcs, setImagesSrcs] = useState("");
+
+  const [loading, setLoading] = useState(false);
 
   const handleUploadImageProduct = async (e) => {
     const files = e.target.files[0];
@@ -64,8 +69,10 @@ function PostScreen() {
         }
       });
   };
+
   // Submit Post
   const handleSubmid = async () => {
+    setLoading(true);
     //Upload image
     try {
       if (images) {
@@ -84,18 +91,29 @@ function PostScreen() {
         )
           .then((res) => res.json())
           .then((data) => {
-            if (data.success) {
-              console.log(data);
+            if (!data.success) {
+              setErr(data.message);
+              setLoading(false);
+            } else {
+              const imageSrcs = [];
+              const images = data.files;
+              images.map((image) => imageSrcs.push(image.filename));
+              setImagesSrcs(imageSrcs);
+              setMsg(data.message);
+              setErr("");
+              setLoading(false);
+              // Create product
             }
           });
+      } else {
+        setErr("Vui lòng chọn ảnh");
+        setLoading(false);
       }
     } catch (error) {
-      console.log(error.message);
+      setErr(error.message);
+      setLoading(false);
     }
-
-    // Create product
   };
-
   return (
     <>
       <Header />
@@ -103,13 +121,14 @@ function PostScreen() {
         <div className="container container_postScreen">
           <div className="postScreen_img">
             <label htmlFor="choose_img" className="choose_img_label">
-              <div> Chọn từ 1 đến 6 ảnh</div>
+              <div> Chọn từ 1 đến 3 ảnh</div>
               <small>Nhấn lại ảnh để xóa ảnh</small>
             </label>
             <input
               type="file"
               className="input_file"
               multiple
+              accept=".png, .jpg, .jpeg"
               id="choose_img"
               name="choose_img"
               onChange={handleUploadImageProduct}
@@ -248,9 +267,17 @@ function PostScreen() {
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
-            <button className="btn" type="button" onClick={handleSubmid}>
-              Đăng tin
-            </button>
+            {msg && <div className="success_msg">{msg}</div>}
+            {err && <div className="err_msg">{err}</div>}
+            {loading ? (
+              <button className="loadding btn">
+                <i className="fa fa-spinner fa-spin"></i>
+              </button>
+            ) : (
+              <button className="btn" type="button" onClick={handleSubmid}>
+                Đăng tin
+              </button>
+            )}
           </div>
         </div>
       </section>
