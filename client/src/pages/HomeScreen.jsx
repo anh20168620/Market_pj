@@ -3,9 +3,31 @@ import Header from "../components/Header";
 import Banner from "../assets/images/banner.png";
 import "../assets/css/homeScreen.css";
 import { Link } from "react-router-dom";
+import ProductCard from "./../components/ProductCard";
 
 function HomeScreen() {
   const [categorys, setCategorys] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [total, setTotal] = useState(0);
+  const [responseData, setResponseData] = useState([]);
+
+  useEffect(() => {
+    const productCardWillMount = async () => {
+      await fetch(
+        `http://localhost:3001/product/get?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+        .then((response) => response.json())
+        .then((responseData) => {
+          setResponseData(responseData.data);
+          setTotal(responseData.total);
+        });
+    };
+    productCardWillMount();
+  }, [pageNumber, pageSize]);
 
   useEffect(() => {
     const getCategory = async () => {
@@ -49,6 +71,26 @@ function HomeScreen() {
               </Link>
             ))}
           </ul>
+        </div>
+      </section>
+
+      <section className="DisplayProduct">
+        <div className="container container_display">
+          <p className="category_title">Các sản phẩm mới nhất</p>
+          <div className="product_list">
+            {responseData.map((item) => {
+              return (
+                <ProductCard
+                  key={item._id}
+                  image={`http://localhost:3001/image_product/${item.image[0]}`}
+                  title={item.title}
+                  price={item.price}
+                  time={item.createdAt}
+                  address={item.address}
+                />
+              );
+            })}
+          </div>
         </div>
       </section>
     </>

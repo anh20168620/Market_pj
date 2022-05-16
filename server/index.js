@@ -5,11 +5,12 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const userRouter = require('./routes/user')
-const passwordResetRouter = require('./routes/passwordReset')
-const uploadRouter = require('./routes/upload')
+const userRouter = require('./routes/userRouter')
+const passwordResetRouter = require('./routes/passwordResetRouter')
+const avatarRouter = require('./routes/avatarRouter')
 const categoryRouter = require('./routes/categoryRouter')
 const subCategoryRouter = require('./routes/subCategoryRouter')
+const productRouter = require('./routes/productRouter')
 
 mongoose.connect('mongodb://localhost:27017/market', async (error) => {
     if (error) {
@@ -33,10 +34,10 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
         // routers
         app.use('/user', userRouter);
         app.use('/password-reset', passwordResetRouter);
-        app.use('/upload', uploadRouter);
+        app.use('/avatar', avatarRouter);
         app.use('/category', categoryRouter)
         app.use('/sub-category', subCategoryRouter)
-        app.use('/product', uploadRouter)
+        app.use('/product', productRouter)
 
 
 

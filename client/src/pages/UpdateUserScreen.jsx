@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import CurrencyFormat from "react-currency-format";
 import Header from "../components/Header";
 
 import "../assets/css/updateUser.css";
@@ -106,7 +107,10 @@ function UpdateUserScreen() {
 
                   <div className="infor_user_item">
                     <span className="infor_user_lable">Ngày sinh</span>
-                    <input
+                    <CurrencyFormat
+                      format="##/##/####"
+                      mask={["D", "D", "M", "M", "Y", "Y", "Y", "Y"]}
+                      placeholder="DD/MM/YYYY"
                       className="infor_user_detail input_color"
                       value={birthday}
                       type="text"

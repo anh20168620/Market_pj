@@ -23,7 +23,7 @@ function InforUserScreen() {
           const formData = new FormData();
           formData.append("avatar", avatar);
           await fetch(
-            `http://localhost:3001/upload/avatar/${JSON.parse(auth)._id}`,
+            `http://localhost:3001/avatar/avatar/${JSON.parse(auth)._id}`,
             {
               method: "POST",
               credentials: "include",

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import CurrencyFormat from "react-currency-format";
 import Header from "../components/Header";
 import "../assets/css/postScreen.css";
 
@@ -81,7 +82,7 @@ function PostScreen() {
     setLoading(true);
     //Upload image
     try {
-      if (images) {
+      if (images.length > 0) {
         const formData = new FormData();
         for (const image of images) {
           formData.append("imageProduct", image);
@@ -144,6 +145,7 @@ function PostScreen() {
                 })
                 .catch((err) => {
                   setLoading(false);
+                  setImages([]);
                   setErr(err.message);
                 });
             }
@@ -227,7 +229,9 @@ function PostScreen() {
             <label htmlFor="" className="register_label">
               <span>Giá sản phẩm (VND) :</span>
             </label>
-            <input
+            <CurrencyFormat
+              thousandSeparator={true}
+              suffix={" đ"}
               type="text"
               className="register_input"
               placeholder="Nhập giá sản phẩm"

@@ -1,0 +1,30 @@
+.product_item {
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+
+  width: 20%;
+  text-align: center;
+}
+
+.product_item:hover {
+  box-shadow: 0 0 8px rgb(0 0 0 / 30%);
+}
+
+.product_image {
+  height: 200px;
+  width: 200px;
+  border-radius: 2px;
+  /* border: 1px solid #ccc; */
+}
+
+.product_title {
+  font-size: 16px;
+  margin-top: 15px;
+}
+
+.product_price {
+  margin-top: 15px;
+  color: red;
+  font-weight: bold;
+}

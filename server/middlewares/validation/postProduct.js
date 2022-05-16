@@ -12,6 +12,7 @@ exports.validatePostProduct = [
                 for (const image of images) {
                     fs.unlinkSync(`public/image_product/${image}`)
                 }
+
             }
             return true;
         })
@@ -26,6 +27,7 @@ exports.validatePostProduct = [
                 for (const image of images) {
                     fs.unlinkSync(`public/image_product/${image}`)
                 }
+
             }
             return true;
         }),
@@ -41,6 +43,7 @@ exports.validatePostProduct = [
                 for (const image of images) {
                     fs.unlinkSync(`public/image_product/${image}`)
                 }
+
             }
             return true;
         }),
@@ -54,6 +57,7 @@ exports.validatePostProduct = [
                 for (const image of images) {
                     fs.unlinkSync(`public/image_product/${image}`)
                 }
+
             }
             return true;
         }),
@@ -67,6 +71,7 @@ exports.validatePostProduct = [
                 for (const image of images) {
                     fs.unlinkSync(`public/image_product/${image}`)
                 }
+
             }
             return true;
         }),
@@ -77,11 +82,12 @@ exports.validatePostProduct = [
         .isLength({ min: 10, max: 1500 })
         .withMessage('Nhập mô tả sản phẩm từ 10-1500 ký tự').
         custom((value, { req }) => {
-            if (!value || !value.length < 10 || value.length > 1500) {
+            if (!value || value.length < 10 || value.length > 1500) {
                 const images = req.body.image
                 for (const image of images) {
                     fs.unlinkSync(`public/image_product/${image}`)
                 }
+
             }
             return true;
         }),
@@ -95,6 +101,7 @@ exports.validatePostProduct = [
                 for (const image of images) {
                     fs.unlinkSync(`public/image_product/${image}`)
                 }
+
             }
             return true;
         }),

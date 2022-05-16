@@ -1,13 +1,11 @@
 const express = require('express');
-const multer = require('multer');
 const router = express.Router();
-const uploadController = require('../controllers/uploadController')
-const uploadAvatar = require('../middlewares/uploads/uploadAvatar')
+const multer = require('multer');
+const productController = require('../controllers/productController')
 const uploadImageProduct = require('../middlewares/uploads/uploadImageProduct')
 const { validatePostProduct, postProductValidation } = require('../middlewares/validation/postProduct')
 
-// upload avatar
-router.post('/avatar/:id', uploadAvatar.single('avatar'), uploadController.avatar)
+
 
 // upload image product
 router.post('/image-product/:id', (req, res, next) => {
@@ -28,11 +26,14 @@ router.post('/image-product/:id', (req, res, next) => {
         }
 
     })
-}, uploadController.imageProduct)
+}, productController.imageProduct)
 
 
 // upload  product
-router.post('/post', validatePostProduct, postProductValidation, uploadController.post)
+router.post('/post', validatePostProduct, postProductValidation, productController.post)
 
 
-module.exports = router;
+// get product
+router.get('/get', productController.get)
+
+module.exports = router

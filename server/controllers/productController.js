@@ -1,21 +1,7 @@
-const fs = require('fs');
-const User = require('../models/User.model')
 const Product = require('../models/Product.model')
 
-const uploadController = {
-    // change avatar
-    avatar: async (req, res) => {
-        fs.rename(`public/avatar/${req.file.filename}`, `public/avatar/${req.file.originalname}`, async (err) => {
-            if (err) {
-                return res.status(500).json({ success: false, message: err.message })
-            } else {
-                const user = await User.findById(req.params.id)
-                user.avatar = req.file.originalname
-                await user.save()
-                return res.status(201).json({ success: true, message: 'Cập nhật ảnh thành công', user })
-            }
-        })
-    },
+
+const productController = {
 
     // upload image product
     imageProduct: async (req, res) => {
@@ -44,23 +30,32 @@ const uploadController = {
             if (newPost) {
                 await newPost.save();
                 res.status(201).json({ success: true, message: "Đăng tin thành công, đợi xét duyệt tin của bạn" })
-            } else {
-                const images = req.body.image
-                for (const image of images) {
-                    fs.unlinkSync(`public/image_product/${image}`)
-                }
             }
+
 
         } catch (error) {
             res.status(500).json({ success: false, message: error.message })
         }
 
+    },
+    // get product 
+    get: async (req, res, next) => {
+        try {
+            const total = await Product.find().countDocuments()
+            const pageNumber = Number(req.query.pageNumber);
+            const pageSize = Number(req.query.pageSize);
+
+            const data = await Product.find().populate('userId categoryId subCategoryId', 'fullName-_id name-_id name-_id')
+                .skip((pageNumber - 1) * pageSize)
+                .limit(pageSize)
+                .lean()
+
+            res.status(200).json({ success: true, data, total })
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message })
+        }
     }
-
-
-
 }
 
 
-
-module.exports = uploadController
+module.exports = productController
