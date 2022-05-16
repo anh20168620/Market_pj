@@ -46,13 +46,17 @@ const productSchema = new Schema({
         require: false
     },
     image: {
-        type: String,
+        type: Array,
         required: true
     },
     typeOfSell: {
         type: String,
         enum: ['Bán chuyên', 'Cá nhân'],
         required: true
+    },
+    isActive: {
+        type: Boolean,
+        default: false
     },
     userId: {
         type: Schema.Types.ObjectId,

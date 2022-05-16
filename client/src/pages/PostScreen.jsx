@@ -8,7 +8,10 @@ function PostScreen() {
   const [err, setErr] = useState("");
 
   const [categorys, setCategorys] = useState([]);
+  const [categoryId, setCategoryId] = useState("");
   const [subCategorys, setSubCategorys] = useState([]);
+  const [subCategoryId, setSubCategoryId] = useState("");
+
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [insurance, setInsurance] = useState("");
@@ -18,8 +21,7 @@ function PostScreen() {
   const [address, setAddress] = useState("");
   const [typeOfSell, setTypeOfSell] = useState("");
 
-  const [images, setImages] = useState("");
-  const [imageSrcs, setImagesSrcs] = useState("");
+  const [images, setImages] = useState([]);
 
   const [loading, setLoading] = useState(false);
 
@@ -55,6 +57,7 @@ function PostScreen() {
   }, []);
 
   const handleCategorySelect = async (e) => {
+    setCategoryId(e.target.value);
     // console.log(e.target.value);
     await fetch(`http://localhost:3001/sub-category/get/${e.target.value}`, {
       method: "GET",
@@ -68,6 +71,9 @@ function PostScreen() {
           console.log("Lỗi");
         }
       });
+  };
+  const handleSubCategorySelect = async (e) => {
+    setSubCategoryId(e.target.value);
   };
 
   // Submit Post
@@ -97,12 +103,49 @@ function PostScreen() {
             } else {
               const imageSrcs = [];
               const images = data.files;
-              images.map((image) => imageSrcs.push(image.filename));
-              setImagesSrcs(imageSrcs);
+              images.map(async (image) => imageSrcs.push(image.filename));
               setMsg(data.message);
               setErr("");
               setLoading(false);
               // Create product
+              fetch(`http://localhost:3001/product/post`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({
+                  userId: JSON.parse(auth)._id,
+                  title,
+                  price,
+                  insurance,
+                  brand,
+                  description,
+                  address,
+                  status,
+                  typeOfSell,
+                  image: imageSrcs,
+                  categoryId,
+                  subCategoryId,
+                }),
+              })
+                .then((response) => response.json())
+                .then((responseData) => {
+                  if (!responseData.success) {
+                    setImages([]);
+                    setLoading(false);
+                    setErr(responseData.message);
+                  } else {
+                    setLoading(false);
+                    setErr("");
+                    setMsg(responseData.message);
+                    setTimeout(() => {
+                      window.location = "/";
+                    }, 2000);
+                  }
+                })
+                .catch((err) => {
+                  setLoading(false);
+                  setErr(err.message);
+                });
             }
           });
       } else {
@@ -159,7 +202,7 @@ function PostScreen() {
                 </option>
               ))}
             </select>
-            <select className="select">
+            <select className="select" onChange={handleSubCategorySelect}>
               <option hidden>Chọn loại sản phẩm</option>
               {subCategorys.map((subCategory) => (
                 <option
@@ -172,7 +215,7 @@ function PostScreen() {
               ))}
             </select>
             <label htmlFor="" className="register_label">
-              <span>Tiêu đề và mô tả :</span>
+              <span>Tiêu đề :</span>
             </label>
             <input
               type="text"
@@ -182,7 +225,7 @@ function PostScreen() {
               onChange={(e) => setTitle(e.target.value)}
             />
             <label htmlFor="" className="register_label">
-              <span>Giá :</span>
+              <span>Giá sản phẩm (VND) :</span>
             </label>
             <input
               type="text"
@@ -193,7 +236,7 @@ function PostScreen() {
             />
 
             <label htmlFor="" className="register_label">
-              <span>Hãng(thương hiệu) :</span>
+              <span>Hãng(thương hiệu, xuất xứ) :</span>
             </label>
             <input
               type="text"
@@ -240,6 +283,9 @@ function PostScreen() {
               <option>Bán chuyên</option>
             </select>
 
+            <label htmlFor="" className="register_label">
+              <span>Nhập mô tả sản phẩm :</span>
+            </label>
             <textarea
               className="textarea"
               value={description}
@@ -258,7 +304,7 @@ function PostScreen() {
             ></textarea>
 
             <label htmlFor="" className="register_label">
-              <span>Địa chỉ :</span>
+              <span>Địa chỉ chi tiết :</span>
             </label>
             <input
               type="text"
