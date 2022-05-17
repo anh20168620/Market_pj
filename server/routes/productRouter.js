@@ -36,4 +36,7 @@ router.post('/post', validatePostProduct, postProductValidation, productControll
 // get product
 router.get('/get', productController.get)
 
+// get product detail
+router.get('/get-detail', productController.getDetail)
+
 module.exports = router

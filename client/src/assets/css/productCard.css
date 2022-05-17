@@ -1,5 +1,5 @@
 .product_item {
-  padding: 10px;
+  padding-top: 10px;
   box-sizing: border-box;
   border: 1px solid #ccc;
   width: 20%;
@@ -21,10 +21,54 @@
 .product_title {
   font-size: 16px;
   margin-top: 15px;
+  color: #000;
+}
+
+.product_price_like {
+  margin-top: 5px;
 }
 
 .product_price {
   margin-top: 15px;
   color: red;
   font-weight: bold;
+}
+
+.product_info {
+  display: flex;
+  justify-content: space-between;
+  color: #000;
+}
+
+.product_time {
+  font-size: 13px;
+  width: 50%;
+}
+
+.product_address {
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 50%;
+  text-overflow: ellipsis;
+}
+
+.product_info {
+  margin-top: 10px;
+}
+
+.fa-heart {
+  font-size: 25px;
+  position: relative;
+  top: -50px;
+  right: -80px;
+  z-index: 0;
+}
+
+.fa-heart:hover {
+  color: red;
+}
+
+.product_detail {
+  width: 100%;
 }

@@ -105,6 +105,20 @@ exports.validatePostProduct = [
             }
             return true;
         }),
+    check('typeOfSell')
+        .not()
+        .isEmpty()
+        .withMessage('Nhập dạng bán hàng')
+        .custom((value, { req }) => {
+            if (!value) {
+                const images = req.body.image
+                for (const image of images) {
+                    fs.unlinkSync(`public/image_product/${image}`)
+                }
+
+            }
+            return true;
+        }),
 
 ]
 

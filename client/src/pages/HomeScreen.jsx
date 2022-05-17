@@ -12,22 +12,25 @@ function HomeScreen() {
   const [total, setTotal] = useState(0);
   const [responseData, setResponseData] = useState([]);
 
+  const fetchData = (pageNumber) => {
+    fetch(
+      `http://localhost:3001/product/get?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    )
+      .then((response) => response.json())
+      .then((responseData) => {
+        setResponseData(responseData.data);
+        setTotal(responseData.total);
+      });
+  };
   useEffect(() => {
     const productCardWillMount = async () => {
-      await fetch(
-        `http://localhost:3001/product/get?pageNumber=${pageNumber}&pageSize=${pageSize}`,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      )
-        .then((response) => response.json())
-        .then((responseData) => {
-          setResponseData(responseData.data);
-          setTotal(responseData.total);
-        });
+      fetchData(pageNumber);
     };
     productCardWillMount();
-  }, [pageNumber, pageSize]);
+  }, []);
 
   useEffect(() => {
     const getCategory = async () => {
@@ -45,6 +48,19 @@ function HomeScreen() {
     };
     getCategory();
   }, []);
+
+  const numberOfPages = Math.ceil(total / pageSize);
+  const pages = [];
+  for (let i = 0; i < numberOfPages; i++) {
+    pages.push(i + 1);
+  }
+
+  const handlePageChange = (pageNumber) => {
+    // fetch new data
+    fetchData(pageNumber);
+    // set lại state pageNumber
+    setPageNumber(pageNumber);
+  };
 
   return (
     <>
@@ -82,6 +98,7 @@ function HomeScreen() {
               return (
                 <ProductCard
                   key={item._id}
+                  productId={item._id}
                   image={`http://localhost:3001/image_product/${item.image[0]}`}
                   title={item.title}
                   price={item.price}
@@ -93,6 +110,42 @@ function HomeScreen() {
           </div>
         </div>
       </section>
+      <div className="container">
+        <div className="pagination">
+          <ul className="border_pagination">
+            <li className="pagiantion_item">
+              <div className="pagination_link" href="/">
+                «
+              </div>
+            </li>
+            {pages.map((page) => {
+              let className = "pagiantion_item";
+              if (page === pageNumber) {
+                className += " active";
+              }
+              return (
+                <li
+                  className={className}
+                  key={page}
+                  onClick={() => {
+                    handlePageChange(page);
+                  }}
+                >
+                  <div className="pagination_link" href="/">
+                    {page}
+                  </div>
+                </li>
+              );
+            })}
+
+            <li className="pagiantion_item">
+              <div className="pagination_link" href="/">
+                »
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
     </>
   );
 }

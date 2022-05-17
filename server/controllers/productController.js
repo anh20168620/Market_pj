@@ -38,14 +38,14 @@ const productController = {
         }
 
     },
-    // get product 
+    // get product by time
     get: async (req, res, next) => {
         try {
             const total = await Product.find().countDocuments()
             const pageNumber = Number(req.query.pageNumber);
             const pageSize = Number(req.query.pageSize);
 
-            const data = await Product.find().populate('userId categoryId subCategoryId', 'fullName-_id name-_id name-_id')
+            const data = await Product.find().sort({ 'createdAt': -1 }).populate('userId categoryId subCategoryId', 'fullName-_id name-_id name-_id')
                 .skip((pageNumber - 1) * pageSize)
                 .limit(pageSize)
                 .lean()
@@ -54,7 +54,25 @@ const productController = {
         } catch (error) {
             res.status(500).json({ success: false, message: error.message })
         }
+    },
+
+    // get product details when click
+    getDetail: async (req, res) => {
+        try {
+            const productId = req.query.productId
+            const product = await Product.findById(productId).populate('userId subCategoryId', 'fullName numberPhone avatar name')
+            if (product) {
+                res.status(200).json({ success: true, product })
+            } else {
+                res.status(404).json({ success: false, message: "Không tìm thấy sản phẩm" })
+            }
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message })
+
+        }
     }
+
+
 }
 
 

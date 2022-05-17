@@ -11,7 +11,8 @@ p {
   list-style-type: none;
 }
 
-a {
+a,
+Link {
   text-decoration: none;
 }
 
