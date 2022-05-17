@@ -42,7 +42,7 @@ const productSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['Mới', 'Đã sử dụng(chưa sửa chữa)', 'Đã sử dụng(qua sửa chữa)'],
+        // enum: ['Mới', 'Đã sử dụng(chưa sửa chữa)', 'Đã sử dụng(qua sửa chữa)'],
         require: false
     },
     image: {

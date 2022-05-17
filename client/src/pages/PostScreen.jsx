@@ -251,7 +251,7 @@ function PostScreen() {
             />
 
             <label htmlFor="" className="register_label">
-              <span>Bảo hành :</span>
+              <span>Bảo hành (không bắt buộc) :</span>
             </label>
             <select
               className="select_infor"
@@ -263,7 +263,7 @@ function PostScreen() {
             </select>
 
             <label htmlFor="" className="register_label">
-              <span>Tình trạng :</span>
+              <span>Tình trạng (không bắt buộc) :</span>
             </label>
             <select
               className="select_infor"
