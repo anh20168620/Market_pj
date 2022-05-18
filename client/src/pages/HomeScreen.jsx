@@ -30,6 +30,7 @@ function HomeScreen() {
       fetchData(pageNumber);
     };
     productCardWillMount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -60,6 +61,20 @@ function HomeScreen() {
     fetchData(pageNumber);
     // set lại state pageNumber
     setPageNumber(pageNumber);
+  };
+
+  const loadPreviousPage = () => {
+    if (pageNumber > 1) {
+      fetchData(pageNumber - 1);
+      setPageNumber(pageNumber - 1);
+    }
+  };
+
+  const loadNextPage = () => {
+    if (pageNumber < numberOfPages) {
+      fetchData(pageNumber + 1);
+      setPageNumber(pageNumber + 1);
+    }
   };
 
   return (
@@ -113,10 +128,8 @@ function HomeScreen() {
       <div className="container">
         <div className="pagination">
           <ul className="border_pagination">
-            <li className="pagiantion_item">
-              <div className="pagination_link" href="/">
-                «
-              </div>
+            <li className="pagiantion_item" onClick={loadPreviousPage}>
+              <div className="pagination_link">«</div>
             </li>
             {pages.map((page) => {
               let className = "pagiantion_item";
@@ -131,17 +144,13 @@ function HomeScreen() {
                     handlePageChange(page);
                   }}
                 >
-                  <div className="pagination_link" href="/">
-                    {page}
-                  </div>
+                  <div className="pagination_link">{page}</div>
                 </li>
               );
             })}
 
-            <li className="pagiantion_item">
-              <div className="pagination_link" href="/">
-                »
-              </div>
+            <li className="pagiantion_item" onClick={loadNextPage}>
+              <div className="pagination_link">»</div>
             </li>
           </ul>
         </div>

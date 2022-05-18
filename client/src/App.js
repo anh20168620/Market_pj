@@ -24,7 +24,7 @@ function App() {
           <Route path='/user/:id/verify/:token' element={<EmailVerify />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/password-reset/:id/:token' element={<PasswordReset />} />
-          <Route path='/product-detail' element={<ProductDetail />} />
+          <Route path='/product-detail/:productId' element={<ProductDetail />} />
           <Route path='/admin/login' element={<AdimnLoginScreen />} />
 
 

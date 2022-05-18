@@ -74,6 +74,10 @@
   display: inline-block;
 }
 
+.pagiantion_item:hover {
+  cursor: pointer;
+}
+
 .pagination_link {
   display: block;
   text-decoration: none;

@@ -8,10 +8,7 @@ function ProductCard({ image, title, price, time, address, productId }) {
   return (
     <>
       <div className="product_item">
-        <Link
-          to={`/product-detail?productId=${productId}`}
-          className="product_detail"
-        >
+        <Link to={`/product-detail/${productId}`} className="product_detail">
           <img src={image} alt="" className="product_image" />
           <div className="product_title">{title}</div>
           <div className="product_price_like">

@@ -1,0 +1,14 @@
+.userOfProduct {
+  display: flex;
+  align-items: center;
+}
+
+.userOfProduct_name {
+  margin-left: 5px;
+  font-size: 20px;
+}
+
+.big-avatar {
+  height: 60px;
+  width: 60px;
+}

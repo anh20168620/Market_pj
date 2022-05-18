@@ -1,0 +1,13 @@
+.Product_detail {
+  margin-top: 15px;
+}
+
+.product_section {
+  width: 50%;
+}
+
+.product_user {
+  width: 30%;
+  position: fixed;
+  right: 180px;
+}
