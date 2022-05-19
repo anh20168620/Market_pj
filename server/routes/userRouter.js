@@ -20,4 +20,6 @@ router.get('/:id/verify/:token', userController.verifyEmail)
 // user change password
 router.post('/change-password/:id', validatePassword, userValidation, userController.changePassword)
 
+// user related
+router.post('/rating/:id', userController.rating)
 module.exports = router

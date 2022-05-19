@@ -102,6 +102,7 @@ function RegisterScreen() {
                 />
                 {msg && <div className="success_msg">{msg}</div>}
                 {err && <div className="err_msg">{err}</div>}
+
                 <button
                   onClick={collectData}
                   className="btn btn-register"
@@ -109,6 +110,7 @@ function RegisterScreen() {
                 >
                   Đăng Ký
                 </button>
+
                 <span className="register_span">
                   Bạn đã có tài khoản ?
                   <Link className="register__link" to="/login">

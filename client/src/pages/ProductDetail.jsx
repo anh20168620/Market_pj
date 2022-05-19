@@ -21,7 +21,6 @@ function ProductDetail() {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          console.log(data.product);
           setProduct(data.product);
         } else {
           console.log(data.message);

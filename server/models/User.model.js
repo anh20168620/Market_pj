@@ -50,7 +50,8 @@ const userSchema = new Schema({
         default: false
     },
     rate: {
-        type: Array
+        type: Array,
+        default: [{ quantity: 0, userId: [] }, { quantity: 0, userId: [] }, { quantity: 0, userId: [] }, { quantity: 0, userId: [] }, { quantity: 0, userId: [] }]
     },
     subscribe: {
         type: Array

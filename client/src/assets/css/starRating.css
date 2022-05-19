@@ -1,0 +1,19 @@
+.star {
+  cursor: pointer;
+  transition: color 200ms;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+.rate_quatity {
+  margin-top: 5px;
+  font-size: 17px;
+  color: red;
+}
+
+.rate_quatity_text {
+  color: #000;
+  font-weight: bold;
+}

@@ -126,8 +126,82 @@ const userController = {
         } catch (error) {
             return res.status(500).json({ success: false, message: error.message })
         }
-    }
+    },
+    // Rating
+    rating: async (req, res) => {
+        try {
+            const rating = req.body.value;
+            let user = await User.findById(req.params.id)
+            for (let i = 0; i < user.rate.length; i++) {
+                if (!user.rate[0].userId.includes(req.body.userId) && !user.rate[1].userId.includes(req.body.userId) && !user.rate[2].userId.includes(req.body.userId) && !user.rate[3].userId.includes(req.body.userId) && !user.rate[4].userId.includes(req.body.userId)) {
+                    user.rate[rating - 1].quantity += 1
+                    user.rate[rating - 1].userId.push(req.body.userId)
+                    user.markModified('rate')
+                    await user.save();
+                    return res.status(200).json({ success: true, data: user.rate })
 
+                } else if (user.rate[0].userId.includes(req.body.userId)) {
+                    user.rate[0].quantity -= 1,
+                        newUserId = await user.rate[0].userId.filter(userId => userId !== req.body.userId)
+                    user.rate[0].userId = newUserId
+
+                    user.rate[rating - 1].quantity += 1
+                    user.rate[rating - 1].userId.push(req.body.userId)
+                    await user.markModified('rate')
+                    await user.save();
+                    return res.status(200).json({ success: true, data: user.rate })
+
+                } else if (user.rate[1].userId.includes(req.body.userId)) {
+                    user.rate[1].quantity -= 1,
+                        newUserId = await user.rate[1].userId.filter(userId => userId !== req.body.userId)
+                    user.rate[1].userId = newUserId
+
+                    user.rate[rating - 1].quantity += 1
+                    user.rate[rating - 1].userId.push(req.body.userId)
+                    await user.markModified('rate')
+                    await user.save();
+                    return res.status(200).json({ success: true, data: user.rate })
+
+                } else if (user.rate[2].userId.includes(req.body.userId)) {
+                    user.rate[2].quantity -= 1,
+                        newUserId = await user.rate[2].userId.filter(userId => userId !== req.body.userId)
+                    user.rate[2].userId = newUserId
+
+                    user.rate[rating - 1].quantity += 1
+                    user.rate[rating - 1].userId.push(req.body.userId)
+                    await user.markModified('rate')
+                    await user.save();
+                    return res.status(200).json({ success: true, data: user.rate })
+
+                } else if (user.rate[3].userId.includes(req.body.userId)) {
+                    user.rate[3].quantity -= 1,
+                        newUserId = await user.rate[3].userId.filter(userId => userId !== req.body.userId)
+                    user.rate[3].userId = newUserId
+
+                    user.rate[rating - 1].quantity += 1
+                    user.rate[rating - 1].userId.push(req.body.userId)
+                    await user.markModified('rate')
+                    await user.save();
+                    return res.status(200).json({ success: true, data: user.rate })
+
+                } else if (user.rate[4].userId.includes(req.body.userId)) {
+                    user.rate[4].quantity -= 1,
+                        newUserId = await user.rate[4].userId.filter(userId => userId !== req.body.userId)
+                    user.rate[4].userId = newUserId
+
+                    user.rate[rating - 1].quantity += 1
+                    user.rate[rating - 1].userId.push(req.body.userId)
+                    await user.markModified('rate')
+                    await user.save();
+                    return res.status(200).json({ success: true, data: user.rate })
+
+                }
+            }
+        } catch (error) {
+            return res.status(500).json({ success: false, message: error.message })
+        }
+
+    }
 }
 
 module.exports = userController;
