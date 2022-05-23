@@ -1,4 +1,5 @@
 const Product = require('../models/Product.model')
+const Category = require('../models/Category.model')
 
 
 const productController = {
@@ -70,7 +71,127 @@ const productController = {
             res.status(500).json({ success: false, message: error.message })
 
         }
+    },
+
+    // get product by category
+    productByCategory: async (req, res) => {
+        try {
+
+            const pageNumber = Number(req.query.pageNumber);
+            const pageSize = Number(req.query.pageSize);
+            const categoryId = req.query.categoryId;
+            const subCategoryId = req.query.subCategoryId;
+            const option = req.query.option
+
+
+            if (categoryId && !subCategoryId && !option) {
+                const total = await Product.find({ categoryId: categoryId }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId }).sort({ 'createdAt': -1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+                res.status(200).json({ success: true, product, total })
+            } else if (categoryId && subCategoryId && !option) {
+                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId }).sort({ 'createdAt': -1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+                res.status(200).json({ success: true, product, total })
+            } else if (categoryId && option == 1 && !subCategoryId) {
+                const total = await Product.find({ categoryId: categoryId }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId }).sort({ 'createdAt': -1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+                res.status(200).json({ success: true, product, total })
+            } else if (categoryId && option == 2 && !subCategoryId) {
+                const total = await Product.find({ categoryId: categoryId, typeOfSell: 'Cá nhân' }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, typeOfSell: 'Cá nhân' }).sort({ 'createdAt': -1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+                res.status(200).json({ success: true, product, total })
+            } else if (categoryId && option == 3 && !subCategoryId) {
+                const total = await Product.find({ categoryId: categoryId, typeOfSell: 'Bán chuyên' }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, typeOfSell: 'Bán chuyên' }).sort({ 'createdAt': -1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+                res.status(200).json({ success: true, product, total })
+            } else if (categoryId && option == 4 && !subCategoryId) {
+                console.log("hello");
+                const total = await Product.find({ categoryId: categoryId }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId }).sort({ price: 1 }).collation({ locale: "vi", numericOrdering: true })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+                res.status(200).json({ success: true, product, total })
+            } else if (categoryId && option == 5 && !subCategoryId) {
+                const total = await Product.find({ categoryId: categoryId }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId }).sort({ price: -1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+                res.status(200).json({ success: true, product, total })
+            } else if (categoryId && option == 6 && !subCategoryId) {
+                const total = await Product.find({ categoryId: categoryId }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId }).sort({ 'createdAt': 1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+                res.status(200).json({ success: true, product, total })
+            } else if (categoryId && option == 1 && subCategoryId) {
+                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId }).sort({ 'createdAt': -1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+                res.status(200).json({ success: true, product, total })
+            } else if (categoryId && option == 2 && subCategoryId) {
+                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, typeOfSell: 'Cá nhân' }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, typeOfSell: 'Cá nhân' }).sort({ 'createdAt': -1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+                res.status(200).json({ success: true, product, total })
+            } else if (categoryId && option == 3 && subCategoryId) {
+                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, typeOfSell: 'Bán chuyên' }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, typeOfSell: 'Bán chuyên' }).sort({ 'createdAt': -1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+                res.status(200).json({ success: true, product, total })
+            } else if (categoryId && option == 4 && subCategoryId) {
+                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId }).sort({ price: 1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+                res.status(200).json({ success: true, product, total })
+            } else if (categoryId && option == 5 && subCategoryId) {
+                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId }).sort({ price: -1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+                res.status(200).json({ success: true, product, total })
+            } else if (categoryId && option == 6 && subCategoryId) {
+                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId }).sort({ 'createdAt': 1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+                res.status(200).json({ success: true, product, total })
+            } else {
+                res.status(404).json({ success: false, message: "Danh mục không tìm thấy" })
+            }
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message })
+
+        }
     }
+
 
 
 }

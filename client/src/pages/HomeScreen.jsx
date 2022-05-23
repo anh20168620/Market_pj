@@ -8,7 +8,6 @@ import ProductCard from "./../components/ProductCard";
 function HomeScreen() {
   const [categorys, setCategorys] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
   const [total, setTotal] = useState(0);
   const [responseData, setResponseData] = useState([]);
 
@@ -50,6 +49,7 @@ function HomeScreen() {
     getCategory();
   }, []);
 
+  const pageSize = 10;
   const numberOfPages = Math.ceil(total / pageSize);
   const pages = [];
   for (let i = 0; i < numberOfPages; i++) {
@@ -90,7 +90,10 @@ function HomeScreen() {
           <p className="category_title">Các danh mục hàng hóa</p>
           <ul className="category_list">
             {categorys.map((category) => (
-              <Link key={category._id} to="/">
+              <Link
+                key={category._id}
+                to={`/product-by-category/${category._id}`}
+              >
                 <li className="category_item">
                   <img
                     src={`http://localhost:3001/image_category/${category.image}`}

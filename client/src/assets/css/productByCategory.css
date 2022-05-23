@@ -1,0 +1,47 @@
+.ProductByCategory {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.subCategory {
+  display: flex;
+}
+
+.container_border_noflex {
+  border-top: 3px solid #f1f1f1;
+  padding: 14px 24px;
+  box-shadow: 0 0 8px rgb(0 0 0 / 30%);
+  background-color: #f4f4f4;
+}
+
+.subCategory {
+  margin-bottom: 15px;
+}
+
+.subCategory_btn {
+  margin-right: 15px;
+  font-size: 18px;
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  transition: all 0.1s linear;
+}
+
+.subCategory_btn:hover {
+  cursor: pointer;
+  background: #ddd;
+}
+
+.option_filter {
+  margin-right: 15px;
+  font-size: 15px;
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  transition: all 0.1s linear;
+}
+
+.option_filter:hover {
+  cursor: pointer;
+  background: #ddd;
+}

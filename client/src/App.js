@@ -13,6 +13,7 @@ import PasswordReset from './components/PasswordReset';
 import ChangePasswordScreen from './pages/ChangePasswordScreen'
 import ProductDetail from './pages/ProductDetail'
 import AdimnLoginScreen from './pages/AdminLoginScreen'
+import ProductByCategory from './pages/ProductByCategory';
 function App() {
   return (
     <div className="App">
@@ -25,6 +26,7 @@ function App() {
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/password-reset/:id/:token' element={<PasswordReset />} />
           <Route path='/product-detail/:productId' element={<ProductDetail />} />
+          <Route path='/product-by-category/:categoryId' element={<ProductByCategory />} />
           <Route path='/admin/login' element={<AdimnLoginScreen />} />
 
 

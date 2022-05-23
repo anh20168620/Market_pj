@@ -39,4 +39,7 @@ router.get('/get', productController.get)
 // get product detail
 router.get('/get-detail', productController.getDetail)
 
+// get product by category
+router.get('/product-by-category', productController.productByCategory)
+
 module.exports = router
