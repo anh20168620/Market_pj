@@ -11,7 +11,12 @@ function ProductInfo(props) {
   return (
     <div className="product-info">
       <div className="product_info_title">{product.title}</div>
-      <div className="product_info_price">{product.price}</div>
+      <div className="product_info_price">
+        {new Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(product.price)}
+      </div>
 
       <label className="product_info_label">Đến từ :</label>
       <span className="product_info_brand">{product.brand}</span>

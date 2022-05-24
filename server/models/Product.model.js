@@ -58,6 +58,10 @@ const productSchema = new Schema({
         type: Boolean,
         default: false
     },
+    show: {
+        type: Boolean,
+        default: true
+    },
     userId: {
         type: Schema.Types.ObjectId,
         required: true,

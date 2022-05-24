@@ -42,11 +42,11 @@ const productController = {
     // get product by time
     get: async (req, res, next) => {
         try {
-            const total = await Product.find().countDocuments()
+            const total = await Product.find({ isActive: true, show: true }).countDocuments()
             const pageNumber = Number(req.query.pageNumber);
             const pageSize = Number(req.query.pageSize);
 
-            const data = await Product.find().sort({ 'createdAt': -1 }).populate('userId categoryId subCategoryId', 'fullName-_id name-_id name-_id')
+            const data = await Product.find({ isActive: true, show: true }).sort({ 'createdAt': -1 }).populate('userId categoryId subCategoryId', 'fullName-_id name-_id name-_id')
                 .skip((pageNumber - 1) * pageSize)
                 .limit(pageSize)
                 .lean()
@@ -85,100 +85,100 @@ const productController = {
 
 
             if (categoryId && !subCategoryId && !option) {
-                const total = await Product.find({ categoryId: categoryId }).countDocuments()
-                const product = await Product.find({ categoryId: categoryId }).sort({ 'createdAt': -1 })
+                const total = await Product.find({ categoryId: categoryId, isActive: true, show: true }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, isActive: true, show: true }).sort({ 'createdAt': -1 })
                     .skip((pageNumber - 1) * pageSize)
                     .limit(pageSize)
                     .lean()
                 res.status(200).json({ success: true, product, total })
             } else if (categoryId && subCategoryId && !option) {
-                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId }).countDocuments()
-                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId }).sort({ 'createdAt': -1 })
+                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, isActive: true, show: true }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, isActive: true, show: true }).sort({ 'createdAt': -1 })
                     .skip((pageNumber - 1) * pageSize)
                     .limit(pageSize)
                     .lean()
                 res.status(200).json({ success: true, product, total })
             } else if (categoryId && option == 1 && !subCategoryId) {
-                const total = await Product.find({ categoryId: categoryId }).countDocuments()
-                const product = await Product.find({ categoryId: categoryId }).sort({ 'createdAt': -1 })
+                const total = await Product.find({ categoryId: categoryId, isActive: true, show: true }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, isActive: true, show: true }).sort({ 'createdAt': -1 })
                     .skip((pageNumber - 1) * pageSize)
                     .limit(pageSize)
                     .lean()
                 res.status(200).json({ success: true, product, total })
             } else if (categoryId && option == 2 && !subCategoryId) {
-                const total = await Product.find({ categoryId: categoryId, typeOfSell: 'Cá nhân' }).countDocuments()
-                const product = await Product.find({ categoryId: categoryId, typeOfSell: 'Cá nhân' }).sort({ 'createdAt': -1 })
+                const total = await Product.find({ categoryId: categoryId, typeOfSell: 'Cá nhân', isActive: true, show: true }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, typeOfSell: 'Cá nhân', isActive: true, show: true }).sort({ 'createdAt': -1 })
                     .skip((pageNumber - 1) * pageSize)
                     .limit(pageSize)
                     .lean()
                 res.status(200).json({ success: true, product, total })
             } else if (categoryId && option == 3 && !subCategoryId) {
-                const total = await Product.find({ categoryId: categoryId, typeOfSell: 'Bán chuyên' }).countDocuments()
-                const product = await Product.find({ categoryId: categoryId, typeOfSell: 'Bán chuyên' }).sort({ 'createdAt': -1 })
+                const total = await Product.find({ categoryId: categoryId, typeOfSell: 'Bán chuyên', isActive: true, show: true }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, typeOfSell: 'Bán chuyên', isActive: true, show: true }).sort({ 'createdAt': -1 })
                     .skip((pageNumber - 1) * pageSize)
                     .limit(pageSize)
                     .lean()
                 res.status(200).json({ success: true, product, total })
             } else if (categoryId && option == 4 && !subCategoryId) {
                 console.log("hello");
-                const total = await Product.find({ categoryId: categoryId }).countDocuments()
-                const product = await Product.find({ categoryId: categoryId }).sort({ price: 1 }).collation({ locale: "vi", numericOrdering: true })
+                const total = await Product.find({ categoryId: categoryId, isActive: true, show: true }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, isActive: true, show: true }).sort({ price: 1 }).collation({ locale: "vi", numericOrdering: true })
                     .skip((pageNumber - 1) * pageSize)
                     .limit(pageSize)
                     .lean()
                 res.status(200).json({ success: true, product, total })
             } else if (categoryId && option == 5 && !subCategoryId) {
-                const total = await Product.find({ categoryId: categoryId }).countDocuments()
-                const product = await Product.find({ categoryId: categoryId }).sort({ price: -1 })
+                const total = await Product.find({ categoryId: categoryId, isActive: true, show: true }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, isActive: true, show: true }).sort({ price: -1 }).collation({ locale: "vi", numericOrdering: true })
                     .skip((pageNumber - 1) * pageSize)
                     .limit(pageSize)
                     .lean()
                 res.status(200).json({ success: true, product, total })
             } else if (categoryId && option == 6 && !subCategoryId) {
-                const total = await Product.find({ categoryId: categoryId }).countDocuments()
-                const product = await Product.find({ categoryId: categoryId }).sort({ 'createdAt': 1 })
+                const total = await Product.find({ categoryId: categoryId, isActive: true, show: true }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, isActive: true, show: true }).sort({ 'createdAt': 1 })
                     .skip((pageNumber - 1) * pageSize)
                     .limit(pageSize)
                     .lean()
                 res.status(200).json({ success: true, product, total })
             } else if (categoryId && option == 1 && subCategoryId) {
-                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId }).countDocuments()
-                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId }).sort({ 'createdAt': -1 })
+                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, isActive: true, show: true }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, isActive: true, show: true }).sort({ 'createdAt': -1 })
                     .skip((pageNumber - 1) * pageSize)
                     .limit(pageSize)
                     .lean()
                 res.status(200).json({ success: true, product, total })
             } else if (categoryId && option == 2 && subCategoryId) {
-                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, typeOfSell: 'Cá nhân' }).countDocuments()
-                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, typeOfSell: 'Cá nhân' }).sort({ 'createdAt': -1 })
+                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, typeOfSell: 'Cá nhân', isActive: true, show: true }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, typeOfSell: 'Cá nhân', isActive: true, show: true }).sort({ 'createdAt': -1 })
                     .skip((pageNumber - 1) * pageSize)
                     .limit(pageSize)
                     .lean()
                 res.status(200).json({ success: true, product, total })
             } else if (categoryId && option == 3 && subCategoryId) {
-                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, typeOfSell: 'Bán chuyên' }).countDocuments()
-                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, typeOfSell: 'Bán chuyên' }).sort({ 'createdAt': -1 })
+                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, typeOfSell: 'Bán chuyên', isActive: true, show: true }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, typeOfSell: 'Bán chuyên', isActive: true, show: true }).sort({ 'createdAt': -1 })
                     .skip((pageNumber - 1) * pageSize)
                     .limit(pageSize)
                     .lean()
                 res.status(200).json({ success: true, product, total })
             } else if (categoryId && option == 4 && subCategoryId) {
-                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId }).countDocuments()
-                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId }).sort({ price: 1 })
+                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, isActive: true, show: true }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, isActive: true, show: true }).sort({ price: 1 }).collation({ locale: "vi", numericOrdering: true })
                     .skip((pageNumber - 1) * pageSize)
                     .limit(pageSize)
                     .lean()
                 res.status(200).json({ success: true, product, total })
             } else if (categoryId && option == 5 && subCategoryId) {
-                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId }).countDocuments()
-                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId }).sort({ price: -1 })
+                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, isActive: true, show: true }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, isActive: true, show: true }).sort({ price: -1 }).collation({ locale: "vi", numericOrdering: true })
                     .skip((pageNumber - 1) * pageSize)
                     .limit(pageSize)
                     .lean()
                 res.status(200).json({ success: true, product, total })
             } else if (categoryId && option == 6 && subCategoryId) {
-                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId }).countDocuments()
-                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId }).sort({ 'createdAt': 1 })
+                const total = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, isActive: true, show: true }).countDocuments()
+                const product = await Product.find({ categoryId: categoryId, subCategoryId: subCategoryId, isActive: true, show: true }).sort({ 'createdAt': 1 })
                     .skip((pageNumber - 1) * pageSize)
                     .limit(pageSize)
                     .lean()
@@ -190,9 +190,81 @@ const productController = {
             res.status(500).json({ success: false, message: error.message })
 
         }
+    },
+
+    // get your product display
+
+    yourProductDisplay: async (req, res) => {
+        try {
+            const userId = req.query.userId;
+
+            const productDisplay = await Product.find({ userId: userId, isActive: true, show: true })
+            const total = await Product.find({ userId: userId, isActive: true, show: true }).countDocuments()
+            if (productDisplay) {
+                res.status(200).json({ success: true, productDisplay, total });
+            } else {
+                res.status(200).json({ success: false, message: 'Bạn chưa đăng sản phẩm nào' });
+            }
+
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message })
+        }
+    },
+
+    // get your product hidden
+
+    yourProductHidden: async (req, res) => {
+        try {
+            const userId = req.query.userId;
+
+            const productHidden = await Product.find({ userId: userId, isActive: true, show: false })
+            const total = await Product.find({ userId: userId, isActive: true, show: false }).countDocuments()
+            if (productHidden) {
+                res.status(200).json({ success: true, productHidden, total });
+            } else {
+                res.status(200).json({ success: false, message: 'Bạn chưa ẩn sản phẩm nào' });
+            }
+
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message })
+        }
+    },
+
+    // hidden your product
+    hiddenYourProduct: async (req, res) => {
+        try {
+            const productId = req.query.hiddenProductId;
+            if (productId) {
+                const product = await Product.findOneAndUpdate({ _id: productId }, { show: false })
+                res.status(200).json({ success: true, message: 'Bạn đã ẩn tin thành công' })
+            } else {
+                res.status(404).json({ success: false, message: 'Không tìm thấy sản phẩm' })
+
+            }
+
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message })
+
+        }
+    },
+
+    // display your product
+    displayYourProduct: async (req, res) => {
+        try {
+            const productId = req.query.displayProductId;
+            if (productId) {
+                const product = await Product.findOneAndUpdate({ _id: productId }, { show: true })
+                res.status(200).json({ success: true, message: 'Bạn đã hiện tin thành công' })
+            } else {
+                res.status(404).json({ success: false, message: 'Không tìm thấy sản phẩm' })
+
+            }
+
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message })
+
+        }
     }
-
-
 
 }
 

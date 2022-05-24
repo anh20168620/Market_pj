@@ -42,4 +42,18 @@ router.get('/get-detail', productController.getDetail)
 // get product by category
 router.get('/product-by-category', productController.productByCategory)
 
+// get your product display
+router.get('/your-product-display', productController.yourProductDisplay)
+
+// get your product hidden
+router.get('/your-product-hidden', productController.yourProductHidden)
+
+// hidden your product
+router.patch('/hidden-your-product', productController.hiddenYourProduct)
+
+// display your product
+router.patch('/display-your-product', productController.displayYourProduct)
+
+
+
 module.exports = router

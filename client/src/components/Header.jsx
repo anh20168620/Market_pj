@@ -28,7 +28,7 @@ function Header() {
             </div>
             <div className="header_item">
               <div className="header_post">
-                <Link to="/" className="header_link">
+                <Link to="/your-post" className="header_link">
                   Tin của bạn
                 </Link>
               </div>

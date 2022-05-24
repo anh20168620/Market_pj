@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import CurrencyFormat from "react-currency-format";
 import Header from "../components/Header";
 import "../assets/css/postScreen.css";
 
@@ -229,9 +228,7 @@ function PostScreen() {
             <label htmlFor="" className="register_label">
               <span>Giá sản phẩm (VND) :</span>
             </label>
-            <CurrencyFormat
-              thousandSeparator={true}
-              suffix={" đ"}
+            <input
               type="text"
               className="register_input"
               placeholder="Nhập giá sản phẩm"
@@ -245,7 +242,7 @@ function PostScreen() {
             <input
               type="text"
               className="register_input"
-              placeholder="Nhập tiêu đề"
+              placeholder="Nhập thương hiệu"
               value={brand}
               onChange={(e) => setBrand(e.target.value)}
             />
