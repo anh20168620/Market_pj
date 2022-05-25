@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../assets/css/productInfo.css";
+import moment from "moment";
+import "moment/locale/vi";
 
 function ProductInfo(props) {
   const [product, setProduct] = useState({});
@@ -32,6 +34,11 @@ function ProductInfo(props) {
       <br />
       <label className="product_info_label">Mô tả chi tiết :</label>
       <span className="product_info_item">{product.description}</span>
+      <br />
+      <label className="product_info_label">Thời gian đăng :</label>
+      <span className="product_info_item">
+        {moment(product.createdAt).format("LT L")}
+      </span>
       <br />
       <label className="product_info_label">Địa chỉ :</label>
       <span className="product_info_item">{product.address}</span>

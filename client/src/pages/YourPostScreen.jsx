@@ -2,17 +2,19 @@ import React, { useState, useEffect } from "react";
 import "../assets/css/yourPostScreen.css";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
+import moment from "moment";
+import "moment/locale/vi";
 
 function YourPostScreen() {
   const auth = localStorage.getItem("user");
 
   const [productDisplay, setProductDisplay] = useState(null);
   const [productHidden, setProductHidden] = useState(null);
+  const [productWaiting, setProductWaiting] = useState(null);
 
   const [totalDisplay, setTotalDisplay] = useState("");
   const [totalHidden, setTotalHidden] = useState("");
-  const [messageDisplay, setMessageDisplay] = useState("");
-  const [messageHidden, setMessageHidden] = useState("");
+  const [totalWaiting, setTotalWaiting] = useState("");
 
   useEffect(() => {
     fetch(
@@ -46,6 +48,23 @@ function YourPostScreen() {
       });
   }, [auth]);
 
+  useEffect(() => {
+    fetch(
+      `http://localhost:3001/product/product-waiting?userId=${
+        JSON.parse(auth)._id
+      }`
+    )
+      .then((res) => res.json())
+      .then((dataResponse) => {
+        if (dataResponse.success) {
+          setTotalWaiting(dataResponse.total);
+        } else {
+          setTotalWaiting(0);
+          console.log(dataResponse.message);
+        }
+      });
+  }, [auth]);
+
   const getYourProductDisplay = async () => {
     await fetch(
       `http://localhost:3001/product/your-product-display?userId=${
@@ -57,8 +76,7 @@ function YourPostScreen() {
         if (data.success) {
           setProductDisplay(data.productDisplay);
           setProductHidden(null);
-        } else {
-          setMessageDisplay(data.message);
+          setProductWaiting(null);
         }
       });
   };
@@ -74,8 +92,7 @@ function YourPostScreen() {
         if (dataResponse.success) {
           setProductHidden(dataResponse.productHidden);
           setProductDisplay(null);
-        } else {
-          setMessageHidden(dataResponse.message);
+          setProductWaiting(null);
         }
       });
   };
@@ -113,12 +130,28 @@ function YourPostScreen() {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          console.log(data.message);
           getYourProductHidden();
           setTotalDisplay(totalDisplay + 1);
           setTotalHidden(totalHidden - 1);
         } else {
           console.log(data.message);
+        }
+      });
+  };
+
+  // product waiting
+  const getYourProductWaiting = () => {
+    fetch(
+      `http://localhost:3001/product/product-waiting?userId=${
+        JSON.parse(auth)._id
+      }`
+    )
+      .then((res) => res.json())
+      .then((dataResponse) => {
+        if (dataResponse.success) {
+          setProductWaiting(dataResponse.productWaiting);
+          setProductDisplay(null);
+          setProductHidden(null);
         }
       });
   };
@@ -135,6 +168,9 @@ function YourPostScreen() {
             </div>
             <div className="subCategory_btn" onClick={getYourProductHidden}>
               Tin đã ẩn({totalHidden})
+            </div>
+            <div className="subCategory_btn" onClick={getYourProductWaiting}>
+              Tin đang đợi duyệt({totalWaiting})
             </div>
           </div>
 
@@ -163,7 +199,7 @@ function YourPostScreen() {
                               }).format(item.price)}
                             </div>
                             <div className="product_display_time">
-                              {item.createdAt}
+                              {moment(item.createdAt).format("LT L")}
                             </div>
                           </div>
                         </div>
@@ -176,7 +212,12 @@ function YourPostScreen() {
                         >
                           Ẩn tin
                         </div>
-                        <div className="hidden-btn">Sửa tin</div>
+                        <Link
+                          to={`/update-post/${item._id}`}
+                          className="hidden-btn"
+                        >
+                          Sửa tin
+                        </Link>
                       </div>
                     </div>
                   );
@@ -206,7 +247,7 @@ function YourPostScreen() {
                               }).format(item.price)}
                             </div>
                             <div className="product_display_time">
-                              {item.createdAt}
+                              {moment(item.createdAt).format("LT L")}
                             </div>
                           </div>
                         </div>
@@ -219,7 +260,54 @@ function YourPostScreen() {
                         >
                           Hiện tin
                         </div>
-                        <div className="hidden-btn">Sửa tin</div>
+                        <Link
+                          to={`/update-post/${item._id}`}
+                          className="hidden-btn"
+                        >
+                          Sửa tin
+                        </Link>
+                      </div>
+                    </div>
+                  );
+                })}
+
+            {productWaiting === null
+              ? null
+              : productWaiting.map((item, index) => {
+                  return (
+                    <div className="product_display_card" key={index}>
+                      <Link to={`/product-detail/${item._id}`}>
+                        <div className="product_display">
+                          <div className="product_display_image">
+                            <img
+                              src={`http://localhost:3001/image_product/${item.image[0]}`}
+                              alt=""
+                            />
+                          </div>
+                          <div className="product_display_info">
+                            <div className="product_display_title">
+                              {item.title}
+                            </div>
+                            <div className="product_display_price ">
+                              {new Intl.NumberFormat("vi-VN", {
+                                style: "currency",
+                                currency: "VND",
+                              }).format(item.price)}
+                            </div>
+                            <div className="product_display_time">
+                              {moment(item.createdAt).format("LT L")}
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+
+                      <div className="product_diplay_hidden">
+                        <Link
+                          to={`/update-post/${item._id}`}
+                          className="hidden-btn"
+                        >
+                          Sửa tin
+                        </Link>
                       </div>
                     </div>
                   );

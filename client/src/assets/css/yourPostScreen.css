@@ -49,6 +49,7 @@
 .product_display_title {
   font-size: 16px;
   font-weight: 500;
+  color: #000;
 }
 
 .product_display_info {
@@ -59,9 +60,16 @@
   padding: 8px 16px;
   border: 1px solid #ddd;
   transition: all 0.1s linear;
+  color: #000;
 }
 
 .hidden-btn:hover {
   cursor: pointer;
   background: #fe9900;
+}
+
+.product_display_time {
+  color: #000;
+  font-size: 14px;
+  opacity: 0.7;
 }

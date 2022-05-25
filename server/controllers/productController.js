@@ -2,6 +2,7 @@ const Product = require('../models/Product.model')
 const Category = require('../models/Category.model')
 
 
+
 const productController = {
 
     // upload image product
@@ -264,6 +265,92 @@ const productController = {
             res.status(500).json({ success: false, message: error.message })
 
         }
+    },
+
+    // your product waiting for approval
+    productWaiting: async (req, res) => {
+        try {
+            const userId = req.query.userId;
+
+            const productWaiting = await Product.find({ userId: userId, isActive: false })
+            const total = await Product.find({ userId: userId, isActive: false }).countDocuments()
+
+            if (productWaiting) {
+                res.status(200).json({ success: true, productWaiting, total });
+            } else {
+                res.status(200).json({ success: false, message: 'Bạn chưa có sản phẩm nào chờ duyệt' });
+            }
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message })
+
+        }
+    },
+
+    // get product by productId to update
+    getProductById: async (req, res) => {
+        try {
+            const productId = req.query.productId;
+            const product = await Product.findById(productId).populate('categoryId subCategoryId', 'name name')
+            if (product) {
+                res.status(200).json({ success: true, product })
+            } else {
+                res.status(404).json({ success: false, message: 'Sản phẩm không tìm thấy' })
+            }
+
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message })
+
+        }
+    },
+
+    // update image product 
+    imageProductUpdate: async (req, res) => {
+        try {
+            const productId = req.query.productId
+            if (productId) {
+                const image = req.body.imageProduct
+                const files = req.files
+
+                console.log(image, files);
+
+                res.status(200).json({ success: true, files, image })
+            }
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message })
+
+        }
+
+
+    },
+
+    // update product 
+    productUpdate: async (req, res) => {
+        try {
+            const productId = req.query.productId;
+
+            if (productId) {
+                const product = await Product.findOneAndUpdate({ _id: productId }, {
+                    title: req.body.title,
+                    price: req.body.price,
+                    insurance: req.body.insurance,
+                    brand: req.body.brand,
+                    description: req.body.description,
+                    address: req.body.address,
+                    status: req.body.status,
+                    typeOfSell: req.body.typeOfSell,
+                    image: req.body.image,
+                    categoryId: req.body.categoryId,
+                    subCategoryId: req.body.subCategoryId,
+                    isActive: false
+
+                })
+                res.status(201).json({ success: true, message: "Sửa tin thành công, đợi xét duyệt tin của bạn" })
+            }
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message })
+
+        }
+
     }
 
 }

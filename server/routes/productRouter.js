@@ -54,6 +54,37 @@ router.patch('/hidden-your-product', productController.hiddenYourProduct)
 // display your product
 router.patch('/display-your-product', productController.displayYourProduct)
 
+// your product waiting
+router.get('/product-waiting', productController.productWaiting)
+
+// get product by productId
+router.get('/product-get', productController.getProductById)
+
+// upload update image product
+router.post('/image-product-update', (req, res, next) => {
+    uploadImageProduct(req, res, function (err) {
+
+        if (err instanceof multer.MulterError) {
+            if (err.code === 'LIMIT_FILE_SIZE') {
+                return res.json({ success: false, message: "Chọn ảnh dưới 6MB" })
+            }
+            if (err.code === 'LIMIT_FILE_COUNT') {
+                return res.json({ success: false, message: "Chỉ chọn từ 1 đến 3 ảnh" })
+            }
+
+        } else if (err) {
+            return res.send(err)
+        } else {
+            next()
+        }
+
+    })
+}, productController.imageProductUpdate)
+
+// update product
+router.patch('/product-update', validatePostProduct, postProductValidation, productController.productUpdate)
+
+
 
 
 module.exports = router
