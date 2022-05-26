@@ -92,7 +92,7 @@ function HomeScreen() {
             {categorys.map((category) => (
               <Link
                 key={category._id}
-                to={`/product-by-category/${category._id}`}
+                to={`/product-by-category/${category.name}/${category._id}`}
               >
                 <li className="category_item">
                   <img

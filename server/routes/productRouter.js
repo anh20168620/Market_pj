@@ -84,6 +84,8 @@ router.post('/image-product-update', (req, res, next) => {
 // update product
 router.patch('/product-update', validatePostProduct, postProductValidation, productController.productUpdate)
 
+// search product
+router.get('/search', productController.searchProduct)
 
 
 

@@ -16,6 +16,7 @@ import AdimnLoginScreen from './pages/AdminLoginScreen'
 import ProductByCategory from './pages/ProductByCategory';
 import YourPostScreen from './pages/YourPostScreen'
 import UpdatePostScreen from './pages/UpdatePostScreen'
+import ProductSearchScreen from './pages/ProductSearchScreen'
 function App() {
   return (
     <div className="App">
@@ -28,8 +29,9 @@ function App() {
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/password-reset/:id/:token' element={<PasswordReset />} />
           <Route path='/product-detail/:productId' element={<ProductDetail />} />
-          <Route path='/product-by-category/:categoryId' element={<ProductByCategory />} />
+          <Route path='/product-by-category/:categoryName/:categoryId' element={<ProductByCategory />} />
           <Route path='/admin/login' element={<AdimnLoginScreen />} />
+          <Route path='/product-search/:wordSearch' element={<ProductSearchScreen />} />
 
 
           <Route element={<PrivateComponent />}>

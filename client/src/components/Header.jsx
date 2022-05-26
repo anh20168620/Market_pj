@@ -8,6 +8,7 @@ import "../assets/css/header.css";
 function Header() {
   const auth = localStorage.getItem("user");
   const [show, setShow] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
 
   return (
     <section className="Header">
@@ -56,8 +57,17 @@ function Header() {
               id="query"
               name="q"
               placeholder="Tìm kiếm trên Chợ Việt"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
             />
-            <button className="btn btn-search">Tìm kiếm</button>
+            {searchInput && (
+              <Link
+                to={`/product-search/${searchInput}`}
+                className="btn btn-search"
+              >
+                Tìm kiếm
+              </Link>
+            )}
           </div>
           <div className="header_user">
             {auth ? (

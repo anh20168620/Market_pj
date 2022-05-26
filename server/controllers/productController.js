@@ -1,5 +1,6 @@
 const Product = require('../models/Product.model')
 const Category = require('../models/Category.model')
+const SubCategory = require('../models/SubCategory.model')
 
 
 
@@ -121,7 +122,6 @@ const productController = {
                     .lean()
                 res.status(200).json({ success: true, product, total })
             } else if (categoryId && option == 4 && !subCategoryId) {
-                console.log("hello");
                 const total = await Product.find({ categoryId: categoryId, isActive: true, show: true }).countDocuments()
                 const product = await Product.find({ categoryId: categoryId, isActive: true, show: true }).sort({ price: 1 }).collation({ locale: "vi", numericOrdering: true })
                     .skip((pageNumber - 1) * pageSize)
@@ -345,6 +345,419 @@ const productController = {
 
                 })
                 res.status(201).json({ success: true, message: "Sửa tin thành công, đợi xét duyệt tin của bạn" })
+            }
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message })
+
+        }
+
+    },
+
+    // search products
+    searchProduct: async (req, res) => {
+        try {
+            const wordSearch = req.query.wordSearch;
+            const pageNumber = Number(req.query.pageNumber);
+            const pageSize = Number(req.query.pageSize);
+            const optionsFilter = req.query.optionsFilter
+            const subCategory = await SubCategory.find({ name: { $regex: wordSearch, '$options': 'i' } })
+
+
+            if (optionsFilter === undefined && subCategory.length > 0) {
+                const product = await Product.find({
+                    isActive: true, show: true,
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+                        { typeOfSell: { $regex: wordSearch, '$options': 'i' } },
+                        { subCategoryId: subCategory[0]._id }
+                    ]
+                }).sort({ 'createdAt': -1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+
+
+                const total = await Product.find({
+                    isActive: true, show: true,
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+                        { typeOfSell: { $regex: wordSearch, '$options': 'i' } },
+                        { subCategoryId: subCategory[0]._id }
+                    ]
+                }).countDocuments()
+                res.status(200).json({ success: true, product, total })
+            } else if (optionsFilter === undefined && subCategory.length === 0) {
+                const product = await Product.find({
+                    isActive: true, show: true,
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+                        { typeOfSell: { $regex: wordSearch, '$options': 'i' } },
+                    ]
+                }).sort({ 'createdAt': -1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+
+
+                const total = await Product.find({
+                    isActive: true, show: true,
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+                        { typeOfSell: { $regex: wordSearch, '$options': 'i' } },
+                    ]
+                }).countDocuments()
+                res.status(200).json({ success: true, product, total })
+            } else if (optionsFilter == 2 && subCategory.length === 0) {
+                const product = await Product.find({
+                    isActive: true, show: true, typeOfSell: "Cá nhân",
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+
+                    ]
+                }).sort({ 'createdAt': -1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+
+
+                const total = await Product.find({
+                    isActive: true, show: true, typeOfSell: "Cá nhân",
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+
+                    ]
+                }).countDocuments()
+                res.status(200).json({ success: true, product, total })
+            } else if (optionsFilter == 3 && subCategory.length === 0) {
+                const product = await Product.find({
+                    isActive: true, show: true, typeOfSell: "Bán chuyên",
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+
+                    ]
+                }).sort({ 'createdAt': -1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+
+
+                const total = await Product.find({
+                    isActive: true, show: true, typeOfSell: "Bán chuyên",
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+
+                    ]
+                }).countDocuments()
+                res.status(200).json({ success: true, product, total })
+            }
+            else if (optionsFilter == 4 && subCategory.length === 0) {
+                const product = await Product.find({
+                    isActive: true, show: true,
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { typeOfSell: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+
+                    ]
+                }).sort({ price: 1 }).collation({ locale: "vi", numericOrdering: true })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+
+
+                const total = await Product.find({
+                    isActive: true, show: true,
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { typeOfSell: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+
+                    ]
+                }).countDocuments()
+                res.status(200).json({ success: true, product, total })
+            } else if (optionsFilter == 5 && subCategory.length === 0) {
+                const product = await Product.find({
+                    isActive: true, show: true,
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { typeOfSell: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+
+                    ]
+                }).sort({ price: -1 }).collation({ locale: "vi", numericOrdering: true })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+
+
+                const total = await Product.find({
+                    isActive: true, show: true,
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { typeOfSell: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+
+                    ]
+                }).countDocuments()
+                res.status(200).json({ success: true, product, total })
+            } else if (optionsFilter == 6 && subCategory.length === 0) {
+                const product = await Product.find({
+                    isActive: true, show: true,
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+
+                    ]
+                }).sort({ 'createdAt': 1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+
+
+                const total = await Product.find({
+                    isActive: true, show: true,
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+
+                    ]
+                }).countDocuments()
+                res.status(200).json({ success: true, product, total })
+            } else if (optionsFilter == 2 && subCategory.length > 0) {
+                const product = await Product.find({
+                    isActive: true, show: true, typeOfSell: "Cá nhân",
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+                        { subCategoryId: subCategory[0]._id }
+
+                    ]
+                }).sort({ 'createdAt': -1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+
+
+                const total = await Product.find({
+                    isActive: true, show: true, typeOfSell: "Cá nhân",
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+                        { subCategoryId: subCategory[0]._id }
+
+                    ]
+                }).countDocuments()
+                res.status(200).json({ success: true, product, total })
+            } else if (optionsFilter == 3 && subCategory.length > 0) {
+                const product = await Product.find({
+                    isActive: true, show: true, typeOfSell: "Bán chuyên",
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+                        { subCategoryId: subCategory[0]._id }
+
+                    ]
+                }).sort({ 'createdAt': -1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+
+
+                const total = await Product.find({
+                    isActive: true, show: true, typeOfSell: "Bán chuyên",
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+                        { subCategoryId: subCategory[0]._id }
+
+                    ]
+                }).countDocuments()
+                res.status(200).json({ success: true, product, total })
+            }
+            else if (optionsFilter == 4 && subCategory.length > 0) {
+                const product = await Product.find({
+                    isActive: true, show: true,
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { typeOfSell: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+                        { subCategoryId: subCategory[0]._id }
+
+
+                    ]
+                }).sort({ price: 1 }).collation({ locale: "vi", numericOrdering: true })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+
+
+                const total = await Product.find({
+                    isActive: true, show: true,
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { typeOfSell: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+                        { subCategoryId: subCategory[0]._id }
+
+                    ]
+                }).countDocuments()
+                res.status(200).json({ success: true, product, total })
+            } else if (optionsFilter == 5 && subCategory.length > 0) {
+                const product = await Product.find({
+                    isActive: true, show: true,
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { typeOfSell: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+                        { subCategoryId: subCategory[0]._id }
+
+                    ]
+                }).sort({ price: -1 }).collation({ locale: "vi", numericOrdering: true })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+
+
+                const total = await Product.find({
+                    isActive: true, show: true,
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { typeOfSell: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+                        { subCategoryId: subCategory[0]._id }
+
+                    ]
+                }).countDocuments()
+                res.status(200).json({ success: true, product, total })
+            } else if (optionsFilter == 6 && subCategory.length > 0) {
+                const product = await Product.find({
+                    isActive: true, show: true,
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+                        { subCategoryId: subCategory[0]._id }
+
+                    ]
+                }).sort({ createdAt: 1 })
+                    .skip((pageNumber - 1) * pageSize)
+                    .limit(pageSize)
+                    .lean()
+
+
+                const total = await Product.find({
+                    isActive: true, show: true,
+                    $or: [
+                        { title: { $regex: wordSearch, '$options': 'i' } },
+                        { brand: { $regex: wordSearch, '$options': 'i' } },
+                        { description: { $regex: wordSearch, '$options': 'i' } },
+                        { insurance: { $regex: wordSearch, '$options': 'i' } },
+                        { address: { $regex: wordSearch, '$options': 'i' } },
+                        { status: { $regex: wordSearch, '$options': 'i' } },
+                        { subCategoryId: subCategory[0]._id }
+
+                    ]
+                }).countDocuments()
+                res.status(200).json({ success: true, product, total })
             }
         } catch (error) {
             res.status(500).json({ success: false, message: error.message })

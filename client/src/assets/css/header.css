@@ -70,7 +70,7 @@
   font-size: 17px;
   outline: none;
   margin-right: 5px;
-  width: 50%;
+  width: 40%;
 }
 
 .btn {
@@ -111,4 +111,8 @@
   font-size: 18px;
   background-color: #fe9900;
   border: none;
+}
+
+.btn-search {
+  color: #000;
 }
