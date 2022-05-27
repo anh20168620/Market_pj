@@ -87,6 +87,15 @@ router.patch('/product-update', validatePostProduct, postProductValidation, prod
 // search product
 router.get('/search', productController.searchProduct)
 
+// check like product
+router.get('/check-like-product', productController.checkLikeProduct)
+
+// handle like product
+router.patch('/handle-like-product', productController.handleLikeProduct)
+
+// get like product
+router.get('/get-like-product', productController.getLikeProduct)
+
 
 
 module.exports = router

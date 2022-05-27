@@ -53,7 +53,7 @@ const userSchema = new Schema({
         type: Array,
         default: [{ quantity: 0, userId: [] }, { quantity: 0, userId: [] }, { quantity: 0, userId: [] }, { quantity: 0, userId: [] }, { quantity: 0, userId: [] }]
     },
-    subscribe: {
+    likeProduct: {
         type: Array
     },
     numberPhone: {

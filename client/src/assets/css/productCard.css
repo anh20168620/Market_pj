@@ -57,18 +57,22 @@
   margin-top: 10px;
 }
 
-.fa-heart {
+.like_btn {
   font-size: 25px;
   position: relative;
   top: -50px;
-  right: -80px;
+  right: -180px;
   z-index: 0;
+  width: 15%;
 }
 
-.fa-heart:hover {
+.like_btn:hover {
   color: red;
 }
 
 .product_detail {
   width: 100%;
+}
+.liked_btn i {
+  color: red;
 }

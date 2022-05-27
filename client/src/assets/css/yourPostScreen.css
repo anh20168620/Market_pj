@@ -4,7 +4,13 @@
 
 .your_post {
   display: flex;
-  padding: 12px 20px;
+}
+
+.your_post_title {
+  margin-bottom: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  opacity: 0.9;
 }
 
 .product_display_image img {

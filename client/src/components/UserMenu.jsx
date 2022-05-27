@@ -20,7 +20,7 @@ function UserMenu() {
           </li>
           <hr />
           <li className="user_menu_item">
-            <Link className="header_link" to="">
+            <Link className="header_link" to="/your-like-product">
               Tin yêu thích
             </Link>
           </li>

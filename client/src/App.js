@@ -17,6 +17,7 @@ import ProductByCategory from './pages/ProductByCategory';
 import YourPostScreen from './pages/YourPostScreen'
 import UpdatePostScreen from './pages/UpdatePostScreen'
 import ProductSearchScreen from './pages/ProductSearchScreen'
+import LikeProductScreen from './pages/LikeProductScreen'
 function App() {
   return (
     <div className="App">
@@ -41,6 +42,8 @@ function App() {
             <Route path='/change-password' element={<ChangePasswordScreen />} />
             <Route path='/your-post' element={<YourPostScreen />} />
             <Route path='/update-post/:productId' element={<UpdatePostScreen />} />
+            <Route path='/your-like-product' element={<LikeProductScreen />} />
+
           </Route>
         </Routes>
       </Router>

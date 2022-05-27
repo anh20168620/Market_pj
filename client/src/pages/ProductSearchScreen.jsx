@@ -95,7 +95,6 @@ function ProductSearchScreen() {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.product.length === 0);
         if (data.success && data.product.length !== 0) {
           setProduct(data.product);
           setTotal(data.total);

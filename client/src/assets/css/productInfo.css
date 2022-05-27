@@ -3,6 +3,9 @@
   text-transform: uppercase;
   font-weight: 600;
   margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .product_info_price {
@@ -24,4 +27,9 @@
 .product_info_item {
   margin-bottom: 10px;
   display: inline-block;
+}
+
+.like_btn_detail {
+  font-size: 30px;
+  box-sizing: border-box;
 }

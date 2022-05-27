@@ -1,6 +1,7 @@
 const Product = require('../models/Product.model')
 const Category = require('../models/Category.model')
 const SubCategory = require('../models/SubCategory.model')
+const User = require('../models/User.model')
 
 
 
@@ -764,9 +765,87 @@ const productController = {
 
         }
 
+    },
+
+    // get like product
+    checkLikeProduct: async (req, res) => {
+        try {
+            const productId = req.query.productId
+            const userId = req.query.userId
+            if (userId && productId) {
+                const user = await User.findById(userId)
+
+                if (user.likeProduct.includes(productId)) {
+                    res.status(200).json({ success: true })
+                } else {
+                    res.status(200).json({ success: false })
+                }
+            } else {
+                res.status(404).json({ success: false, message: "lỗi" })
+            }
+
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message })
+
+        }
+
+    },
+
+    // handle like product
+    handleLikeProduct: async (req, res) => {
+        try {
+            const productId = req.query.productId
+            const userId = req.query.userId
+            if (userId && productId) {
+                const user = await User.findById(userId)
+
+
+                if (user.likeProduct.includes(productId)) {
+                    const newLikeProduct = user.likeProduct.filter(item => item !== productId)
+                    user.likeProduct = newLikeProduct
+                    await user.save()
+                    res.status(200).json({ success: false })
+                } else {
+                    user.likeProduct.push(productId)
+                    await user.save()
+                    res.status(200).json({ success: true })
+                }
+            } else {
+                res.status(404).json({ success: false, message: "lỗi" })
+            }
+
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message })
+
+        }
+    },
+
+    // get like product
+    getLikeProduct: async (req, res) => {
+        try {
+            const userId = req.query.userId
+            if (userId) {
+                const user = await User.findById(userId)
+                const likeProductId = user.likeProduct
+                if (likeProductId.length > 0) {
+                    const product = [];
+                    for (const item of likeProductId) {
+                        product.push(await Product.findById(item))
+                    }
+                    res.status(200).json({ success: true, product })
+                } else {
+                    res.status(404).json({ success: false, message: 'Bạn chưa lưa tin đăng nào' })
+                }
+
+            }
+
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message })
+
+        }
     }
 
-}
 
+}
 
 module.exports = productController

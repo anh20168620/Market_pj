@@ -15,6 +15,7 @@ function YourPostScreen() {
   const [totalDisplay, setTotalDisplay] = useState("");
   const [totalHidden, setTotalHidden] = useState("");
   const [totalWaiting, setTotalWaiting] = useState("");
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     fetch(
@@ -66,6 +67,7 @@ function YourPostScreen() {
   }, [auth]);
 
   const getYourProductDisplay = async () => {
+    setMessage("");
     await fetch(
       `http://localhost:3001/product/your-product-display?userId=${
         JSON.parse(auth)._id
@@ -73,15 +75,22 @@ function YourPostScreen() {
     )
       .then((res) => res.json())
       .then((data) => {
-        if (data.success) {
+        if (data.success && data.productDisplay.length !== 0) {
           setProductDisplay(data.productDisplay);
           setProductHidden(null);
           setProductWaiting(null);
+          setMessage("");
+        } else if (data.success && data.productDisplay.length === 0) {
+          setMessage("Không tìm thấy sản phẩm nào phù hợp");
+          setProductDisplay(null);
+          setProductWaiting([]);
+          setProductHidden([]);
         }
       });
   };
 
   const getYourProductHidden = async () => {
+    setMessage("");
     fetch(
       `http://localhost:3001/product/your-product-hidden?userId=${
         JSON.parse(auth)._id
@@ -89,10 +98,19 @@ function YourPostScreen() {
     )
       .then((response) => response.json())
       .then((dataResponse) => {
-        if (dataResponse.success) {
+        if (dataResponse.success && dataResponse.productHidden.length !== 0) {
           setProductHidden(dataResponse.productHidden);
           setProductDisplay(null);
           setProductWaiting(null);
+          setMessage("");
+        } else if (
+          dataResponse.success &&
+          dataResponse.productHidden.length === 0
+        ) {
+          setMessage("Không tìm thấy sản phẩm nào phù hợp");
+          setProductDisplay([]);
+          setProductWaiting([]);
+          setProductHidden(null);
         }
       });
   };
@@ -141,6 +159,7 @@ function YourPostScreen() {
 
   // product waiting
   const getYourProductWaiting = () => {
+    setMessage("");
     fetch(
       `http://localhost:3001/product/product-waiting?userId=${
         JSON.parse(auth)._id
@@ -148,36 +167,46 @@ function YourPostScreen() {
     )
       .then((res) => res.json())
       .then((dataResponse) => {
-        if (dataResponse.success) {
+        if (dataResponse.success && dataResponse.productWaiting.length !== 0) {
           setProductWaiting(dataResponse.productWaiting);
           setProductDisplay(null);
           setProductHidden(null);
+          setMessage("");
+        } else if (
+          dataResponse.success &&
+          dataResponse.productWaiting.length === 0
+        ) {
+          setMessage("Không tìm thấy sản phẩm nào phù hợp");
+          setProductDisplay([]);
+          setProductWaiting(null);
+          setProductHidden([]);
         }
       });
   };
-
   return (
     <div>
       <Header />
       <section className="YourPostScreen">
-        <div className="container container_display">
-          <p className="category_title">Quản lý tin của bạn</p>
-          <div className="your_post">
-            <div className="subCategory_btn" onClick={getYourProductDisplay}>
-              Tin đang hiển thị({totalDisplay})
+        <div className="container">
+          <div className="container_border_noflex">
+            <p className="your_post_title">Quản lý tin của bạn</p>
+            <div className="your_post">
+              <div className="subCategory_btn" onClick={getYourProductDisplay}>
+                Tin đang hiển thị({totalDisplay})
+              </div>
+              <div className="subCategory_btn" onClick={getYourProductHidden}>
+                Tin đã ẩn({totalHidden})
+              </div>
+              <div className="subCategory_btn" onClick={getYourProductWaiting}>
+                Tin đang đợi duyệt({totalWaiting})
+              </div>
             </div>
-            <div className="subCategory_btn" onClick={getYourProductHidden}>
-              Tin đã ẩn({totalHidden})
-            </div>
-            <div className="subCategory_btn" onClick={getYourProductWaiting}>
-              Tin đang đợi duyệt({totalWaiting})
-            </div>
-          </div>
 
-          <div className="product_container">
-            {productDisplay === null
-              ? null
-              : productDisplay.map((item, index) => {
+            <div className="product_container">
+              {productDisplay === null ? (
+                <div className="not_found_message">{message}</div>
+              ) : (
+                productDisplay.map((item, index) => {
                   return (
                     <div className="product_display_card" key={index}>
                       <Link to={`/product-detail/${item._id}`}>
@@ -221,11 +250,13 @@ function YourPostScreen() {
                       </div>
                     </div>
                   );
-                })}
+                })
+              )}
 
-            {productHidden === null
-              ? null
-              : productHidden.map((item, index) => {
+              {productHidden === null ? (
+                <div className="not_found_message">{message}</div>
+              ) : (
+                productHidden.map((item, index) => {
                   return (
                     <div className="product_display_card" key={index}>
                       <Link to={`/product-detail/${item._id}`}>
@@ -269,11 +300,13 @@ function YourPostScreen() {
                       </div>
                     </div>
                   );
-                })}
+                })
+              )}
 
-            {productWaiting === null
-              ? null
-              : productWaiting.map((item, index) => {
+              {productWaiting === null ? (
+                <div className="not_found_message">{message}</div>
+              ) : (
+                productWaiting.map((item, index) => {
                   return (
                     <div className="product_display_card" key={index}>
                       <Link to={`/product-detail/${item._id}`}>
@@ -311,7 +344,9 @@ function YourPostScreen() {
                       </div>
                     </div>
                   );
-                })}
+                })
+              )}
+            </div>
           </div>
         </div>
       </section>
