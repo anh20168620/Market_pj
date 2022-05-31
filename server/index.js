@@ -11,6 +11,8 @@ const avatarRouter = require('./routes/avatarRouter')
 const categoryRouter = require('./routes/categoryRouter')
 const subCategoryRouter = require('./routes/subCategoryRouter')
 const productRouter = require('./routes/productRouter')
+const chatRouter = require('./routes/chatRouter')
+const messageRouter = require('./routes/messageRouter')
 
 mongoose.connect('mongodb://localhost:27017/market', async (error) => {
     if (error) {
@@ -38,6 +40,9 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
         app.use('/category', categoryRouter)
         app.use('/sub-category', subCategoryRouter)
         app.use('/product', productRouter)
+        app.use('/chat', chatRouter)
+        app.use('/message', messageRouter)
+
 
 
 

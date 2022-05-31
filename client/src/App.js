@@ -18,6 +18,8 @@ import YourPostScreen from './pages/YourPostScreen'
 import UpdatePostScreen from './pages/UpdatePostScreen'
 import ProductSearchScreen from './pages/ProductSearchScreen'
 import LikeProductScreen from './pages/LikeProductScreen'
+import ChatScreen from './pages/ChatScreen';
+
 function App() {
   return (
     <div className="App">
@@ -43,6 +45,8 @@ function App() {
             <Route path='/your-post' element={<YourPostScreen />} />
             <Route path='/update-post/:productId' element={<UpdatePostScreen />} />
             <Route path='/your-like-product' element={<LikeProductScreen />} />
+            <Route path='/chat/' exact={true} element={<ChatScreen />} />
+            <Route path='/chat/:ownId/:userId/:productId' element={<ChatScreen />} />
 
           </Route>
         </Routes>

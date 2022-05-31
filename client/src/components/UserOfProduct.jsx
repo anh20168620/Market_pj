@@ -1,15 +1,43 @@
 import React, { useState, useEffect } from "react";
 import StarRating from "../components/StarRating";
+import { Link } from "react-router-dom";
+
 import "../assets/css/userOfProduct.css";
 
 function UserOfProduct(props) {
+  const auth = localStorage.getItem("user");
+
   const [user, setUser] = useState({});
+  const [product, setProduct] = useState({});
+
+  useEffect(() => {
+    setProduct(props.detail);
+  }, [props.detail]);
 
   useEffect(() => {
     if (props.detail.userId) {
       setUser(props.detail.userId);
     }
   }, [props.detail.userId]);
+
+  const createChat = async () => {
+    await fetch("http://localhost:3001/chat/new-chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        senderId: JSON.parse(auth)._id,
+        receiverId: user._id,
+        productId: product._id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          console.log(data);
+        } else {
+        }
+      });
+  };
 
   return (
     <>
@@ -30,10 +58,14 @@ function UserOfProduct(props) {
             <i className="fa-solid fa-phone"></i>
             {user.numberPhone}
           </div>
-          <div className="user_chat">
+          <Link
+            to={`/chat/${JSON.parse(auth)._id}/${user._id}/${product._id}`}
+            className="user_chat"
+            onClick={createChat}
+          >
             <i className="fa-solid fa-message"></i>
             Chat với người bán
-          </div>
+          </Link>
         </div>
         <div className="user_rate">
           <StarRating user={user._id} />

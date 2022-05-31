@@ -36,7 +36,7 @@ function Header() {
             </div>
             <div className="header_item">
               <div className="header_chat">
-                <Link to="/" className="header_link">
+                <Link to="/chat" className="header_link">
                   Chat
                 </Link>
               </div>

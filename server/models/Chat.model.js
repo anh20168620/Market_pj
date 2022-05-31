@@ -2,20 +2,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const chatSchema = new Schema({
-    user_1: {
+    users: [{
         type: Schema.Types.ObjectId,
         ref: 'user'
-    },
-    user_2: {
+    }],
+    lastestMessage: {
         type: Schema.Types.ObjectId,
-        required: true,
-        ref: 'user'
+        ref: 'message'
     },
-    conversation: {
-        type: Array,
-        required: true
-    },
-    product: {
+    productId: {
         type: Schema.Types.ObjectId,
         required: true,
         ref: 'product'

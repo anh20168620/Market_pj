@@ -9,19 +9,21 @@ function ProductCard({ image, title, price, time, address, productId }) {
   const [like, setLike] = useState(false);
 
   useEffect(() => {
-    fetch(
-      `http://localhost:3001/product/check-like-product?userId=${
-        JSON.parse(auth)._id
-      }&productId=${productId}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setLike(true);
-        } else {
-          setLike(false);
-        }
-      });
+    if (auth) {
+      fetch(
+        `http://localhost:3001/product/check-like-product?userId=${
+          JSON.parse(auth)._id
+        }&productId=${productId}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            setLike(true);
+          } else {
+            setLike(false);
+          }
+        });
+    }
   }, [auth, productId]);
 
   const handleLike = async () => {
