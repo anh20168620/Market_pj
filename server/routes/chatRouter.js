@@ -11,6 +11,9 @@ router.post('/new-chat', chatController.new)
 
 router.get('/get-chat/:userId', chatController.get)
 
+// delete chat
+
+router.delete('/delete-chat/:chatId', chatController.delete)
 
 
 module.exports = router

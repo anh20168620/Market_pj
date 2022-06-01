@@ -20,25 +20,6 @@ function UserOfProduct(props) {
     }
   }, [props.detail.userId]);
 
-  const createChat = async () => {
-    await fetch("http://localhost:3001/chat/new-chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        senderId: JSON.parse(auth)._id,
-        receiverId: user._id,
-        productId: product._id,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          console.log(data);
-        } else {
-        }
-      });
-  };
-
   return (
     <>
       <div className="userOfProduct">
@@ -58,14 +39,15 @@ function UserOfProduct(props) {
             <i className="fa-solid fa-phone"></i>
             {user.numberPhone}
           </div>
-          <Link
-            to={`/chat/${JSON.parse(auth)._id}/${user._id}/${product._id}`}
-            className="user_chat"
-            onClick={createChat}
-          >
-            <i className="fa-solid fa-message"></i>
-            Chat với người bán
-          </Link>
+          {user && user._id !== JSON.parse(auth)._id ? (
+            <Link
+              to={`/chat/${JSON.parse(auth)._id}/${user._id}/${product._id}`}
+              className="user_chat"
+            >
+              <i className="fa-solid fa-message"></i>
+              Chat với người bán
+            </Link>
+          ) : null}
         </div>
         <div className="user_rate">
           <StarRating user={user._id} />

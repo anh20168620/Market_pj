@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import UserMenu from "../components/UserMenu";
@@ -10,19 +10,25 @@ function Header() {
   const [show, setShow] = useState(false);
   const [searchInput, setSearchInput] = useState("");
 
+  const goToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   return (
     <section className="Header">
       <div className="container">
         <div className="header_up">
           <div className="header_logo">
-            <Link to="/">
+            <Link to="/" onClick={goToTop}>
               <img src={Logo} alt="header_logo" />
             </Link>
           </div>
           <div className="header_list">
             <div className="header_item">
               <div className="header_home">
-                <Link to="/" className="header_link">
+                <Link to="/" className="header_link" onClick={goToTop}>
                   Trang chủ
                 </Link>
               </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import "../assets/css/inforUserScreen.css";
+import StarRating from "./../components/StarRating";
 
 function InforUserScreen() {
   const auth = localStorage.getItem("user");
@@ -74,6 +75,9 @@ function InforUserScreen() {
                   accept="image/*"
                   onChange={handleImageChange}
                 />
+              </div>
+              <div className="user_rate">
+                <StarRating user={JSON.parse(auth)._id} />
               </div>
             </div>
             <div className="infor_user">

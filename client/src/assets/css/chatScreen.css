@@ -13,13 +13,14 @@
 }
 
 .chat_box_top {
-  height: calc(100% - 34px);
+  height: calc(100% - 120px);
   overflow-y: scroll;
   padding-right: 10px;
 }
 
 .chat_menu {
   width: 33.333%;
+  /* border-right: 3px solid #ddd; */
 }
 
 .chat_box {
@@ -47,4 +48,64 @@
   border: none;
   border-radius: 5px;
   font-size: 20px;
+}
+
+.chat_box_product_img img {
+  width: 80px;
+  height: 80px;
+  /* object-fit: cover; */
+}
+
+.chat_box_product {
+  display: flex;
+  background-color: #ffffff;
+  width: 98%;
+  height: 80px;
+}
+
+.chat_box_product_title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.chat_box_product_price {
+  color: red;
+}
+
+.chat_box_product_info {
+  margin-left: 10px;
+  padding: 20px;
+}
+
+.chat_menu_conversation {
+  height: 70vh;
+  border: 3px solid #ccc;
+  margin-bottom: 5px;
+}
+
+.chat_delete {
+  font-size: 15px;
+  padding: 10px;
+  text-align: center;
+  border: 2px solid #ccc;
+}
+
+.chat_delete:hover {
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+.chat_delete i {
+  margin-right: 5px;
+}
+
+.chat_box_message {
+  font-size: 30px;
+  font-weight: bold;
+  opacity: 0.3;
+  font-style: italic;
+  text-align: center;
+  display: block;
+  line-height: 60vh;
 }

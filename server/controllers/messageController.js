@@ -26,6 +26,18 @@ const messageController = {
             res.status(500).json({ success: false, message: error.message })
 
         }
+    },
+
+    // delete message when chat deleted
+
+    delete: async (req, res) => {
+        const chatId = req.params.chatId
+        try {
+            await Message.findOneAndDelete({ chatId: chatId })
+            res.status(200).json({ success: true, message: "Tin nhắn xóa thành công" })
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message })
+        }
     }
 
 }

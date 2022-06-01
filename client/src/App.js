@@ -19,6 +19,7 @@ import UpdatePostScreen from './pages/UpdatePostScreen'
 import ProductSearchScreen from './pages/ProductSearchScreen'
 import LikeProductScreen from './pages/LikeProductScreen'
 import ChatScreen from './pages/ChatScreen';
+import ChatDetailScreen from './pages/ChatDetailScreen'
 
 function App() {
   return (
@@ -31,7 +32,6 @@ function App() {
           <Route path='/user/:id/verify/:token' element={<EmailVerify />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/password-reset/:id/:token' element={<PasswordReset />} />
-          <Route path='/product-detail/:productId' element={<ProductDetail />} />
           <Route path='/product-by-category/:categoryName/:categoryId' element={<ProductByCategory />} />
           <Route path='/admin/login' element={<AdimnLoginScreen />} />
           <Route path='/product-search/:wordSearch' element={<ProductSearchScreen />} />
@@ -44,9 +44,10 @@ function App() {
             <Route path='/change-password' element={<ChangePasswordScreen />} />
             <Route path='/your-post' element={<YourPostScreen />} />
             <Route path='/update-post/:productId' element={<UpdatePostScreen />} />
+            <Route path='/product-detail/:productId' element={<ProductDetail />} />
             <Route path='/your-like-product' element={<LikeProductScreen />} />
             <Route path='/chat/' exact={true} element={<ChatScreen />} />
-            <Route path='/chat/:ownId/:userId/:productId' element={<ChatScreen />} />
+            <Route path='/chat/:ownId/:userId/:productId' element={<ChatDetailScreen />} />
 
           </Route>
         </Routes>
