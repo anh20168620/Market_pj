@@ -9,7 +9,11 @@ function Message({ message, own }) {
       <div className="message_top">
         <img
           className="message_img"
-          src="https://vnn-imgs-a1.vgcloud.vn/image1.ictnews.vn/_Files/2020/03/17/trend-avatar-1.jpg"
+          src={
+            message.sender &&
+            message.sender.avatar &&
+            `http://localhost:3001/avatar/${message.sender.avatar}`
+          }
           alt=""
         />
         <p className="message_text">{message.content}</p>

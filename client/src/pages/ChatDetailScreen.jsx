@@ -4,17 +4,44 @@ import Header from "../components/Header";
 import "../assets/css/chatScreen.css";
 import Conversation from "../components/Conversation";
 import Message from "../components/Message";
+import { io } from "socket.io-client";
 
 function ChatDetailScreen() {
+  const param = useParams();
   const [conversation, setConversation] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
+  const [chatId, setChatId] = useState("");
+  const socket = useRef();
 
   const [newMessage, setNewMessage] = useState("");
   const scrollRef = useRef();
 
-  const param = useParams();
+  useEffect(() => {
+    socket.current = io("http://localhost:3001", {
+      transports: ["websocket", "polling", "flashsocket"],
+    });
+    // socket get message
+    socket.current.on("getMessage", (data) => {
+      setMessages((prev) => [...prev, data.data]);
+    });
+  }, []);
 
+  // socket join room
+  useEffect(() => {
+    if (chatId !== "") {
+      socket.current.emit("join_room", chatId);
+    }
+  }, [chatId]);
+
+  useEffect(() => {
+    socket.current.emit("addUser", param.ownId);
+    socket.current.on("getUsers", (users) => {
+      console.log(users);
+    });
+  }, [param]);
+
+  // create chat
   useEffect(() => {
     const createChat = async () => {
       await fetch("http://localhost:3001/chat/new-chat", {
@@ -49,7 +76,13 @@ function ChatDetailScreen() {
         }
       });
   };
-  // getConversation();
+
+  // set chatId
+  useEffect(() => {
+    currentChat && setChatId(currentChat._id);
+  }, [currentChat]);
+
+  // get message(;
 
   useEffect(() => {
     const getMessage = async () => {
@@ -77,6 +110,7 @@ function ChatDetailScreen() {
       content: newMessage,
       chatId: currentChat._id,
     };
+
     await fetch(`http://localhost:3001/message/add-message`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -87,6 +121,7 @@ function ChatDetailScreen() {
         if (data.success) {
           setMessages([...messages, data.saveMessage]);
           setNewMessage("");
+          socket.current.emit("sendMessage", data.saveMessage);
         }
       });
   };
@@ -162,7 +197,10 @@ function ChatDetailScreen() {
                       {currentChat.productId.title}
                     </div>
                     <div className="chat_box_product_price">
-                      {currentChat.productId.price}
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(currentChat.productId.price)}
                     </div>
                   </div>
                 </div>
@@ -172,7 +210,7 @@ function ChatDetailScreen() {
                     <div key={index} ref={scrollRef}>
                       <Message
                         message={item}
-                        own={item.sender === param.ownId}
+                        own={item.sender._id === param.ownId}
                       />
                     </div>
                   ))}
@@ -183,6 +221,9 @@ function ChatDetailScreen() {
                     placeholder="Viết tin nhắn..."
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
+                    onKeyPress={(event) => {
+                      if (event.key === "Enter") handleSubmid();
+                    }}
                   />
                   <button className="chat_submit btn" onClick={handleSubmid}>
                     <i className="fa-regular fa-paper-plane"></i>

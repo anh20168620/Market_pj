@@ -7,7 +7,8 @@ const messageController = {
         const newMessage = new Message(req.body)
 
         try {
-            const saveMessage = await newMessage.save()
+            const save = await newMessage.save()
+            const saveMessage = await Message.findById(save._id).populate('sender', 'avatar fullName')
             res.status(200).json({ success: true, saveMessage })
         } catch (error) {
             res.status(500).json({ success: false, message: error.message })
@@ -20,7 +21,7 @@ const messageController = {
         try {
             const message = await Message.find({
                 chatId: req.params.chatId
-            })
+            }).populate('sender', 'avatar fullName')
             res.status(200).json({ success: true, message })
         } catch (error) {
             res.status(500).json({ success: false, message: error.message })
@@ -33,7 +34,7 @@ const messageController = {
     delete: async (req, res) => {
         const chatId = req.params.chatId
         try {
-            await Message.findOneAndDelete({ chatId: chatId })
+            await Message.remove({ chatId: chatId })
             res.status(200).json({ success: true, message: "Tin nhắn xóa thành công" })
         } catch (error) {
             res.status(500).json({ success: false, message: error.message })
