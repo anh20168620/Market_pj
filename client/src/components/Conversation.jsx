@@ -2,8 +2,16 @@ import React, { useState, useEffect } from "react";
 import "../assets/css/conversation.css";
 import { Link } from "react-router-dom";
 
-function Conversation({ conversation, currentUserId, productId, currentChat }) {
+function Conversation({
+  conversation,
+  currentUserId,
+  productId,
+  currentChat,
+  onlineUsers,
+  notifications,
+}) {
   const [user, setUser] = useState([]);
+  const [online, setOnline] = useState(false);
 
   useEffect(() => {
     const friend = conversation.users.find(
@@ -11,6 +19,12 @@ function Conversation({ conversation, currentUserId, productId, currentChat }) {
     );
     setUser(friend);
   }, [currentUserId, conversation]);
+
+  useEffect(() => {
+    if (onlineUsers && onlineUsers.includes(user._id)) {
+      setOnline(true);
+    }
+  }, [user._id, onlineUsers]);
 
   return (
     <Link to={`/chat/${currentUserId}/${user._id}/${productId}`}>
@@ -22,7 +36,15 @@ function Conversation({ conversation, currentUserId, productId, currentChat }) {
             className="conversation_img"
           />
           <div className="conversation_name">
-            {user.fullName}
+            <div className="conversation_name_detail">
+              {user.fullName}
+              {online ? (
+                <i className="fa-solid fa-circle online"></i>
+              ) : (
+                <i className="fa-solid fa-circle"></i>
+              )}
+            </div>
+
             <span className="conversation_product_title">
               {conversation.productId.title}
             </span>
@@ -36,9 +58,17 @@ function Conversation({ conversation, currentUserId, productId, currentChat }) {
             className="conversation_img"
           />
           <div className="conversation_name">
-            {user.fullName}
+            <div className="conversation_name_detail">
+              {user.fullName}
+              {online ? (
+                <i className="fa-solid fa-circle online"></i>
+              ) : (
+                <i className="fa-solid fa-circle"></i>
+              )}
+            </div>
             <span className="conversation_product_title">
               {conversation.productId.title}
+              {notifications !== 0 && notifications}
             </span>
           </div>
         </div>

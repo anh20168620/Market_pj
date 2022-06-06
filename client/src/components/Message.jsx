@@ -19,6 +19,8 @@ function Message({ message, own }) {
         <p className="message_text">{message.content}</p>
       </div>
       <div className="message_bottom">
+        {message.sender.fullName}
+        <br />
         {moment(message.createdAt).fromNow()}
       </div>
     </div>

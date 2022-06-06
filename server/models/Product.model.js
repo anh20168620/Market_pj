@@ -54,10 +54,6 @@ const productSchema = new Schema({
         enum: ['Bán chuyên', 'Cá nhân'],
         required: true
     },
-    isActive: {
-        type: Boolean,
-        default: false
-    },
     show: {
         type: Boolean,
         default: true

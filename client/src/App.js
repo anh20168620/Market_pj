@@ -1,5 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { io } from "socket.io-client";
 import HomeScreen from './pages/HomeScreen';
 import LoginScreen from './pages/LoginScreen';
 import RegisterScreen from './pages/RegisterScreen'
@@ -20,6 +21,8 @@ import ProductSearchScreen from './pages/ProductSearchScreen'
 import LikeProductScreen from './pages/LikeProductScreen'
 import ChatScreen from './pages/ChatScreen';
 import ChatDetailScreen from './pages/ChatDetailScreen'
+
+const socket = io('http://localhost:3001', { transports: ['websocket', 'polling', 'flashsocket'] })
 
 function App() {
   return (
@@ -46,8 +49,8 @@ function App() {
             <Route path='/update-post/:productId' element={<UpdatePostScreen />} />
             <Route path='/product-detail/:productId' element={<ProductDetail />} />
             <Route path='/your-like-product' element={<LikeProductScreen />} />
-            <Route path='/chat/' exact={true} element={<ChatScreen />} />
-            <Route path='/chat/:ownId/:userId/:productId' element={<ChatDetailScreen />} />
+            <Route path='/chat/' exact={true} element={<ChatScreen socket={socket} />} />
+            <Route path='/chat/:ownId/:userId/:productId' element={<ChatDetailScreen socket={socket} />} />
 
           </Route>
         </Routes>

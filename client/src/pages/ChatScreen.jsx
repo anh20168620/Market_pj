@@ -3,10 +3,19 @@ import Header from "../components/Header";
 import Conversation from "./../components/Conversation";
 import "../assets/css/chatScreen.css";
 
-function ChatScreen() {
+function ChatScreen({ socket }) {
   const auth = localStorage.getItem("user");
+  const [onlineUsers, setOnlineUsers] = useState([]);
 
   const [chats, setChats] = useState([]);
+
+  useEffect(() => {
+    socket.emit("addUser", JSON.parse(auth)._id);
+    socket.on("getUsers", (users) => {
+      const onlineUsersId = users.map((item) => item.userId);
+      setOnlineUsers(onlineUsersId);
+    });
+  }, [auth, socket]);
 
   useEffect(() => {
     const getAllChat = async () => {
@@ -35,6 +44,7 @@ function ChatScreen() {
                     conversation={chat}
                     currentUserId={JSON.parse(auth)._id}
                     productId={chat.productId._id}
+                    onlineUsers={onlineUsers}
                   />
                 ))}
               </div>

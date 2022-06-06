@@ -4,43 +4,59 @@ import Header from "../components/Header";
 import "../assets/css/chatScreen.css";
 import Conversation from "../components/Conversation";
 import Message from "../components/Message";
-import { io } from "socket.io-client";
 
-function ChatDetailScreen() {
+function ChatDetailScreen({ socket }) {
   const param = useParams();
   const [conversation, setConversation] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [chatId, setChatId] = useState("");
-  const socket = useRef();
+  const [onlineUsers, setOnlineUsers] = useState([]);
 
   const [newMessage, setNewMessage] = useState("");
   const scrollRef = useRef();
 
   useEffect(() => {
-    socket.current = io("http://localhost:3001", {
-      transports: ["websocket", "polling", "flashsocket"],
-    });
     // socket get message
-    socket.current.on("getMessage", (data) => {
-      setMessages((prev) => [...prev, data.data]);
+    socket.on("getMessage", (data) => {
+      currentChat && console.log(currentChat._id);
+      if (currentChat && data.data.chatId === currentChat._id) {
+        setMessages((prev) => [...prev, data.data]);
+      } else {
+        const getMessage = async () => {
+          currentChat &&
+            (await fetch(
+              `http://localhost:3001/message/get-message/${currentChat._id}`
+            )
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.success) {
+                  setMessages(data.message);
+                }
+              })
+              .catch((err) => {
+                console.log(err.message);
+              }));
+        };
+        getMessage();
+      }
     });
-  }, []);
+  }, [socket, currentChat]);
 
   // socket join room
   useEffect(() => {
     if (chatId !== "") {
-      socket.current.emit("join_room", chatId);
+      socket.emit("join_room", chatId);
     }
-  }, [chatId]);
+  }, [chatId, socket]);
 
   useEffect(() => {
-    socket.current.emit("addUser", param.ownId);
-    socket.current.on("getUsers", (users) => {
-      console.log(users);
+    socket.emit("addUser", param.ownId);
+    socket.on("getUsers", (users) => {
+      const onlineUsersId = users.map((item) => item.userId);
+      setOnlineUsers(onlineUsersId);
     });
-  }, [param]);
-
+  }, [param, socket]);
   // create chat
   useEffect(() => {
     const createChat = async () => {
@@ -121,7 +137,7 @@ function ChatDetailScreen() {
         if (data.success) {
           setMessages([...messages, data.saveMessage]);
           setNewMessage("");
-          socket.current.emit("sendMessage", data.saveMessage);
+          socket.emit("sendMessage", data.saveMessage);
         }
       });
   };
@@ -167,10 +183,12 @@ function ChatDetailScreen() {
                 {conversation.map((item, index) => (
                   <div key={index} onClick={() => setCurrentChat(item)}>
                     <Conversation
+                      onlineUsers={onlineUsers}
                       currentChat={currentChat}
                       conversation={item}
                       currentUserId={param.ownId}
                       productId={item.productId._id}
+                      // notifications={notifications}
                     />
                   </div>
                 ))}

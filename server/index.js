@@ -86,6 +86,7 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
                 addUser(userId, socket.id)
                 io.emit("getUsers", users)
             })
+
             socket.on("join_room", data => {
                 socket.join(data)
                 console.log(`user with ${socket.id} joined room: ${data}`)
@@ -93,9 +94,8 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
 
             // send and get message
             socket.on("sendMessage", (data) => {
-                console.log(data);
                 socket.to(data.chatId).emit("getMessage", {
-                    data
+                    data,
                 })
             })
 

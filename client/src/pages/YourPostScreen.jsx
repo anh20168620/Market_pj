@@ -10,11 +10,9 @@ function YourPostScreen() {
 
   const [productDisplay, setProductDisplay] = useState(null);
   const [productHidden, setProductHidden] = useState(null);
-  const [productWaiting, setProductWaiting] = useState(null);
 
   const [totalDisplay, setTotalDisplay] = useState("");
   const [totalHidden, setTotalHidden] = useState("");
-  const [totalWaiting, setTotalWaiting] = useState("");
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -58,9 +56,7 @@ function YourPostScreen() {
       .then((res) => res.json())
       .then((dataResponse) => {
         if (dataResponse.success) {
-          setTotalWaiting(dataResponse.total);
         } else {
-          setTotalWaiting(0);
           console.log(dataResponse.message);
         }
       });
@@ -78,12 +74,10 @@ function YourPostScreen() {
         if (data.success && data.productDisplay.length !== 0) {
           setProductDisplay(data.productDisplay);
           setProductHidden(null);
-          setProductWaiting(null);
           setMessage("");
         } else if (data.success && data.productDisplay.length === 0) {
           setMessage("Không tìm thấy sản phẩm nào phù hợp");
           setProductDisplay(null);
-          setProductWaiting([]);
           setProductHidden([]);
         }
       });
@@ -101,7 +95,6 @@ function YourPostScreen() {
         if (dataResponse.success && dataResponse.productHidden.length !== 0) {
           setProductHidden(dataResponse.productHidden);
           setProductDisplay(null);
-          setProductWaiting(null);
           setMessage("");
         } else if (
           dataResponse.success &&
@@ -109,7 +102,6 @@ function YourPostScreen() {
         ) {
           setMessage("Không tìm thấy sản phẩm nào phù hợp");
           setProductDisplay([]);
-          setProductWaiting([]);
           setProductHidden(null);
         }
       });
@@ -158,31 +150,29 @@ function YourPostScreen() {
   };
 
   // product waiting
-  const getYourProductWaiting = () => {
-    setMessage("");
-    fetch(
-      `http://localhost:3001/product/product-waiting?userId=${
-        JSON.parse(auth)._id
-      }`
-    )
-      .then((res) => res.json())
-      .then((dataResponse) => {
-        if (dataResponse.success && dataResponse.productWaiting.length !== 0) {
-          setProductWaiting(dataResponse.productWaiting);
-          setProductDisplay(null);
-          setProductHidden(null);
-          setMessage("");
-        } else if (
-          dataResponse.success &&
-          dataResponse.productWaiting.length === 0
-        ) {
-          setMessage("Không tìm thấy sản phẩm nào phù hợp");
-          setProductDisplay([]);
-          setProductWaiting(null);
-          setProductHidden([]);
-        }
-      });
-  };
+  // const getYourProductWaiting = () => {
+  //   setMessage("");
+  //   fetch(
+  //     `http://localhost:3001/product/product-waiting?userId=${
+  //       JSON.parse(auth)._id
+  //     }`
+  //   )
+  //     .then((res) => res.json())
+  //     .then((dataResponse) => {
+  //       if (dataResponse.success && dataResponse.productWaiting.length !== 0) {
+  //         setProductDisplay(null);
+  //         setProductHidden(null);
+  //         setMessage("");
+  //       } else if (
+  //         dataResponse.success &&
+  //         dataResponse.productWaiting.length === 0
+  //       ) {
+  //         setMessage("Không tìm thấy sản phẩm nào phù hợp");
+  //         setProductDisplay([]);
+  //         setProductHidden([]);
+  //       }
+  //     });
+  // };
   return (
     <div>
       <Header />
@@ -196,9 +186,6 @@ function YourPostScreen() {
               </div>
               <div className="subCategory_btn" onClick={getYourProductHidden}>
                 Tin đã ẩn({totalHidden})
-              </div>
-              <div className="subCategory_btn" onClick={getYourProductWaiting}>
-                Tin đang đợi duyệt({totalWaiting})
               </div>
             </div>
 
@@ -291,50 +278,6 @@ function YourPostScreen() {
                         >
                           Hiện tin
                         </div>
-                        <Link
-                          to={`/update-post/${item._id}`}
-                          className="hidden-btn"
-                        >
-                          Sửa tin
-                        </Link>
-                      </div>
-                    </div>
-                  );
-                })
-              )}
-
-              {productWaiting === null ? (
-                <div className="not_found_message">{message}</div>
-              ) : (
-                productWaiting.map((item, index) => {
-                  return (
-                    <div className="product_display_card" key={index}>
-                      <Link to={`/product-detail/${item._id}`}>
-                        <div className="product_display">
-                          <div className="product_display_image">
-                            <img
-                              src={`http://localhost:3001/image_product/${item.image[0]}`}
-                              alt=""
-                            />
-                          </div>
-                          <div className="product_display_info">
-                            <div className="product_display_title">
-                              {item.title}
-                            </div>
-                            <div className="product_display_price ">
-                              {new Intl.NumberFormat("vi-VN", {
-                                style: "currency",
-                                currency: "VND",
-                              }).format(item.price)}
-                            </div>
-                            <div className="product_display_time">
-                              {moment(item.createdAt).format("LT L")}
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
-
-                      <div className="product_diplay_hidden">
                         <Link
                           to={`/update-post/${item._id}`}
                           className="hidden-btn"
