@@ -56,6 +56,12 @@ const chatController = {
             res.status(500).json({ success: false, message: error.message })
 
         }
+    },
+
+    // notify chat
+
+    notify: async (req, res) => {
+
     }
 
 }

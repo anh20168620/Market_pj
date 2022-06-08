@@ -1,0 +1,136 @@
+.ModalReport {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.modal_container {
+  position: relative;
+  margin: 0 auto;
+  width: 600px;
+  transform: translateY(50px);
+  box-shadow: 0 0 8px rgb(0 0 0 / 30%);
+  border-radius: 6px;
+  background-color: #fff;
+  border-top: 3px solid #f1f1f1;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  outline: none;
+  transition: all 0.3s ease-out;
+}
+
+.modal_header {
+  background-color: #f4f4f4;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 18px;
+  justify-content: center;
+}
+
+.modal_close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 30px;
+  padding: 5px 15px;
+  opacity: 0.6;
+  transition: all 0.3s ease-out;
+}
+
+.modal_close:hover {
+  cursor: pointer;
+  background-color: #e72626;
+  opacity: 1;
+  color: #fff;
+}
+
+.modal_title {
+  padding: 15px;
+  font-weight: 500;
+}
+
+.modal_checkbox {
+  padding: 0 25px;
+  margin-top: 10px;
+}
+
+.modal_label {
+  position: relative;
+  display: block;
+  padding-left: 35px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 22px;
+  width: 22px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.modal_label:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+.modal_label input:checked ~ .checkmark {
+  background-color: #ffcc00;
+}
+
+.modal_label input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.modal_label .checkmark:after {
+  background: #fff;
+  border-radius: 50%;
+  content: "";
+  height: 8px;
+  width: 8px;
+  margin-left: 7px;
+  margin-top: 7px;
+}
+
+.report_detail textarea {
+  background: transparent;
+  outline: none;
+  border: 2px solid #ccc;
+  padding: 7px 7px 7px 10px;
+  overflow: auto;
+  resize: vertical;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  margin-left: 25px;
+}
+
+.textarea_count {
+  opacity: 0.6;
+  font-size: 15px;
+  margin-bottom: 15px;
+  margin-left: 25px;
+}
+
+.btn_report_submit {
+  text-align: center;
+  width: 400px;
+  margin: 0 auto;
+  margin-bottom: 15px;
+}
+
+.msg_report {
+  width: 100%;
+}

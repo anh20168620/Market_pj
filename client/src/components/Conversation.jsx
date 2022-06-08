@@ -68,7 +68,9 @@ function Conversation({
             </div>
             <span className="conversation_product_title">
               {conversation.productId.title}
-              {notifications !== 0 && notifications}
+              {notifications ? (
+                <div className="notify_message">có tin nhắn mới</div>
+              ) : null}
             </span>
           </div>
         </div>

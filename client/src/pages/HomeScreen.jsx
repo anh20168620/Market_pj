@@ -4,6 +4,7 @@ import Banner from "../assets/images/banner.png";
 import "../assets/css/homeScreen.css";
 import { Link } from "react-router-dom";
 import ProductCard from "./../components/ProductCard";
+import Footer from "./../components/Footer";
 
 function HomeScreen() {
   const [categorys, setCategorys] = useState([]);
@@ -158,6 +159,7 @@ function HomeScreen() {
           </ul>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

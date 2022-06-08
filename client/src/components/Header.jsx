@@ -16,6 +16,12 @@ function Header() {
       behavior: "smooth",
     });
   };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      window.location.href = `/product-search/${searchInput}`;
+    }
+  };
   return (
     <section className="Header">
       <div className="container">
@@ -65,6 +71,7 @@ function Header() {
               placeholder="Tìm kiếm trên Chợ Việt"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
+              onKeyPress={(e) => handleKeyPress(e)}
             />
             {searchInput && (
               <Link

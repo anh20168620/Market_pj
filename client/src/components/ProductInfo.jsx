@@ -7,6 +7,7 @@ function ProductInfo(props) {
   const [product, setProduct] = useState({});
   const auth = localStorage.getItem("user");
   const [like, setLike] = useState(false);
+  // const [show, setShow] = useState(false);
 
   useEffect(() => {
     setProduct(props.detail);
@@ -90,6 +91,14 @@ function ProductInfo(props) {
       <br />
       <label className="product_info_label">Địa chỉ :</label>
       <span className="product_info_item">{product.address}</span>
+
+      {product.userId?._id !== JSON.parse(auth)._id ? (
+        <div className="product_report">
+          <div className="btn btn_report" onClick={props.callbackShow}>
+            Báo cáo tin này
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

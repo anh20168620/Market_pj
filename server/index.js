@@ -13,6 +13,7 @@ const subCategoryRouter = require('./routes/subCategoryRouter')
 const productRouter = require('./routes/productRouter')
 const chatRouter = require('./routes/chatRouter')
 const messageRouter = require('./routes/messageRouter')
+const reportRouter = require('./routes/reportRouter')
 
 mongoose.connect('mongodb://localhost:27017/market', async (error) => {
     if (error) {
@@ -42,6 +43,7 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
         app.use('/product', productRouter)
         app.use('/chat', chatRouter)
         app.use('/message', messageRouter)
+        app.use('/report', reportRouter)
 
 
 
@@ -87,15 +89,20 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
                 io.emit("getUsers", users)
             })
 
-            socket.on("join_room", data => {
-                socket.join(data)
-                console.log(`user with ${socket.id} joined room: ${data}`)
-            })
-
             // send and get message
-            socket.on("sendMessage", (data) => {
-                socket.to(data.chatId).emit("getMessage", {
-                    data,
+            socket.on("sendMessage", ({ senderId, receiverId, content, senderName, senderAvatar, productId }) => {
+                const user = getUser(receiverId)
+                io.to(user?.socketId).emit("getMessage", {
+                    senderId,
+                    content,
+                    senderName,
+                    senderAvatar,
+                    productId
+                })
+
+                io.to(user?.socketId).emit("notification", {
+                    message: "have message",
+                    productId
                 })
             })
 

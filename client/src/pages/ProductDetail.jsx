@@ -5,10 +5,13 @@ import "../assets/css/productDetail.css";
 import ProductImage from "./../components/ProductImage";
 import ProductInfo from "./../components/ProductInfo";
 import UserOfProduct from "./../components/UserOfProduct";
+import Footer from "./../components/Footer";
+import ModalReport from "./../components/ModalReport";
 
 function ProductDetail() {
   const [product, setProduct] = useState({});
   const param = useParams();
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     fetch(
@@ -29,6 +32,14 @@ function ProductDetail() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const showModal = () => {
+    setShow(true);
+  };
+
+  const hideModal = () => {
+    setShow(false);
+  };
+
   return (
     <>
       <Header />
@@ -37,7 +48,7 @@ function ProductDetail() {
           <div className="container_border">
             <div className="product_section">
               <ProductImage detail={product} />
-              <ProductInfo detail={product} />
+              <ProductInfo detail={product} callbackShow={showModal} />
             </div>
             <div className="product_user">
               <UserOfProduct detail={product} />
@@ -45,6 +56,10 @@ function ProductDetail() {
           </div>
         </div>
       </section>
+      <Footer />
+      {show && (
+        <ModalReport callbackHidden={hideModal} productId={product._id} />
+      )}
     </>
   );
 }

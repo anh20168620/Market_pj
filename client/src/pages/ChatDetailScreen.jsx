@@ -6,50 +6,40 @@ import Conversation from "../components/Conversation";
 import Message from "../components/Message";
 
 function ChatDetailScreen({ socket }) {
+  const auth = localStorage.getItem("user");
   const param = useParams();
   const [conversation, setConversation] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [chatId, setChatId] = useState("");
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const [notifications, setNotifications] = useState(false);
 
   const [newMessage, setNewMessage] = useState("");
   const scrollRef = useRef();
 
+  // get message socket
   useEffect(() => {
-    // socket get message
     socket.on("getMessage", (data) => {
-      currentChat && console.log(currentChat._id);
-      if (currentChat && data.data.chatId === currentChat._id) {
-        setMessages((prev) => [...prev, data.data]);
-      } else {
-        const getMessage = async () => {
-          currentChat &&
-            (await fetch(
-              `http://localhost:3001/message/get-message/${currentChat._id}`
-            )
-              .then((res) => res.json())
-              .then((data) => {
-                if (data.success) {
-                  setMessages(data.message);
-                }
-              })
-              .catch((err) => {
-                console.log(err.message);
-              }));
-        };
-        getMessage();
+      if (data.productId === param.productId) {
+        setMessages((prev) => [...prev, data]);
       }
     });
-  }, [socket, currentChat]);
 
-  // socket join room
+    return () => {
+      param.productId = null;
+    };
+  }, [socket, param]);
+
   useEffect(() => {
-    if (chatId !== "") {
-      socket.emit("join_room", chatId);
-    }
-  }, [chatId, socket]);
+    setNotifications(false);
+    socket.on("notification", (data) => {
+      if (data.productId !== param.productId) {
+        setNotifications(true);
+      }
+    });
+  }, [socket, param.productId]);
 
+  // add users socket
   useEffect(() => {
     socket.emit("addUser", param.ownId);
     socket.on("getUsers", (users) => {
@@ -93,13 +83,6 @@ function ChatDetailScreen({ socket }) {
       });
   };
 
-  // set chatId
-  useEffect(() => {
-    currentChat && setChatId(currentChat._id);
-  }, [currentChat]);
-
-  // get message(;
-
   useEffect(() => {
     const getMessage = async () => {
       currentChat &&
@@ -126,6 +109,14 @@ function ChatDetailScreen({ socket }) {
       content: newMessage,
       chatId: currentChat._id,
     };
+    socket.emit("sendMessage", {
+      senderId: param.ownId,
+      receiverId: param.userId,
+      content: newMessage,
+      productId: param.productId,
+      senderName: JSON.parse(auth).fullName,
+      senderAvatar: JSON.parse(auth).avatar,
+    });
 
     await fetch(`http://localhost:3001/message/add-message`, {
       method: "POST",
@@ -137,7 +128,6 @@ function ChatDetailScreen({ socket }) {
         if (data.success) {
           setMessages([...messages, data.saveMessage]);
           setNewMessage("");
-          socket.emit("sendMessage", data.saveMessage);
         }
       });
   };
@@ -188,7 +178,7 @@ function ChatDetailScreen({ socket }) {
                       conversation={item}
                       currentUserId={param.ownId}
                       productId={item.productId._id}
-                      // notifications={notifications}
+                      notifications={notifications}
                     />
                   </div>
                 ))}
@@ -228,7 +218,10 @@ function ChatDetailScreen({ socket }) {
                     <div key={index} ref={scrollRef}>
                       <Message
                         message={item}
-                        own={item.sender._id === param.ownId}
+                        own={
+                          item.sender?._id === param.ownId ||
+                          item.senderId === param.ownId
+                        }
                       />
                     </div>
                   ))}

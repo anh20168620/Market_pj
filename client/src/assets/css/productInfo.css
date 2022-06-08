@@ -33,3 +33,8 @@
   font-size: 30px;
   box-sizing: border-box;
 }
+
+.btn_report {
+  margin-top: 15px;
+  width: fit-content;
+}

@@ -291,7 +291,7 @@ function PostScreen() {
               className="textarea"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              cols="82"
+              cols="91"
               rows="8"
               placeholder="Viết tiếng việt có dấu
             -Tình trang
@@ -303,6 +303,9 @@ function PostScreen() {
             -Các phương thức liên hệ với người bán
             "
             ></textarea>
+            <div className="textarea_count">
+              {description.length}/{1500}
+            </div>
 
             <label htmlFor="" className="register_label">
               <span>Địa chỉ chi tiết :</span>
