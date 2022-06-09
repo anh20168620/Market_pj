@@ -1,4 +1,5 @@
 const User = require('../models/User.model')
+const Admin = require('../models/Admin.model')
 const argon2 = require('argon2');
 const TokenUser = require('../models/Token_user.model');
 const sendEmail = require('../utils/sendEmail');
@@ -36,7 +37,8 @@ const userController = {
     login: async (req, res) => {
         try {
             const user = await User.findOne({ email: req.body.email })
-            if (!user) return res.status(404).json({ success: false, message: 'Email/ mật khẩu không chính xác!' })
+            const admin = await User.findOne({ email: req.body.email })
+            if (!user && !admin) return res.status(404).json({ success: false, message: 'Email/ mật khẩu không chính xác!' })
 
             // user found
             const passwordValid = await argon2.verify(user.password, req.body.password)

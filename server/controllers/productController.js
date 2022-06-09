@@ -33,7 +33,7 @@ const productController = {
             })
             if (newPost) {
                 await newPost.save();
-                res.status(201).json({ success: true, message: "Đăng tin thành công, đợi xét duyệt tin của bạn" })
+                res.status(201).json({ success: true, message: "Đăng tin thành công" })
             }
 
 

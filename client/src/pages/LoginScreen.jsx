@@ -16,22 +16,49 @@ function LoginScreen() {
       navigate("/");
     }
   });
-  const handleLogin = async () => {
-    let result = await fetch("http://localhost:3001/user/login", {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-      headers: { "Content-Type": "application/json" },
-    });
-    result = await result.json();
-
-    if (result.success) {
-      localStorage.setItem("user", JSON.stringify(result.user));
-      alert(result.message);
-      navigate("/");
-    } else {
-      setErr(result.message);
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleLogin();
     }
   };
+
+  const handleLogin = async () => {
+    await fetch("http://localhost:3001/admin/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setErr("");
+          localStorage.setItem("admin", JSON.stringify(data.admin));
+          alert(data.message);
+
+          navigate("/admin");
+        } else {
+          fetch("http://localhost:3001/user/login", {
+            method: "POST",
+            body: JSON.stringify({ email, password }),
+            headers: { "Content-Type": "application/json" },
+          })
+            .then((res) => res.json())
+            .then((result) => {
+              if (result.success) {
+                localStorage.setItem("user", JSON.stringify(result.user));
+                alert(result.message);
+                navigate("/");
+              } else {
+                setErr(result.message);
+              }
+            });
+        }
+      });
+  };
+
   return (
     <>
       <Header />
@@ -62,6 +89,7 @@ function LoginScreen() {
                   placeholder="Nhập mật khẩu của bạn"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  onKeyPress={(e) => handleKeyPress(e)}
                 />
                 {err && <div className="err_msg">{err}</div>}
                 <button onClick={handleLogin} className="btn" type="button">

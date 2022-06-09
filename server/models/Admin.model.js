@@ -18,10 +18,6 @@ const adminSchema = new Schema({
         type: String,
         required: true
     },
-    avtar: {
-        type: String,
-        default: 'avatar_default.png'
-    },
     notify: {
         type: Array
     }

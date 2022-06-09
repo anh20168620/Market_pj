@@ -13,7 +13,6 @@ import ForgotPassword from './components/ForgotPassword';
 import PasswordReset from './components/PasswordReset';
 import ChangePasswordScreen from './pages/ChangePasswordScreen'
 import ProductDetail from './pages/ProductDetail'
-import AdimnLoginScreen from './pages/AdminLoginScreen'
 import ProductByCategory from './pages/ProductByCategory';
 import YourPostScreen from './pages/YourPostScreen'
 import UpdatePostScreen from './pages/UpdatePostScreen'
@@ -21,6 +20,7 @@ import ProductSearchScreen from './pages/ProductSearchScreen'
 import LikeProductScreen from './pages/LikeProductScreen'
 import ChatScreen from './pages/ChatScreen';
 import ChatDetailScreen from './pages/ChatDetailScreen'
+import AdminScreen from './pages/AdminScreen';
 
 const socket = io('http://localhost:3001', { transports: ['websocket', 'polling', 'flashsocket'] })
 
@@ -36,8 +36,8 @@ function App() {
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/password-reset/:id/:token' element={<PasswordReset />} />
           <Route path='/product-by-category/:categoryName/:categoryId' element={<ProductByCategory />} />
-          <Route path='/admin/login' element={<AdimnLoginScreen />} />
           <Route path='/product-search/:wordSearch' element={<ProductSearchScreen />} />
+
 
 
           <Route element={<PrivateComponent />}>
@@ -51,7 +51,7 @@ function App() {
             <Route path='/your-like-product' element={<LikeProductScreen />} />
             <Route path='/chat/' exact={true} element={<ChatScreen socket={socket} />} />
             <Route path='/chat/:ownId/:userId/:productId' element={<ChatDetailScreen socket={socket} />} />
-
+            <Route path='/admin' element={<AdminScreen />} />
           </Route>
         </Routes>
       </Router>

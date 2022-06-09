@@ -80,6 +80,7 @@
   border: none;
   background-color: #fe9900;
   transition: all 0.1s linear;
+  border-style: outset;
 }
 
 .btn:hover {
@@ -105,12 +106,21 @@
   margin-left: 5px;
   background-color: #fe9900;
   border-radius: 5px;
+  border-style: outset;
+}
+
+.header_user_login {
 }
 
 .user_name {
   font-size: 18px;
   background-color: #fe9900;
   border: none;
+}
+
+.user_name:hover {
+  cursor: pointer;
+  opacity: 0.7;
 }
 
 .btn-search {
