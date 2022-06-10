@@ -17,3 +17,9 @@
 .header_admin {
   display: flex;
 }
+
+.NotificationBadge {
+  top: -7px;
+  right: -11px;
+  position: relative;
+}

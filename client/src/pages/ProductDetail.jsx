@@ -8,7 +8,7 @@ import UserOfProduct from "./../components/UserOfProduct";
 import Footer from "./../components/Footer";
 import ModalReport from "./../components/ModalReport";
 
-function ProductDetail() {
+function ProductDetail({ socket }) {
   const [product, setProduct] = useState({});
   const param = useParams();
   const [show, setShow] = useState(false);
@@ -58,7 +58,11 @@ function ProductDetail() {
       </section>
       <Footer />
       {show && (
-        <ModalReport callbackHidden={hideModal} productId={product._id} />
+        <ModalReport
+          callbackHidden={hideModal}
+          productId={product._id}
+          socket={socket}
+        />
       )}
     </>
   );

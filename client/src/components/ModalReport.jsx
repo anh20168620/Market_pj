@@ -26,6 +26,12 @@ function ModalReport(props) {
   };
 
   const submitReport = async () => {
+    props.socket.emit("sendReport", {
+      userId: JSON.parse(auth)._id,
+      productId: props.productId,
+      title: report,
+      content: description,
+    });
     await fetch(`http://localhost:3001/report/save`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -42,7 +48,7 @@ function ModalReport(props) {
           setMessage(data.message);
           setTimeout(() => {
             props?.callbackHidden();
-          }, 3000);
+          }, 2000);
         }
       });
   };

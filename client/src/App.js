@@ -47,11 +47,11 @@ function App() {
             <Route path='/change-password' element={<ChangePasswordScreen />} />
             <Route path='/your-post' element={<YourPostScreen />} />
             <Route path='/update-post/:productId' element={<UpdatePostScreen />} />
-            <Route path='/product-detail/:productId' element={<ProductDetail />} />
+            <Route path='/product-detail/:productId' element={<ProductDetail socket={socket} />} />
             <Route path='/your-like-product' element={<LikeProductScreen />} />
             <Route path='/chat/' exact={true} element={<ChatScreen socket={socket} />} />
             <Route path='/chat/:ownId/:userId/:productId' element={<ChatDetailScreen socket={socket} />} />
-            <Route path='/admin' element={<AdminScreen />} />
+            <Route path='/admin' element={<AdminScreen socket={socket} />} />
           </Route>
         </Routes>
       </Router>

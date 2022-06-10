@@ -34,6 +34,9 @@ function Header() {
           <div className="header_list">
             <div className="header_item">
               <div className="header_home">
+                <div className="header_item_icon">
+                  <i className="fa-solid fa-house"></i>
+                </div>
                 <Link to="/" className="header_link" onClick={goToTop}>
                   Trang chủ
                 </Link>
@@ -41,6 +44,9 @@ function Header() {
             </div>
             <div className="header_item">
               <div className="header_post">
+                <div className="header_item_icon">
+                  <i className="fa-regular fa-file-lines"></i>
+                </div>
                 <Link to="/your-post" className="header_link">
                   Tin của bạn
                 </Link>
@@ -48,6 +54,9 @@ function Header() {
             </div>
             <div className="header_item">
               <div className="header_chat">
+                <div className="header_item_icon">
+                  <i className="fa-regular fa-comment"></i>
+                </div>
                 <Link to="/chat" className="header_link">
                   Chat
                 </Link>
@@ -55,6 +64,9 @@ function Header() {
             </div>
             <div className="header_item">
               <div className="header_notice">
+                <div className="header_item_icon">
+                  <i className="fa-regular fa-bell"></i>
+                </div>
                 <Link to="/" className="header_link">
                   Thông báo
                 </Link>

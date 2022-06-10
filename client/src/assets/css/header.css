@@ -32,7 +32,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 40%;
+  width: 50%;
 }
 
 .header_item {
@@ -109,7 +109,11 @@
   border-style: outset;
 }
 
-.header_user_login {
+.header_item_icon {
+  display: inline-block;
+  color: #000;
+  font-size: 20px;
+  margin-right: 5px;
 }
 
 .user_name {

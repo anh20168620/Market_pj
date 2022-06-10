@@ -49,8 +49,6 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
         app.use('/admin', adminRouter)
 
 
-
-
         // start server
         const server = app.listen(process.env.PORT || 3001, (err) => {
             if (err) {
@@ -108,6 +106,13 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
                     productId
                 })
             })
+
+            // send report to admin
+            socket.on("sendReport", (data) => {
+                const user = getUser(process.env.ADMINID)
+                io.to(user?.socketId).emit("getReport", data)
+            }
+            )
 
             // when disconect
             socket.on("disconnect", () => {

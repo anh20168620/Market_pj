@@ -12,6 +12,7 @@ function ChatScreen({ socket }) {
   useEffect(() => {
     socket.emit("addUser", JSON.parse(auth)._id);
     socket.on("getUsers", (users) => {
+      console.log(users);
       const onlineUsersId = users.map((item) => item.userId);
       setOnlineUsers(onlineUsersId);
     });
