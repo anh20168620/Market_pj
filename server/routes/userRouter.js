@@ -22,4 +22,9 @@ router.post('/change-password/:id', validatePassword, userValidation, userContro
 
 // user related
 router.post('/rating/:id', userController.rating)
+
+// get total user
+router.get('/total', userController.total)
+
+
 module.exports = router

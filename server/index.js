@@ -109,6 +109,7 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
 
             // send report to admin
             socket.on("sendReport", (data) => {
+                console.log(data);
                 const user = getUser(process.env.ADMINID)
                 io.to(user?.socketId).emit("getReport", data)
             }

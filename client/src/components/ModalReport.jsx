@@ -28,7 +28,10 @@ function ModalReport(props) {
   const submitReport = async () => {
     props.socket.emit("sendReport", {
       userId: JSON.parse(auth)._id,
-      productId: props.productId,
+      userName: JSON.parse(auth).fullName,
+      userAvatar: JSON.parse(auth).avatar,
+      productId: props.product._id,
+      productName: props.product.title,
       title: report,
       content: description,
     });
@@ -37,7 +40,7 @@ function ModalReport(props) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         userId: JSON.parse(auth)._id,
-        productId: props.productId,
+        productId: props.product._id,
         title: report,
         content: description,
       }),

@@ -843,6 +843,14 @@ const productController = {
             res.status(500).json({ success: false, message: error.message })
 
         }
+    },
+
+    // get product in 7 day ago
+    getProductWeek: async (req, res) => {
+        var lastWeek = new Date();
+        lastWeek.setDate(lastWeek.getDate() - 7);
+        const total = await Product.find({ show: true, createdAt: { '$gte': lastWeek } }).countDocuments()
+        res.status(200).json({ success: true, total })
     }
 
 

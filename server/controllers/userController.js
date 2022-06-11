@@ -203,6 +203,12 @@ const userController = {
             return res.status(500).json({ success: false, message: error.message })
         }
 
+    },
+
+    // get total user
+    total: async (req, res) => {
+        const total = await User.find().countDocuments()
+        res.status(200).json({ success: true, total })
     }
 }
 

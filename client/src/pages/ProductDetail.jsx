@@ -60,7 +60,7 @@ function ProductDetail({ socket }) {
       {show && (
         <ModalReport
           callbackHidden={hideModal}
-          productId={product._id}
+          product={product}
           socket={socket}
         />
       )}

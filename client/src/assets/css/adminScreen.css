@@ -1,0 +1,33 @@
+.body_admin_screen {
+  margin-top: 15px;
+}
+
+.admin_screen_content {
+  display: flex;
+  justify-content: space-around;
+}
+
+.admin_screen_title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+
+.admin_screen_box {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  background-color: #ffcc00;
+  padding: 20px;
+  border-radius: 6pc;
+  font-size: 18px;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin_screen_box_number {
+  margin-top: 20px;
+  font-size: 30px;
+  border-bottom: 1px solid #000;
+}

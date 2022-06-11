@@ -96,6 +96,8 @@ router.patch('/handle-like-product', productController.handleLikeProduct)
 // get like product
 router.get('/get-like-product', productController.getLikeProduct)
 
+// get product in 7 day ago
+router.get('/get-product-week', productController.getProductWeek)
 
 
 module.exports = router
