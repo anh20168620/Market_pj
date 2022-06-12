@@ -13,9 +13,17 @@ function ChatDetailScreen({ socket }) {
   const [messages, setMessages] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [notifications, setNotifications] = useState(false);
+  const [chatId, setChatId] = useState("");
+  const [productId, setProductId] = useState();
 
   const [newMessage, setNewMessage] = useState("");
   const scrollRef = useRef();
+  // socket join room
+  useEffect(() => {
+    if (chatId !== "") {
+      socket.emit("join_room", chatId);
+    }
+  }, [chatId, socket]);
 
   // get message socket
   useEffect(() => {
@@ -30,11 +38,18 @@ function ChatDetailScreen({ socket }) {
     };
   }, [socket, param]);
 
+  // set chatId
+  useEffect(() => {
+    currentChat && setChatId(currentChat._id);
+  }, [currentChat]);
+
   useEffect(() => {
     setNotifications(false);
     socket.on("notification", (data) => {
+      // console.log(data);
       if (data.productId !== param.productId) {
         setNotifications(true);
+        setProductId(data.productId);
       }
     });
   }, [socket, param.productId]);
@@ -47,6 +62,7 @@ function ChatDetailScreen({ socket }) {
       setOnlineUsers(onlineUsersId);
     });
   }, [param, socket]);
+
   // create chat
   useEffect(() => {
     const createChat = async () => {
@@ -116,6 +132,7 @@ function ChatDetailScreen({ socket }) {
       productId: param.productId,
       senderName: JSON.parse(auth).fullName,
       senderAvatar: JSON.parse(auth).avatar,
+      chatId: chatId,
     });
 
     await fetch(`http://localhost:3001/message/add-message`, {
@@ -170,18 +187,34 @@ function ChatDetailScreen({ socket }) {
           <div className="container_border_flex">
             <div className="chat_menu">
               <div className="chat_menu_conversation">
-                {conversation.map((item, index) => (
-                  <div key={index} onClick={() => setCurrentChat(item)}>
-                    <Conversation
-                      onlineUsers={onlineUsers}
-                      currentChat={currentChat}
-                      conversation={item}
-                      currentUserId={param.ownId}
-                      productId={item.productId._id}
-                      notifications={notifications}
-                    />
-                  </div>
-                ))}
+                {conversation.map((item, index) => {
+                  if (item.productId._id === productId) {
+                    return (
+                      <div key={index} onClick={() => setCurrentChat(item)}>
+                        <Conversation
+                          onlineUsers={onlineUsers}
+                          currentChat={currentChat}
+                          conversation={item}
+                          currentUserId={param.ownId}
+                          productId={item.productId._id}
+                          notifications={notifications}
+                        />
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div key={index} onClick={() => setCurrentChat(item)}>
+                        <Conversation
+                          onlineUsers={onlineUsers}
+                          currentChat={currentChat}
+                          conversation={item}
+                          currentUserId={param.ownId}
+                          productId={item.productId._id}
+                        />
+                      </div>
+                    );
+                  }
+                })}
               </div>
 
               {currentChat ? (

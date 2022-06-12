@@ -62,7 +62,8 @@ const chatController = {
 
     notify: async (req, res) => {
 
-    }
+    },
+
 
 }
 

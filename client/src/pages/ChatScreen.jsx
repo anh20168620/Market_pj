@@ -6,13 +6,23 @@ import "../assets/css/chatScreen.css";
 function ChatScreen({ socket }) {
   const auth = localStorage.getItem("user");
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const [notifications, setNotifications] = useState(false);
 
   const [chats, setChats] = useState([]);
+
+  const [productId, setProductId] = useState();
+
+  useEffect(() => {
+    setNotifications(false);
+    socket.on("notification", (data) => {
+      setProductId(data.productId);
+      setNotifications(true);
+    });
+  }, [socket]);
 
   useEffect(() => {
     socket.emit("addUser", JSON.parse(auth)._id);
     socket.on("getUsers", (users) => {
-      console.log(users);
       const onlineUsersId = users.map((item) => item.userId);
       setOnlineUsers(onlineUsersId);
     });
@@ -39,15 +49,31 @@ function ChatScreen({ socket }) {
           <div className="container_border_flex">
             <div className="chat_menu">
               <div className="chat_menu_conversation">
-                {chats.map((chat, index) => (
-                  <Conversation
-                    key={index}
-                    conversation={chat}
-                    currentUserId={JSON.parse(auth)._id}
-                    productId={chat.productId._id}
-                    onlineUsers={onlineUsers}
-                  />
-                ))}
+                {chats.map((chat, index) => {
+                  if (chat.productId._id === productId) {
+                    return (
+                      <Conversation
+                        key={index}
+                        conversation={chat}
+                        currentUserId={JSON.parse(auth)._id}
+                        productId={chat.productId._id}
+                        onlineUsers={onlineUsers}
+                        notifications={notifications}
+                      />
+                    );
+                  } else {
+                    return (
+                      <Conversation
+                        key={index}
+                        conversation={chat}
+                        currentUserId={JSON.parse(auth)._id}
+                        productId={chat.productId._id}
+                        onlineUsers={onlineUsers}
+                        notifications={null}
+                      />
+                    );
+                  }
+                })}
               </div>
             </div>
             <div className="chat_box">

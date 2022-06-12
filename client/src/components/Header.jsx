@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import UserMenu from "../components/UserMenu";
@@ -22,6 +22,7 @@ function Header() {
       window.location.href = `/product-search/${searchInput}`;
     }
   };
+
   return (
     <section className="Header">
       <div className="container">

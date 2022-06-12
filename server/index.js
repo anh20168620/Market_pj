@@ -89,21 +89,24 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
                 addUser(userId, socket.id)
                 io.emit("getUsers", users)
             })
+            socket.on("join_room", data => {
+                socket.join(data)
+                console.log(`user with ${socket.id} joined room: ${data}`)
+            })
 
             // send and get message
-            socket.on("sendMessage", ({ senderId, receiverId, content, senderName, senderAvatar, productId }) => {
+            socket.on("sendMessage", ({ senderId, receiverId, content, senderName, senderAvatar, productId, chatId }) => {
                 const user = getUser(receiverId)
-                io.to(user?.socketId).emit("getMessage", {
+                socket.to(chatId).emit("getMessage", {
                     senderId,
                     content,
                     senderName,
                     senderAvatar,
-                    productId
+                    productId, chatId
                 })
-
-                io.to(user?.socketId).emit("notification", {
+                socket.broadcast.emit("notification", {
                     message: "have message",
-                    productId
+                    productId, chatId
                 })
             })
 
