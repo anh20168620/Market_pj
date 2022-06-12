@@ -1,0 +1,10 @@
+.admin_handle_report {
+  display: flex;
+  margin-top: 20px;
+  justify-content: space-around;
+}
+
+.admin_handle_option {
+  margin-right: 20px;
+  margin-left: -2px;
+}

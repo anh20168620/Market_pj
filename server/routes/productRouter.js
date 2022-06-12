@@ -99,5 +99,9 @@ router.get('/get-like-product', productController.getLikeProduct)
 // get product in 7 day ago
 router.get('/get-product-week', productController.getProductWeek)
 
+// admin delete product
+router.delete('/delete/:productId', productController.deleteProduct)
+
+
 
 module.exports = router

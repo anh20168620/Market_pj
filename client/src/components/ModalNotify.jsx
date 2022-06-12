@@ -11,7 +11,6 @@ function ModalNotify({ report, deleteReport }) {
     setShowDelete(!showDelete);
     setReportId(reportId);
   };
-
   return (
     <div>
       <div className="modal_notify_container">
@@ -41,7 +40,15 @@ function ModalNotify({ report, deleteReport }) {
                   <div className="modal_notify_time">
                     {moment(item.createdAt).fromNow()}
                   </div>
-                  <Link to="/admin/detail-report" className="modal_notify_btn">
+                  <Link
+                    to={`/admin/detail-report/${
+                      item.productId?._id || item.productId
+                    }/${item._id}/${item.userAvatar}/${item.userName}/${
+                      item.userId
+                    }
+                    /${item.userNumberPhone}`}
+                    className="modal_notify_btn"
+                  >
                     Xem chi tiết
                   </Link>
                   <div
@@ -60,23 +67,31 @@ function ModalNotify({ report, deleteReport }) {
               <div key={index} className="modal_notify_content">
                 <div className="modal_notify_avatar">
                   <img
-                    src={`http://localhost:3001/avatar/${item.userId.avatar}`}
+                    src={`http://localhost:3001/avatar/${
+                      item.userId.avatar || item.userAvatar
+                    }`}
                     alt=""
                   />
                 </div>
                 <div className="modal_notify_body">
                   <div className="modal_notify_text">
-                    <span className="text_bold">{item.userId.fullName}</span>{" "}
+                    <span className="text_bold">
+                      {item.userId.fullName || item.userName}
+                    </span>{" "}
                     báo cáo về bài đăng về{" "}
-                    <span className="text_bold">{item.productId.title}</span> về
-                    vấn đề <span className="text_bold">{item.title}</span>.
+                    <span className="text_bold">
+                      {item.productId?.title || item.productName}
+                    </span>{" "}
+                    về vấn đề <span className="text_bold">{item.title}</span>.
                   </div>
                   <div className="modal_notify_sub">
                     <div className="modal_notify_time">
                       {moment(item.createdAt).fromNow()}
                     </div>
                     <Link
-                      to="/admin/detail-report"
+                      to={`/admin/detail-report/${
+                        item.productId?._id || item.productId
+                      }/${item._id}`}
                       className="modal_notify_btn"
                     >
                       Xem chi tiết

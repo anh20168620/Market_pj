@@ -23,10 +23,10 @@ const reportController = {
         }
     },
 
-    // get report 
+    // get reports
     get: async (req, res) => {
         try {
-            const report = await Report.find().populate('userId productId', 'fullName avatar title userId').sort({ 'createdAt': -1 })
+            const report = await Report.find().populate('userId productId', 'fullName avatar title numberPhone').sort({ 'createdAt': -1 })
             const total = await Report.find().countDocuments()
 
             return res.status(200).json({ success: true, report, total })
@@ -43,9 +43,24 @@ const reportController = {
             if (reportId) {
                 const total = await Report.find().countDocuments()
                 await Report.findByIdAndDelete(reportId)
-                const newReports = await Report.find().populate('userId productId', 'fullName avatar title userId').sort({ 'createdAt': -1 })
+                const newReports = await Report.find().populate('userId productId', 'fullName avatar title numberPhone').sort({ 'createdAt': -1 })
 
                 res.status(200).json({ success: true, newReports, total: total - 1 })
+            }
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message })
+
+        }
+    },
+    // get report by id
+    getReport: async (req, res) => {
+        const reportId = req.query.reportId
+        try {
+            const report = await Report.findById(reportId).populate('userId productId', 'fullName avatar title numberPhone')
+            if (report) {
+                res.status(200).json({ success: true, report: report })
+            } else {
+                res.status(404).json({ success: false, message: "Không tìm thấy báo cáo" })
             }
         } catch (error) {
             res.status(500).json({ success: false, message: error.message })

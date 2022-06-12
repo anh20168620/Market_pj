@@ -851,6 +851,23 @@ const productController = {
         lastWeek.setDate(lastWeek.getDate() - 7);
         const total = await Product.find({ show: true, createdAt: { '$gte': lastWeek } }).countDocuments()
         res.status(200).json({ success: true, total })
+    },
+
+    // delete product
+    deleteProduct: async (req, res) => {
+        const productId = req.params.productId
+        try {
+            if (productId) {
+                const total = await Product.find({ show: true }).countDocuments()
+                console.log(productId, total);
+                await Product.findByIdAndDelete(productId)
+                res.status(200).json({ success: true, total: total - 1, message: 'Sản phẩm xóa thành công' })
+
+            }
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message })
+
+        }
     }
 
 

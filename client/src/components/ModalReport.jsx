@@ -30,6 +30,7 @@ function ModalReport(props) {
       userId: JSON.parse(auth)._id,
       userName: JSON.parse(auth).fullName,
       userAvatar: JSON.parse(auth).avatar,
+      userNumberPhone: JSON.parse(auth).numberPhone,
       productId: props.product._id,
       productName: props.product.title,
       title: report,
