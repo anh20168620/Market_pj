@@ -68,7 +68,7 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
 
         let users = []
 
-        const addUser = (userId, socketId) => {
+        const addUser = async (userId, socketId) => {
             !users.some(user => user.userId === userId) &&
                 users.push({ userId, socketId })
         }
@@ -80,6 +80,7 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
         const getUser = (userId) => {
             return users.find(user => user.userId === userId)
         }
+
 
         io.on("connection", (socket) => {
             // when connect
@@ -96,7 +97,6 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
 
             // send and get message
             socket.on("sendMessage", ({ senderId, receiverId, content, senderName, senderAvatar, productId, chatId }) => {
-                const user = getUser(receiverId)
                 socket.to(chatId).emit("getMessage", {
                     senderId,
                     content,
@@ -111,11 +111,20 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
             })
 
             // send report to admin
-            socket.on("sendReport", (data) => {
-                const user = getUser(process.env.ADMINID)
+            socket.on("sendReport", async (data) => {
+                const user = await getUser(process.env.ADMINID)
                 io.to(user?.socketId).emit("getReport", data)
-            }
-            )
+            })
+
+            // admin send notify to user
+            socket.on("sendNotify", async (data) => {
+                console.log(data.reciverId);
+                const user = await getUser(data.reciverId)
+                console.log(users);
+                console.log(user);
+                console.log(data.reciverId === '6295bba4cfb0389274e154b2');
+                io.to(user?.socketId).emit("getNotify", data)
+            })
 
             // when disconect
             socket.on("disconnect", () => {

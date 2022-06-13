@@ -2,16 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import NotificationBadge from "react-notification-badge";
 import { Effect } from "react-notification-badge";
+import { io } from "socket.io-client";
 
 import Logo from "../assets/images/logo.png";
 import "../assets/css/headerAdmin.css";
-import ModalNotify from "./ModalNotify";
+import ModalNotifyAdmin from "./ModalNotifyAdmin";
 
-function HeaderAdmin({
-  socket,
-  totalInAdminDetailReport,
-  reportInAdminDetailReport,
-}) {
+const socket = io("http://localhost:3001", {
+  transports: ["websocket", "polling", "flashsocket"],
+});
+
+function HeaderAdmin({ totalInAdminDetailReport, reportInAdminDetailReport }) {
   const admin = localStorage.getItem("admin");
 
   const [show, setShow] = useState(false);
@@ -47,19 +48,20 @@ function HeaderAdmin({
 
   // add admin from socket
   useEffect(() => {
-    socket?.emit("addUser", JSON.parse(admin)._id);
-    // socket.on("getUsers", (users) => {
-    //   console.log(users);
-    // });
-  }, [socket, admin]);
+    socket.emit("addUser", JSON.parse(admin)._id);
+    socket.on("getUsers", (users) => {
+      console.log(users);
+    });
+  }, [admin]);
 
   // get report socket
   useEffect(() => {
-    socket?.on("getReport", (data) => {
+    socket.on("getReport", (data) => {
+      console.log(data);
       setReport((prev) => [data, ...prev]);
       setTotal((prev) => prev + 1);
     });
-  }, [socket]);
+  }, []);
 
   // get report
   useEffect(() => {
@@ -159,7 +161,7 @@ function HeaderAdmin({
           </div>
         </div>
       </section>
-      {show && <ModalNotify deleteReport={deleteReport} report={report} />}
+      {show && <ModalNotifyAdmin deleteReport={deleteReport} report={report} />}
     </>
   );
 }

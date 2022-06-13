@@ -56,6 +56,10 @@
   color: #00ff00;
 }
 
+.red {
+  color: red;
+}
+
 .notify_message {
   color: red;
   font-size: 13px;

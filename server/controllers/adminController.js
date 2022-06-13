@@ -1,6 +1,7 @@
 const argon2 = require('argon2');
 const User = require('../models/User.model')
-const Admin = require('../models/Admin.model')
+const Admin = require('../models/Admin.model');
+const Notify = require('../models/Notify.model');
 
 
 const adminController = {
@@ -33,6 +34,24 @@ const adminController = {
             res.status(400).json({ success: false, message: error.message })
         }
 
+    },
+
+    // admin send notification
+    sendNotification: async (req, res) => {
+        const userId = req.params.userId
+        const title = req.body.title
+        const content = req.body.content
+
+        try {
+            if (userId) {
+                const notify = new Notify({ userId, title, content })
+                await notify.save()
+                res.status(200).json({ success: true, message: "Thông báo gửi thành công" })
+            }
+
+        } catch (error) {
+            res.status(400).json({ success: false, message: error.message })
+        }
     }
 }
 

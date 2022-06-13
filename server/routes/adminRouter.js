@@ -10,5 +10,9 @@ router.post('/create', adminController.create)
 // admin login
 router.post('/login', adminController.login)
 
+// admin sen notification
+router.post('/send-notification/:userId', adminController.sendNotification)
+
+
 
 module.exports = router

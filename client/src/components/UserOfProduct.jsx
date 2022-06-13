@@ -50,13 +50,13 @@ function UserOfProduct(props) {
               Chat với người bán
             </Link>
           ) : user && user._id !== JSON.parse(auth)?._id && admin ? (
-            <Link
-              to={`/chat/${JSON.parse(auth)?._id}/${user._id}/${product._id}`}
+            <div
               className="user_chat"
+              onClick={() => props.callbackShow(product?.userId?._id)}
             >
               <i className="fa-solid fa-message"></i>
               Gửi thông báo
-            </Link>
+            </div>
           ) : null}
         </div>
         {!admin && (
@@ -108,15 +108,17 @@ function UserOfProduct(props) {
                   Chat với người bán
                 </Link>
               ) : user && user._id !== JSON.parse(auth)?._id && admin ? (
-                <Link
-                  to={`/chat/${JSON.parse(auth)?._id}/${user._id}/${
-                    product._id
-                  }`}
+                <div
+                  onClick={() =>
+                    props.callbackShow(
+                      props.report?.userId?._id || props.userId
+                    )
+                  }
                   className="user_chat"
                 >
                   <i className="fa-solid fa-message"></i>
                   Gửi thông báo
-                </Link>
+                </div>
               ) : null}
             </div>
             {!admin && (

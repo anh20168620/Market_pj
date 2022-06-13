@@ -47,11 +47,13 @@
   background-color: #e72626;
   opacity: 1;
   color: #fff;
+  border-radius: 6px;
 }
 
 .modal_title {
   padding: 15px;
   font-weight: 500;
+  font-size: 17px;
 }
 
 .modal_checkbox {

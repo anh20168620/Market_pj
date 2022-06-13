@@ -26,5 +26,15 @@ router.post('/rating/:id', userController.rating)
 // get total user
 router.get('/total', userController.total)
 
+// get notify user
+router.get('/notify/:userId', userController.notify)
+
+// set status seen notify
+router.post('/notify-seen/:notifyId/:userId', userController.notifySeen)
+
+
+// delete notify user
+router.post('/delete-notify/:userId', userController.deleteNotify)
+
 
 module.exports = router

@@ -5,13 +5,25 @@ import "../assets/css/homeScreen.css";
 import { Link } from "react-router-dom";
 import ProductCard from "./../components/ProductCard";
 import Footer from "./../components/Footer";
+import { io } from "socket.io-client";
 
+const socket = io("http://localhost:3001", {
+  transports: ["websocket", "polling", "flashsocket"],
+});
 function HomeScreen() {
   const [categorys, setCategorys] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [total, setTotal] = useState(0);
   const [responseData, setResponseData] = useState([]);
+  const auth = localStorage.getItem("user");
 
+  // add user from socket
+  useEffect(() => {
+    socket?.emit("addUser", JSON.parse(auth)._id);
+    // socket?.on("getUsers", (users) => {
+    //   console.log(users);
+    // });
+  }, [auth]);
   const fetchData = (pageNumber) => {
     fetch(
       `http://localhost:3001/product/get?pageNumber=${pageNumber}&pageSize=${pageSize}`,
@@ -80,7 +92,7 @@ function HomeScreen() {
 
   return (
     <>
-      <Header />
+      <Header socket={socket} />
       <section className="Banner">
         <div className="container">
           <img src={Banner} alt="" className="banner_img" />

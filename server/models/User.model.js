@@ -42,9 +42,6 @@ const userSchema = new Schema({
         type: String,
         default: 'Chưa có địa chỉ'
     },
-    notify: {
-        type: Array
-    },
     isActive: {
         type: Boolean,
         default: false

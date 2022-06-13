@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import Footer from "./../components/Footer";
 import UserOfProduct from "./../components/UserOfProduct";
 import "../assets/css/adminDetailReport.css";
+import ModalSendNotify from "./../components/ModalSendNotify";
 
 function AdminDetailReport({ socket }) {
   const [product, setProduct] = useState({});
@@ -13,6 +14,8 @@ function AdminDetailReport({ socket }) {
   const [reports, setReports] = useState([]);
   const [total, setTotal] = useState(null);
   const [msg, setMsg] = useState("");
+  const [show, setShow] = useState(false);
+  const [reciverId, setReciverId] = useState("");
 
   const param = useParams();
 
@@ -103,6 +106,16 @@ function AdminDetailReport({ socket }) {
         }
       });
   };
+
+  const showModalSendNotify = (userId) => {
+    setReciverId(userId);
+    setShow(true);
+  };
+
+  const hiddenModalSendNotify = () => {
+    setShow(false);
+  };
+
   return (
     <div>
       {reports.length !== 0 ? (
@@ -146,12 +159,20 @@ function AdminDetailReport({ socket }) {
                 userId={param.userId}
                 userNumberPhone={param.userNumberPhone}
                 detail={product}
+                callbackShow={showModalSendNotify}
               />
             </div>
           </div>
         </div>
       </section>
       <Footer />
+      {show && (
+        <ModalSendNotify
+          reciverId={reciverId}
+          callbackHidden={hiddenModalSendNotify}
+          socket={socket}
+        />
+      )}
     </div>
   );
 }

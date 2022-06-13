@@ -18,7 +18,7 @@ function YourPostScreen() {
   useEffect(() => {
     fetch(
       `http://localhost:3001/product/your-product-display?userId=${
-        JSON.parse(auth)._id
+        JSON.parse(auth)?._id
       }`
     )
       .then((res) => res.json())
@@ -34,7 +34,7 @@ function YourPostScreen() {
   useEffect(() => {
     fetch(
       `http://localhost:3001/product/your-product-hidden?userId=${
-        JSON.parse(auth)._id
+        JSON.parse(auth)?._id
       }`
     )
       .then((response) => response.json())
@@ -50,7 +50,7 @@ function YourPostScreen() {
   useEffect(() => {
     fetch(
       `http://localhost:3001/product/product-waiting?userId=${
-        JSON.parse(auth)._id
+        JSON.parse(auth)?._id
       }`
     )
       .then((res) => res.json())

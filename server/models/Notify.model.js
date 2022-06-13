@@ -2,18 +2,20 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const notifySchema = new Schema({
-    user: {
+    userId: {
         type: Schema.Types.ObjectId,
         required: true,
         ref: 'user'
     },
-    content: {
+    title: {
         type: String,
         required: true
     },
-    url: {
+    content: {
         type: String,
-    },
+        required: true
+    }
+    ,
     seen: {
         type: Boolean,
         default: false

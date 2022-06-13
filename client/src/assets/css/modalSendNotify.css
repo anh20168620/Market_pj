@@ -1,0 +1,27 @@
+.modal_textArea {
+  background: transparent;
+  outline: none;
+  border: 2px solid #ccc;
+  padding: 7px 7px 7px 10px;
+  overflow: auto;
+  resize: vertical;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  /* margin-left: 25px; */
+}
+
+.modal_input {
+  background: transparent;
+  outline: none;
+  border: 2px solid #ccc;
+  padding: 7px 7px 7px 10px;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  margin-right: 35px;
+  width: 88%;
+}
+
+.btn-send-notify {
+  width: fit-content;
+  margin: 0 auto 20px;
+}

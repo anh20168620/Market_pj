@@ -4,6 +4,7 @@ const argon2 = require('argon2');
 const TokenUser = require('../models/Token_user.model');
 const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
+const Notify = require('../models/Notify.model');
 
 const userController = {
     // REGISTER
@@ -209,7 +210,62 @@ const userController = {
     total: async (req, res) => {
         const total = await User.find().countDocuments()
         res.status(200).json({ success: true, total })
+    },
+
+    // get notify user
+    notify: async (req, res) => {
+        const userId = req.params.userId
+        try {
+            if (userId) {
+                const notify = await Notify.find({ userId: userId }).sort({ 'createdAt': -1 })
+                const total = await Notify.find({ userId: userId, seen: false }).countDocuments()
+                res.status(200).json({ success: true, notify, total })
+            }
+        } catch (error) {
+            return res.status(500).json({ success: false, message: error.message })
+        }
+    },
+    // set status seen notify
+    notifySeen: async (req, res) => {
+        const userId = req.params.userId
+        const notifyId = req.params.notifyId
+        try {
+            const notify = await Notify.findById(notifyId)
+            if (notify) {
+                notify.seen = true
+                await notify.save()
+                const notifyUpdate = await Notify.find({ userId: userId }).sort({ 'createdAt': -1 })
+                const total = await Notify.find({ userId: userId, seen: false }).countDocuments()
+
+                res.status(200).json({ success: true, notifyUpdate, total })
+            }
+
+        } catch (error) {
+            return res.status(500).json({ success: false, message: error.message })
+
+        }
+    },
+
+    // delete notify
+    deleteNotify: async (req, res) => {
+        const userId = req.params.userId
+        try {
+            const user = await User.findById(userId)
+            if (user) {
+                user.notify = []
+                await user.save()
+                res.status(200).json({ success: true, message: 'success' })
+            }
+        } catch (error) {
+            return res.status(500).json({ success: false, message: error.message })
+
+        }
+
     }
+
+
+
+
 }
 
 module.exports = userController;

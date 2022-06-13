@@ -30,7 +30,7 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route path='/' exact={true} element={<HomeScreen />} />
+          <Route path='/' exact={true} element={<HomeScreen socket={socket} />} />
           <Route path='/register' element={<RegisterScreen />} />
           <Route path='/login' element={<LoginScreen />} />
           <Route path='/user/:id/verify/:token' element={<EmailVerify />} />

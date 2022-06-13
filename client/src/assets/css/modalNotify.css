@@ -1,6 +1,8 @@
 .modal_notify_container {
   width: 420px;
   transform: translate(940px, -55px);
+  /* top: 50px; */
+  /* right: 160px; */
   z-index: 999;
   position: fixed;
   box-shadow: 0px 2px 4px rgb(0 0 0 / 50%);
