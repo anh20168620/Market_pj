@@ -19,7 +19,7 @@
 }
 
 .NotificationBadge {
-  top: -7px;
-  right: -11px;
+  top: 0px;
+  right: -7px;
   position: relative;
 }

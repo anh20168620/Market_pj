@@ -126,6 +126,13 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
                 io.to(user?.socketId).emit("getNotify", data)
             })
 
+            // admin send notify to all user
+            socket.on('sendNotifies', data => {
+                users.map((user) =>
+                    io.to(user.socketId).emit("getNotifies", data)
+                )
+            })
+
             // when disconect
             socket.on("disconnect", () => {
                 console.log('a user disconnected!');

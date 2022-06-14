@@ -6,8 +6,9 @@ function ModalSendNotify({ callbackHidden, reciverId, socket }) {
   const [content, setContent] = useState("");
   const [msg, setMsg] = useState("");
 
+  // Send notify
   const handleSubmidNotify = async () => {
-    // socket sen notify
+    // socket send notify
     socket?.emit("sendNotify", {
       reciverId,
       title,
@@ -33,6 +34,35 @@ function ModalSendNotify({ callbackHidden, reciverId, socket }) {
         }
       });
   };
+  // Send notify for all users
+  const handleSubmidNotifys = async () => {
+    // socket send notify
+    socket?.emit("sendNotifies", {
+      title,
+      content,
+      seen: false,
+    });
+
+    await fetch(`http://localhost:3001/admin/send-notifications`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title,
+        content,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setMsg(data.message);
+          setTimeout(() => {
+            setMsg("");
+            callbackHidden();
+          }, 2000);
+        }
+      });
+  };
+
   return (
     <div>
       <section className="ModalReport" onClick={callbackHidden}>
@@ -75,7 +105,10 @@ function ModalSendNotify({ callbackHidden, reciverId, socket }) {
             </label>
             {msg && <div className="success_msg">{msg}</div>}
             {title && content && (
-              <div className="btn-send-notify btn" onClick={handleSubmidNotify}>
+              <div
+                className="btn-send-notify btn"
+                onClick={reciverId ? handleSubmidNotify : handleSubmidNotifys}
+              >
                 Gửi báo cáo
               </div>
             )}

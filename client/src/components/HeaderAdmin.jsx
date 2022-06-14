@@ -7,6 +7,7 @@ import { io } from "socket.io-client";
 import Logo from "../assets/images/logo.png";
 import "../assets/css/headerAdmin.css";
 import ModalNotifyAdmin from "./ModalNotifyAdmin";
+import ModalSendNotify from "./ModalSendNotify";
 
 const socket = io("http://localhost:3001", {
   transports: ["websocket", "polling", "flashsocket"],
@@ -18,6 +19,7 @@ function HeaderAdmin({ totalInAdminDetailReport, reportInAdminDetailReport }) {
   const [show, setShow] = useState(false);
   const [total, setTotal] = useState(null);
   const [report, setReport] = useState([]);
+  const [showSendNotify, setShowModalNotiFy] = useState(false);
 
   //set again after delete in AdminDetailReport
   useEffect(() => {
@@ -97,6 +99,10 @@ function HeaderAdmin({ totalInAdminDetailReport, reportInAdminDetailReport }) {
       });
   };
 
+  const hiddenModalSendNotify = () => {
+    setShowModalNotiFy(false);
+  };
+
   return (
     <>
       <section className="Header" onClick={hideModal}>
@@ -118,14 +124,15 @@ function HeaderAdmin({ totalInAdminDetailReport, reportInAdminDetailReport }) {
                   </Link>
                 </div>
               </div>
-              <div className="header_item">
+              <div
+                className="header_item"
+                onClick={() => setShowModalNotiFy(!showSendNotify)}
+              >
                 <div className="header_post">
                   <div className="header_item_icon">
                     <i className="fa-solid fa-arrows-down-to-people"></i>
                   </div>
-                  <Link to="/admin" className="header_link">
-                    Gửi thông báo
-                  </Link>
+                  <span className="header_link">Gửi thông báo</span>
                 </div>
               </div>
               <div className="header_item">
@@ -162,6 +169,12 @@ function HeaderAdmin({ totalInAdminDetailReport, reportInAdminDetailReport }) {
         </div>
       </section>
       {show && <ModalNotifyAdmin deleteReport={deleteReport} report={report} />}
+      {showSendNotify && (
+        <ModalSendNotify
+          callbackHidden={hiddenModalSendNotify}
+          socket={socket}
+        />
+      )}
     </>
   );
 }

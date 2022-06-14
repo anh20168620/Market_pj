@@ -19,7 +19,7 @@ function HomeScreen() {
 
   // add user from socket
   useEffect(() => {
-    socket?.emit("addUser", JSON.parse(auth)._id);
+    socket?.emit("addUser", JSON.parse(auth)?._id);
     // socket?.on("getUsers", (users) => {
     //   console.log(users);
     // });

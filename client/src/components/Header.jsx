@@ -23,7 +23,7 @@ function Header() {
 
   // add user from socket
   useEffect(() => {
-    socket?.emit("addUser", JSON.parse(auth)._id);
+    socket?.emit("addUser", JSON.parse(auth)?._id);
     socket?.on("getUsers", (users) => {
       console.log(users);
     });
@@ -37,6 +37,14 @@ function Header() {
     });
   }, []);
 
+  // socket notify from admin
+  useEffect(() => {
+    socket?.on("getNotifies", (data) => {
+      setTotal((prev) => prev + 1);
+      setNotify((prev) => [data, ...prev]);
+    });
+  }, []);
+
   const showModal = (e) => {
     e.stopPropagation();
     setShowModalNotiFy(!showModalNotiFy);
@@ -45,7 +53,7 @@ function Header() {
   // get notify
   useEffect(() => {
     const getNotify = async () => {
-      await fetch(`http://localhost:3001/user/notify/${JSON.parse(auth)._id}`)
+      await fetch(`http://localhost:3001/user/notify/${JSON.parse(auth)?._id}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {
@@ -54,7 +62,7 @@ function Header() {
           }
         });
     };
-    getNotify();
+    auth && getNotify();
   }, [auth]);
 
   // set status seen notify
@@ -91,6 +99,25 @@ function Header() {
     if (e.key === "Enter") {
       window.location.href = `/product-search/${searchInput}`;
     }
+  };
+
+  // delete notify
+  const handleDelete = async (notifyId) => {
+    await fetch(
+      `http://localhost:3001/user/delete-notify/${notifyId}/${
+        JSON.parse(auth)._id
+      }`,
+      {
+        method: "DELETE",
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setNotify(data.notify);
+          setTotal(data.total);
+        }
+      });
   };
 
   return (
@@ -142,9 +169,9 @@ function Header() {
                     </div>
                     <i className="fa-regular fa-bell"></i>
                   </div>
-                  <Link to="/" className="header_link">
+                  <span to="/" className="header_link">
                     Thông báo
-                  </Link>
+                  </span>
                 </div>
               </div>
             </div>
@@ -206,7 +233,11 @@ function Header() {
         </div>
       </section>
       {showModalNotiFy && (
-        <ModalNotifyUser seenNotify={seenNotify} notify={notify} />
+        <ModalNotifyUser
+          seenNotify={seenNotify}
+          notify={notify}
+          handleDelete={handleDelete}
+        />
       )}
     </>
   );

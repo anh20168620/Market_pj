@@ -34,7 +34,7 @@ router.post('/notify-seen/:notifyId/:userId', userController.notifySeen)
 
 
 // delete notify user
-router.post('/delete-notify/:userId', userController.deleteNotify)
+router.delete('/delete-notify/:notifyId/:userId', userController.deleteNotify)
 
 
 module.exports = router

@@ -249,12 +249,14 @@ const userController = {
     // delete notify
     deleteNotify: async (req, res) => {
         const userId = req.params.userId
+        const notifyId = req.params.notifyId
         try {
-            const user = await User.findById(userId)
-            if (user) {
-                user.notify = []
-                await user.save()
-                res.status(200).json({ success: true, message: 'success' })
+            if (notifyId && userId) {
+                await Notify.findByIdAndDelete(notifyId)
+                const notify = await Notify.find({ userId: userId }).sort({ 'createdAt': -1 })
+                const total = await Notify.find({ userId: userId, seen: false }).countDocuments()
+
+                res.status(200).json({ success: true, notify, total })
             }
         } catch (error) {
             return res.status(500).json({ success: false, message: error.message })

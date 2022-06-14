@@ -13,6 +13,10 @@ const messageSchema = new Schema({
     chatId: {
         type: Schema.Types.ObjectId,
         ref: 'chat'
+    },
+    seen: {
+        type: Boolean,
+        default: false
     }
 }, {
     timestamps: true,

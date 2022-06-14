@@ -38,6 +38,8 @@
 .header_item {
   padding: 12px 0;
   transition: all 0.1s linear;
+  user-select: none;
+  user-select: none;
 }
 
 .header_item:hover {

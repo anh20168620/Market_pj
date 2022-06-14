@@ -1,9 +1,7 @@
 import React from "react";
 import moment from "moment";
 
-function ModalNotifyUser({ notify, seenNotify }) {
-  console.log(notify);
-
+function ModalNotifyUser({ notify, seenNotify, handleDelete }) {
   return (
     <div>
       <div className="modal_notify_container">
@@ -29,6 +27,12 @@ function ModalNotifyUser({ notify, seenNotify }) {
                   <div className="modal_notify_sub">
                     <div className="modal_notify_time">
                       {moment(item?.createdAt).fromNow()}
+                    </div>
+                    <div
+                      className="modal_notify_btn"
+                      onClick={() => handleDelete(item._id)}
+                    >
+                      Xóa báo cáo
                     </div>
                   </div>
                 </div>

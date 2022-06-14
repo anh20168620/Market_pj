@@ -52,6 +52,23 @@ const adminController = {
         } catch (error) {
             res.status(400).json({ success: false, message: error.message })
         }
+    },
+    // admin send notification for all users
+    sendNotifications: async (req, res) => {
+        const title = req.body.title
+        const content = req.body.content
+        try {
+            const users = await User.find({ isActive: true })
+            users.map((user) => {
+                return new Notify({
+                    userId: user._id, title: title, content: content
+                }).save()
+            })
+            res.status(200).json({ success: true, message: "Thông báo gửi thành công" })
+        } catch (error) {
+            res.status(400).json({ success: false, message: error.message })
+
+        }
     }
 }
 
