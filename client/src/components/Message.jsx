@@ -10,17 +10,16 @@ function Message({ message, own }) {
         <img
           className="message_img"
           src={
-            (message.sender &&
-              message.sender?.avatar &&
-              `http://localhost:3001/avatar/${message.sender.avatar}`) ||
-            `http://localhost:3001/avatar/${message.senderAvatar}`
+            message.sender &&
+            message.sender?.avatar &&
+            `http://localhost:3001/avatar/${message.sender.avatar}`
           }
           alt=""
         />
         <p className="message_text">{message.content}</p>
       </div>
       <div className="message_bottom">
-        {message.sender?.fullName || message.senderName}
+        {message.sender?.fullName}
         <br />
         {moment(message.createdAt).fromNow()}
       </div>

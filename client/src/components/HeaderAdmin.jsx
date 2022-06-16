@@ -132,16 +132,10 @@ function HeaderAdmin({ totalInAdminDetailReport, reportInAdminDetailReport }) {
                   <div className="header_item_icon">
                     <i className="fa-solid fa-arrows-down-to-people"></i>
                   </div>
-                  <span className="header_link">Gửi thông báo</span>
+                  <span className="header_link">Gửi thông báo tới tất cả</span>
                 </div>
               </div>
-              <div className="header_item">
-                <div className="header_chat">
-                  <Link to="/admin" className="header_link">
-                    Chat
-                  </Link>
-                </div>
-              </div>
+
               <div className="header_item" onClick={showModal}>
                 <div className="header_notice">
                   <div className="header_item_icon">

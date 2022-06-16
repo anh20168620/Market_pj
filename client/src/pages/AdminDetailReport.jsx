@@ -133,6 +133,17 @@ function AdminDetailReport({ socket }) {
             <div className="product_section">
               <ProductImage detail={product} />
               <ProductInfo detail={product} />
+
+              <div className="product_report_detail">
+                <div className="product_info_title">Chi tiết báo cáo</div>
+                <br />
+                <label className="product_info_label">Lý do báo cáo :</label>
+                <span className="product_info_brand">{report.title}</span>
+                <br />
+                <label className="product_info_label">Chi tiết báo cáo :</label>
+                <span className="product_info_brand">{report.content}</span>
+                <br />
+              </div>
               {msg && <div className="success_msg">{msg}</div>}
               <div className="admin_handle_report">
                 <div

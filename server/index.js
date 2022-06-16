@@ -95,18 +95,14 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
                 console.log(`user with ${socket.id} joined room: ${data}`)
             })
 
+
             // send and get message
-            socket.on("sendMessage", ({ senderId, receiverId, content, senderName, senderAvatar, productId, chatId }) => {
-                socket.to(chatId).emit("getMessage", {
-                    senderId,
-                    content,
-                    senderName,
-                    senderAvatar,
-                    productId, chatId
-                })
+            socket.on("sendMessage", data => {
+                socket.to(data.message.chatId._id).emit("getMessage",
+                    data
+                )
                 socket.broadcast.emit("notification", {
-                    message: "have message",
-                    productId, chatId
+                    data
                 })
             })
 

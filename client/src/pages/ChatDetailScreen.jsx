@@ -6,18 +6,22 @@ import Conversation from "../components/Conversation";
 import Message from "../components/Message";
 
 function ChatDetailScreen({ socket }) {
-  const auth = localStorage.getItem("user");
   const param = useParams();
   const [conversation, setConversation] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
-  const [notifications, setNotifications] = useState(false);
   const [chatId, setChatId] = useState("");
-  const [productId, setProductId] = useState();
+  const [conversationSocket, setConversationSocket] = useState([]);
 
   const [newMessage, setNewMessage] = useState("");
   const scrollRef = useRef();
+
+  // set chatId
+  useEffect(() => {
+    currentChat && setChatId(currentChat._id);
+  }, [currentChat]);
+
   // socket join room
   useEffect(() => {
     if (chatId !== "") {
@@ -28,8 +32,8 @@ function ChatDetailScreen({ socket }) {
   // get message socket
   useEffect(() => {
     socket.on("getMessage", (data) => {
-      if (data.productId === param.productId) {
-        setMessages((prev) => [...prev, data]);
+      if (data.message.productId === param.productId) {
+        setMessages((prev) => [...prev, data.message]);
       }
     });
 
@@ -38,21 +42,22 @@ function ChatDetailScreen({ socket }) {
     };
   }, [socket, param]);
 
-  // set chatId
+  // get notifications message socket
   useEffect(() => {
-    currentChat && setChatId(currentChat._id);
-  }, [currentChat]);
-
-  useEffect(() => {
-    setNotifications(false);
     socket.on("notification", (data) => {
-      // console.log(data);
-      if (data.productId !== param.productId) {
-        setNotifications(true);
-        setProductId(data.productId);
-      }
+      setConversationSocket((prev) => [
+        {
+          lastMessageId: data.data.message._id,
+          productId: data.data.message.productId,
+          seen: false,
+          users: data.data.message.chatId.users,
+          _id: data.data.message.chatId._id,
+          senderId: data.data.message.sender._id,
+        },
+        ...prev,
+      ]);
     });
-  }, [socket, param.productId]);
+  }, [socket]);
 
   // add users socket
   useEffect(() => {
@@ -98,7 +103,7 @@ function ChatDetailScreen({ socket }) {
         }
       });
   };
-
+  // fetch messages
   useEffect(() => {
     const getMessage = async () => {
       currentChat &&
@@ -118,22 +123,15 @@ function ChatDetailScreen({ socket }) {
     getMessage();
   }, [currentChat]);
 
+  // create new message
   const handleSubmid = async (e) => {
     e.preventDefault();
     const message = {
       sender: param.ownId,
       content: newMessage,
       chatId: currentChat._id,
-    };
-    socket.emit("sendMessage", {
-      senderId: param.ownId,
-      receiverId: param.userId,
-      content: newMessage,
       productId: param.productId,
-      senderName: JSON.parse(auth).fullName,
-      senderAvatar: JSON.parse(auth).avatar,
-      chatId: chatId,
-    });
+    };
 
     await fetch(`http://localhost:3001/message/add-message`, {
       method: "POST",
@@ -141,10 +139,43 @@ function ChatDetailScreen({ socket }) {
       body: JSON.stringify(message),
     })
       .then((res) => res.json())
-      .then((data) => {
+      .then(async (data) => {
         if (data.success) {
+          socket.emit("sendMessage", {
+            message: data.saveMessage,
+          });
           setMessages([...messages, data.saveMessage]);
           setNewMessage("");
+
+          // set last message
+          await fetch(
+            `http://localhost:3001/chat/setLastMessage/${currentChat._id}`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ messageId: data.saveMessage._id }),
+            }
+          )
+            .then((resdata) => resdata.json())
+            .then((datafetch) => {
+              if (datafetch.success) {
+                setConversation(datafetch.chat);
+              }
+            });
+
+          // set unseen chat
+          await fetch(
+            `http://localhost:3001/chat/unseen/${currentChat._id}/${param.ownId}`,
+            {
+              method: "POST",
+            }
+          )
+            .then((resData) => resData.json())
+            .then((dataResponse) => {
+              if (dataResponse.success) {
+                setConversation(dataResponse.chat);
+              }
+            });
         }
       });
   };
@@ -179,6 +210,20 @@ function ChatDetailScreen({ socket }) {
       });
   };
 
+  // setSeenChat
+  const callbackSeen = async (conversationId) => {
+    await fetch(
+      `http://localhost:3001/chat/seen/${conversationId}/${param.ownId}`,
+      { method: "POST" }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setConversation(data.chat);
+        }
+      });
+  };
+
   return (
     <div>
       <Header />
@@ -188,32 +233,20 @@ function ChatDetailScreen({ socket }) {
             <div className="chat_menu">
               <div className="chat_menu_conversation">
                 {conversation.map((item, index) => {
-                  if (item.productId._id === productId) {
-                    return (
-                      <div key={index} onClick={() => setCurrentChat(item)}>
-                        <Conversation
-                          onlineUsers={onlineUsers}
-                          currentChat={currentChat}
-                          conversation={item}
-                          currentUserId={param.ownId}
-                          productId={item.productId._id}
-                          notifications={notifications}
-                        />
-                      </div>
-                    );
-                  } else {
-                    return (
-                      <div key={index} onClick={() => setCurrentChat(item)}>
-                        <Conversation
-                          onlineUsers={onlineUsers}
-                          currentChat={currentChat}
-                          conversation={item}
-                          currentUserId={param.ownId}
-                          productId={item.productId._id}
-                        />
-                      </div>
-                    );
-                  }
+                  return (
+                    <div key={index} onClick={() => setCurrentChat(item)}>
+                      <Conversation
+                        onlineUsers={onlineUsers}
+                        currentChat={currentChat}
+                        conversation={item}
+                        currentUserId={param.ownId}
+                        productId={item.productId._id}
+                        seen={item.seen}
+                        callbackSeen={callbackSeen}
+                        conversationSocket={conversationSocket}
+                      />
+                    </div>
+                  );
                 })}
               </div>
 

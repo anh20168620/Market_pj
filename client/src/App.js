@@ -22,6 +22,7 @@ import ChatScreen from './pages/ChatScreen';
 import ChatDetailScreen from './pages/ChatDetailScreen'
 import AdminScreen from './pages/AdminScreen';
 import AdminDetailReport from './pages/AdminDetailReport';
+import PrivateAdminComponent from './components/PrivateAdminComponent';
 
 const socket = io('http://localhost:3001', { transports: ['websocket', 'polling', 'flashsocket'] })
 
@@ -52,12 +53,16 @@ function App() {
             <Route path='/your-like-product' element={<LikeProductScreen />} />
             <Route path='/chat/' exact={true} element={<ChatScreen socket={socket} />} />
             <Route path='/chat/:ownId/:userId/:productId' element={<ChatDetailScreen socket={socket} />} />
+          </Route>
+
+          <Route element={<PrivateAdminComponent />} >
             <Route path='/admin' exact={true} element={<AdminScreen socket={socket} />} />
             <Route path='/admin/detail-report/:productId/:reportId/:userAvatar/:userName/:userId/:userNumberPhone' element={<AdminDetailReport socket={socket} />} />
           </Route>
+
         </Routes>
       </Router>
-    </div>
+    </div >
   );
 }
 

@@ -11,6 +11,14 @@ const chatSchema = new Schema({
         required: true,
         ref: 'product'
     },
+    lastMessageId: {
+        type: Schema.Types.ObjectId,
+        ref: 'message'
+    },
+    seen: {
+        type: Boolean,
+        default: true
+    }
 },
     { timestamps: true })
 module.exports = mongoose.model('chat', chatSchema);

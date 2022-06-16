@@ -8,7 +8,7 @@ const messageController = {
 
         try {
             const save = await newMessage.save()
-            const saveMessage = await Message.findById(save._id).populate('sender', 'avatar fullName')
+            const saveMessage = await Message.findById(save._id).populate('sender', 'avatar fullName ').populate('chatId')
             res.status(200).json({ success: true, saveMessage })
         } catch (error) {
             res.status(500).json({ success: false, message: error.message })
@@ -21,7 +21,7 @@ const messageController = {
         try {
             const message = await Message.find({
                 chatId: req.params.chatId
-            }).populate('sender', 'avatar fullName')
+            }).populate('sender', 'avatar fullName').populate('chatId')
             res.status(200).json({ success: true, message })
         } catch (error) {
             res.status(500).json({ success: false, message: error.message })

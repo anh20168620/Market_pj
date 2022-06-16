@@ -19,6 +19,7 @@ function Header() {
   const [searchInput, setSearchInput] = useState("");
   const [showModalNotiFy, setShowModalNotiFy] = useState(false);
   const [total, setTotal] = useState(null);
+  const [totalMessage, setTotalMessage] = useState(null);
   const [notify, setNotify] = useState([]);
 
   // add user from socket
@@ -120,6 +121,34 @@ function Header() {
       });
   };
 
+  // get notifications message socket
+  useEffect(() => {
+    socket.on("notification", (data) => {
+      if (data.data.message.sender._id !== JSON.parse(auth)?._id) {
+        data.data.message.chatId._id && setTotalMessage((prev) => prev + 1);
+      }
+    });
+  }, [auth]);
+
+  // get total chat unseen
+  useEffect(() => {
+    const getTotalMessageUnseen = async () => {
+      await fetch(`http://localhost:3001/chat/get-chat/${JSON.parse(auth)._id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            const chatUnseen = data.chat.filter(
+              (item) =>
+                item.seen === false &&
+                item.lastMessageId.sender !== JSON.parse(auth)._id
+            );
+            setTotalMessage(chatUnseen.length);
+          }
+        });
+    };
+    getTotalMessageUnseen();
+  }, [auth]);
+
   return (
     <>
       <section className="Header" onClick={hideModal}>
@@ -131,36 +160,38 @@ function Header() {
               </Link>
             </div>
             <div className="header_list">
-              <div className="header_item">
+              <Link to="/" className="header_item">
                 <div className="header_home">
                   <div className="header_item_icon">
                     <i className="fa-solid fa-house"></i>
                   </div>
-                  <Link to="/" className="header_link" onClick={goToTop}>
+                  <span className="header_link" onClick={goToTop}>
                     Trang chủ
-                  </Link>
+                  </span>
                 </div>
-              </div>
-              <div className="header_item">
+              </Link>
+              <Link to="/your-post" className="header_item">
                 <div className="header_post">
                   <div className="header_item_icon">
                     <i className="fa-regular fa-file-lines"></i>
                   </div>
-                  <Link to="/your-post" className="header_link">
-                    Tin của bạn
-                  </Link>
+                  <span className="header_link">Tin của bạn</span>
                 </div>
-              </div>
-              <div className="header_item">
+              </Link>
+              <Link to="/chat" className="header_item">
                 <div className="header_chat">
                   <div className="header_item_icon">
+                    <div className="NotificationBadge">
+                      <NotificationBadge
+                        count={totalMessage}
+                        effect={Effect.SCALE}
+                      />
+                    </div>
                     <i className="fa-regular fa-comment"></i>
                   </div>
-                  <Link to="/chat" className="header_link">
-                    Chat
-                  </Link>
+                  <span className="header_link">Chat</span>
                 </div>
-              </div>
+              </Link>
               <div className="header_item" onClick={showModal}>
                 <div className="header_notice">
                   <div className="header_item_icon">

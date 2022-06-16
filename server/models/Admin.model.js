@@ -17,9 +17,6 @@ const adminSchema = new Schema({
     password: {
         type: String,
         required: true
-    },
-    notify: {
-        type: Array
     }
 })
 module.exports = mongoose.model('admin', adminSchema)

@@ -14,9 +14,9 @@ const messageSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'chat'
     },
-    seen: {
-        type: Boolean,
-        default: false
+    productId: {
+        type: Schema.Types.ObjectId,
+        ref: 'product'
     }
 }, {
     timestamps: true,

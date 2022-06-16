@@ -6,19 +6,9 @@ import "../assets/css/chatScreen.css";
 function ChatScreen({ socket }) {
   const auth = localStorage.getItem("user");
   const [onlineUsers, setOnlineUsers] = useState([]);
-  const [notifications, setNotifications] = useState(false);
+  const [conversationSocket, setConversationSocket] = useState([]);
 
   const [chats, setChats] = useState([]);
-
-  const [productId, setProductId] = useState();
-
-  useEffect(() => {
-    setNotifications(false);
-    socket.on("notification", (data) => {
-      setProductId(data.productId);
-      setNotifications(true);
-    });
-  }, [socket]);
 
   useEffect(() => {
     socket.emit("addUser", JSON.parse(auth)._id);
@@ -27,6 +17,22 @@ function ChatScreen({ socket }) {
       setOnlineUsers(onlineUsersId);
     });
   }, [auth, socket]);
+
+  useEffect(() => {
+    socket?.on("notification", (data) => {
+      setConversationSocket((prev) => [
+        {
+          lastMessageId: data.data.message._id,
+          productId: data.data.message.productId,
+          seen: false,
+          users: data.data.message.chatId.users,
+          _id: data.data.message.chatId._id,
+          senderId: data.data.message.sender._id,
+        },
+        ...prev,
+      ]);
+    });
+  }, [socket]);
 
   useEffect(() => {
     const getAllChat = async () => {
@@ -41,6 +47,22 @@ function ChatScreen({ socket }) {
     getAllChat();
   }, [auth]);
 
+  // setSeenChat
+  const callbackSeen = async (conversationId) => {
+    await fetch(
+      `http://localhost:3001/chat/seen/${conversationId}/${
+        JSON.parse(auth)._id
+      }`,
+      { method: "POST" }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setChats(data.chat);
+        }
+      });
+  };
+
   return (
     <div>
       <Header />
@@ -50,29 +72,18 @@ function ChatScreen({ socket }) {
             <div className="chat_menu">
               <div className="chat_menu_conversation">
                 {chats.map((chat, index) => {
-                  if (chat.productId._id === productId) {
-                    return (
-                      <Conversation
-                        key={index}
-                        conversation={chat}
-                        currentUserId={JSON.parse(auth)._id}
-                        productId={chat.productId._id}
-                        onlineUsers={onlineUsers}
-                        notifications={notifications}
-                      />
-                    );
-                  } else {
-                    return (
-                      <Conversation
-                        key={index}
-                        conversation={chat}
-                        currentUserId={JSON.parse(auth)._id}
-                        productId={chat.productId._id}
-                        onlineUsers={onlineUsers}
-                        notifications={null}
-                      />
-                    );
-                  }
+                  return (
+                    <Conversation
+                      key={index}
+                      conversation={chat}
+                      currentUserId={JSON.parse(auth)._id}
+                      productId={chat.productId._id}
+                      onlineUsers={onlineUsers}
+                      callbackSeen={callbackSeen}
+                      seen={chat.seen}
+                      conversationSocket={conversationSocket}
+                    />
+                  );
                 })}
               </div>
             </div>

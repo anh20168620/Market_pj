@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import HeaderAdmin from "./../components/HeaderAdmin";
 import "../assets/css/adminScreen.css";
+import Banner from "../assets/images/banner.png";
 import Footer from "./../components/Footer";
 
 function AdminScreen({ socket }) {
@@ -53,6 +54,11 @@ function AdminScreen({ socket }) {
   return (
     <div>
       <HeaderAdmin socket={socket} />
+      <section className="Banner">
+        <div className="container">
+          <img src={Banner} alt="" className="banner_img" />
+        </div>
+      </section>
 
       {/* body admin screen */}
       <div className="body_admin_screen" /*onClick={hideModal}*/>
