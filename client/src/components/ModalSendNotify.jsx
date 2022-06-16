@@ -8,13 +8,6 @@ function ModalSendNotify({ callbackHidden, reciverId, socket }) {
 
   // Send notify
   const handleSubmidNotify = async () => {
-    // socket send notify
-    socket?.emit("sendNotify", {
-      reciverId,
-      title,
-      content,
-      seen: false,
-    });
     await fetch(`http://localhost:3001/admin/send-notification/${reciverId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -27,6 +20,8 @@ function ModalSendNotify({ callbackHidden, reciverId, socket }) {
       .then((data) => {
         if (data.success) {
           setMsg(data.message);
+          // socket send notify
+          socket?.emit("sendNotify", data.notify);
           setTimeout(() => {
             setMsg("");
             callbackHidden();
@@ -36,13 +31,6 @@ function ModalSendNotify({ callbackHidden, reciverId, socket }) {
   };
   // Send notify for all users
   const handleSubmidNotifys = async () => {
-    // socket send notify
-    socket?.emit("sendNotifies", {
-      title,
-      content,
-      seen: false,
-    });
-
     await fetch(`http://localhost:3001/admin/send-notifications`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -54,6 +42,13 @@ function ModalSendNotify({ callbackHidden, reciverId, socket }) {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
+          // socket send notify
+          socket?.emit("sendNotifies", {
+            title,
+            content,
+            seen: false,
+          });
+          console.log(data.notify);
           setMsg(data.message);
           setTimeout(() => {
             setMsg("");

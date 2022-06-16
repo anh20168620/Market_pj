@@ -11,10 +11,10 @@ const reportController = {
                     productId: body.productId,
                     title: body.title,
                     content: body.content,
-                })
+                }).populate('userId productId', 'fullName avatar title numberPhone')
 
                 await newReport.save()
-                res.status(200).json({ success: true, message: "Gửi báo cáo thành công, chúng tôi sẽ phản hồi sớm nhất" })
+                res.status(200).json({ success: true, newReport, message: "Gửi báo cáo thành công, chúng tôi sẽ phản hồi sớm nhất" })
             }
 
         } catch (error) {

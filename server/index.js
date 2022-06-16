@@ -114,11 +114,7 @@ mongoose.connect('mongodb://localhost:27017/market', async (error) => {
 
             // admin send notify to user
             socket.on("sendNotify", async (data) => {
-                console.log(data.reciverId);
-                const user = await getUser(data.reciverId)
-                console.log(users);
-                console.log(user);
-                console.log(data.reciverId === '6295bba4cfb0389274e154b2');
+                const user = await getUser(data.userId)
                 io.to(user?.socketId).emit("getNotify", data)
             })
 

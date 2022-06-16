@@ -26,16 +26,6 @@ function ModalReport(props) {
   };
 
   const submitReport = async () => {
-    props.socket.emit("sendReport", {
-      userId: JSON.parse(auth)._id,
-      userName: JSON.parse(auth).fullName,
-      userAvatar: JSON.parse(auth).avatar,
-      userNumberPhone: JSON.parse(auth).numberPhone,
-      productId: props.product._id,
-      productName: props.product.title,
-      title: report,
-      content: description,
-    });
     await fetch(`http://localhost:3001/report/save`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -49,6 +39,8 @@ function ModalReport(props) {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
+          // socket report
+          props.socket.emit("sendReport", data.newReport);
           setMessage(data.message);
           setTimeout(() => {
             props?.callbackHidden();

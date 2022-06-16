@@ -46,7 +46,7 @@ const adminController = {
             if (userId) {
                 const notify = new Notify({ userId, title, content })
                 await notify.save()
-                res.status(200).json({ success: true, message: "Thông báo gửi thành công" })
+                res.status(200).json({ success: true, notify, message: "Thông báo gửi thành công" })
             }
 
         } catch (error) {
