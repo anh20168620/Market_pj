@@ -52,7 +52,7 @@ function HeaderAdmin({ totalInAdminDetailReport, reportInAdminDetailReport }) {
   useEffect(() => {
     socket.emit("addUser", JSON.parse(admin)._id);
     socket.on("getUsers", (users) => {
-      console.log(users);
+      // console.log(users);
     });
   }, [admin]);
 

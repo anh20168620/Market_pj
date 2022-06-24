@@ -26,7 +26,7 @@ function Header() {
   useEffect(() => {
     socket?.emit("addUser", JSON.parse(auth)?._id);
     socket?.on("getUsers", (users) => {
-      console.log(users);
+      // console.log(users);
     });
   }, [auth]);
 
@@ -133,7 +133,9 @@ function Header() {
   // get total chat unseen
   useEffect(() => {
     const getTotalMessageUnseen = async () => {
-      await fetch(`http://localhost:3001/chat/get-chat/${JSON.parse(auth)._id}`)
+      await fetch(
+        `http://localhost:3001/chat/get-chat/${JSON.parse(auth)?._id}`
+      )
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {

@@ -32,3 +32,10 @@
   font-size: 30px;
   border-bottom: 1px solid #000;
 }
+
+.admin_screen_title_category {
+  padding-left: 24px;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 40px;
+}

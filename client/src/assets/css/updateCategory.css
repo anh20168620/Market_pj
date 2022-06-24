@@ -1,0 +1,31 @@
+.admin_category_title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.update_category {
+  margin-top: 20px;
+}
+
+.update_category_title {
+  font-weight: 500;
+}
+
+.update_category_lable {
+  margin: 10px 0;
+  display: inline-block;
+  margin-left: 30px;
+}
+
+.update_subcategory_item {
+  margin: 10px 0;
+}
+
+.update_subcategory_list {
+  margin-left: 30px;
+}
+
+.update_subcategory {
+  margin-top: 20px;
+}

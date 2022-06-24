@@ -1,0 +1,39 @@
+.modal_update_subCategory {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 999;
+}
+
+.modal_update_subCategory_container {
+  margin: 320px auto;
+  width: 300px;
+  padding: 20px;
+}
+
+.subCategory_update_btn {
+  margin-left: 20px;
+  display: inline-block;
+}
+
+.btn-send-update {
+  width: fit-content;
+  display: inline-block;
+}
+
+.input_update_subCategory {
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 4px;
+  height: 16px;
+  border: 2px solid #ccc;
+}
+
+.modal_update_subCategory_content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

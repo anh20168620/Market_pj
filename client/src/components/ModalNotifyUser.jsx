@@ -5,7 +5,7 @@ function ModalNotifyUser({ notify, seenNotify, handleDelete }) {
   return (
     <div>
       <div className="modal_notify_container">
-        {notify &&
+        {notify.length > 0 ? (
           notify.map((item, index) => (
             <div key={index}>
               <div
@@ -38,7 +38,12 @@ function ModalNotifyUser({ notify, seenNotify, handleDelete }) {
                 </div>
               </div>
             </div>
-          ))}
+          ))
+        ) : (
+          <div className="modal_notify_content">
+            Bạn không có thông báo nào.
+          </div>
+        )}
       </div>
     </div>
   );

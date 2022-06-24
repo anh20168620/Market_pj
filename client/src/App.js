@@ -23,6 +23,7 @@ import ChatDetailScreen from './pages/ChatDetailScreen'
 import AdminScreen from './pages/AdminScreen';
 import AdminDetailReport from './pages/AdminDetailReport';
 import PrivateAdminComponent from './components/PrivateAdminComponent';
+import UpdateCategory from './pages/UpdateCategory';
 
 const socket = io('http://localhost:3001', { transports: ['websocket', 'polling', 'flashsocket'] })
 
@@ -58,6 +59,8 @@ function App() {
           <Route element={<PrivateAdminComponent />} >
             <Route path='/admin' exact={true} element={<AdminScreen socket={socket} />} />
             <Route path='/admin/detail-report/:productId/:reportId/:userAvatar/:userName/:userId/:userNumberPhone' element={<AdminDetailReport socket={socket} />} />
+            <Route path='/admin/update-category/:categoryId' element={<UpdateCategory />} />
+
           </Route>
 
         </Routes>
