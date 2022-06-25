@@ -9,12 +9,13 @@
 }
 
 .update_category_title {
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .update_category_lable {
   margin: 10px 0;
   display: inline-block;
+  font-weight: 500;
   margin-left: 30px;
 }
 
@@ -28,4 +29,15 @@
 
 .update_subcategory {
   margin-top: 20px;
+}
+
+.update_category_img {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.preview_img {
+  width: 125px;
+  height: 125px;
+  margin-left: 30px;
 }

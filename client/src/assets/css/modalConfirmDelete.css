@@ -1,0 +1,28 @@
+.modal_confirm_delete {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 999;
+}
+
+.modal_confirm_delete_container {
+  margin: 320px auto;
+  width: 300px;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.modal_confirm_delete_btn {
+  display: flex;
+  justify-content: space-around;
+}
+
+.modal_confirm_delete_title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 500;
+}

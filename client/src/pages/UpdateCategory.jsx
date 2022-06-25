@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import HeaderAdmin from "./../components/HeaderAdmin";
 import "../assets/css/updateCategory.css";
 import ModalUpdateSubCategory from "./../components/ModalUpdateSubCategory";
+import ModalAddSubCategory from "./../components/ModalAddSubCategory";
+import ModalConfirmDelete from "./../components/ModalConfirmDelete";
 
 function UpdateCategory() {
   const [category, setCategory] = useState({});
@@ -13,11 +15,32 @@ function UpdateCategory() {
   const [subCategoryName, setSubCategoryName] = useState("");
 
   const [imgPreview, setImgPreview] = useState();
-  const [img, setImg] = useState({});
+  const [img, setImg] = useState();
 
   const [show, setShow] = useState(false);
+  const [msg, setMsg] = useState("");
+  const [err, setErr] = useState("");
+
+  const [showModalAddSubCategory, setShowModalAddSubCategory] = useState(false);
+  const [showModalConfirmDelete, setShowModalConfirmDelete] = useState(false);
 
   const param = useParams();
+
+  // reload
+
+  const reload = () => {
+    const fetchSubCategory = async () => {
+      await fetch(`http://localhost:3001/sub-category/get/${param.categoryId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            setSubCategorys(data.subCategory);
+          }
+        });
+    };
+    fetchSubCategory();
+  };
+
   // get category
   useEffect(() => {
     const fetchCategory = async () => {
@@ -49,14 +72,16 @@ function UpdateCategory() {
     fetchSubCategory();
   }, [param]);
 
-  // update subCategory
-  const updateSubcategory = async (subCategoryId) => {
-    console.log(subCategoryId);
-    await fetch(`http://localhost:3001/sub-category/get/${subCategoryId}`);
-  };
-
   const hiddenModal = () => {
     setShow(false);
+  };
+
+  const hiddenModalAddSubCategory = () => {
+    setShowModalAddSubCategory(false);
+  };
+
+  const hiddenModalConfirmDelete = () => {
+    setShowModalConfirmDelete(false);
   };
 
   useEffect(() => {
@@ -71,6 +96,90 @@ function UpdateCategory() {
     setImg(file);
     file.preview = URL.createObjectURL(file);
     setImgPreview(file);
+  };
+
+  // update name category
+  const handleUpdateNameCategory = async () => {
+    await fetch(
+      `http://localhost:3001/category/updateName/${param.categoryId}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nameCategory: nameCategory }),
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setMsg(data.message);
+          setTimeout(() => {
+            setMsg("");
+          }, 1500);
+        }
+      });
+  };
+
+  // cancel update name category
+  const handleCancelUpdateName = () => {
+    const fetchCategory = async () => {
+      await fetch(
+        `http://localhost:3001/category/get-by-id/${param.categoryId}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            setCategory(data.category);
+            setNameCategory(data.category.name);
+          }
+        });
+    };
+    fetchCategory();
+  };
+
+  // update image category
+
+  const handleUpdateImageCategory = async () => {
+    const formData = new FormData();
+    formData.append("imgCategory", img);
+
+    await fetch(
+      `http://localhost:3001/category/update-image/${param.categoryId}`,
+      {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          const fetchCategory = async () => {
+            await fetch(
+              `http://localhost:3001/category/get-by-id/${param.categoryId}`
+            )
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.success) {
+                  setCategory(data.category);
+                  setNameCategory(data.category.name);
+                }
+              });
+          };
+          fetchCategory();
+          setImgPreview(null);
+          setImg(null);
+          setErr("");
+        } else if (!data.success) {
+          setErr(data.message);
+        }
+      });
+  };
+
+  // cancel update image category
+
+  const handleCancelUpdateImageCategory = () => {
+    setImgPreview(null);
+    setImg(null);
   };
 
   return (
@@ -98,23 +207,53 @@ function UpdateCategory() {
                 onChange={(e) => setNameCategory(e.target.value)}
                 className="input_update_subCategory"
               />
+              {
+                <div
+                  className="btn-send-update btn"
+                  onClick={handleUpdateNameCategory}
+                >
+                  Thay đổi
+                </div>
+              }
+              {
+                <div
+                  className="btn-send-update btn"
+                  onClick={handleCancelUpdateName}
+                >
+                  Hủy
+                </div>
+              }
+              {msg && <div className="success_msg">{msg}</div>}
 
               <br></br>
               {imgPreview && (
-                <img
-                  src={imgPreview.preview}
-                  alt=""
-                  className="preview_img_item"
-                />
+                <img src={imgPreview.preview} alt="" className="preview_img" />
               )}
               <div className="update_category_img">
                 <label className="update_category_lable">
                   Đổi ảnh danh mục:
                 </label>
                 <input type="file" onChange={handlePreviewImage} />
+                {img && (
+                  <div
+                    className="btn-send-update btn"
+                    onClick={handleUpdateImageCategory}
+                  >
+                    Thay đổi
+                  </div>
+                )}
+                {img && (
+                  <div
+                    className="btn-send-update btn"
+                    onClick={handleCancelUpdateImageCategory}
+                  >
+                    Hủy
+                  </div>
+                )}
+                {err && <div className="err_msg">{err}</div>}
               </div>
             </div>
-            <div className="btn-send-update btn">Cập nhật</div>
+
             <div className="update_subcategory">
               <div className="update_category_title">
                 Cập nhật các loại sản phẩm trong danh mục:
@@ -135,9 +274,27 @@ function UpdateCategory() {
                         >
                           <i className="fa-solid fa-pen"></i>
                         </div>
+                        <div
+                          className="subCategory_update_btn"
+                          onClick={() => {
+                            setSubCategoryId(subCategory._id);
+                            setShowModalConfirmDelete(true);
+                          }}
+                        >
+                          <i className="fa-solid fa-xmark"></i>
+                        </div>
                       </div>
                     </div>
                   ))}
+                <div className="update_subcategory_item">
+                  *** Thêm loại sản phẩm
+                  <div
+                    className="subCategory_update_btn"
+                    onClick={() => setShowModalAddSubCategory(true)}
+                  >
+                    <i className="fa-solid fa-pen"></i>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -148,6 +305,23 @@ function UpdateCategory() {
           hiddenModal={hiddenModal}
           subCategoryId={subCategoryId}
           subCategoryName={subCategoryName}
+          reload={reload}
+        />
+      )}
+
+      {showModalAddSubCategory && (
+        <ModalAddSubCategory
+          hiddenModalAddSubCategory={hiddenModalAddSubCategory}
+          categoryId={param.categoryId}
+          reload={reload}
+        />
+      )}
+
+      {showModalConfirmDelete && (
+        <ModalConfirmDelete
+          subCategoryId={subCategoryId}
+          reload={reload}
+          hiddenModalConfirmDelete={hiddenModalConfirmDelete}
         />
       )}
     </div>

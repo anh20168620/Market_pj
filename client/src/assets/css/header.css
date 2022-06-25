@@ -83,6 +83,7 @@
   background-color: #fe9900;
   transition: all 0.1s linear;
   border-style: outset;
+  width: fit-content;
 }
 
 .btn:hover {

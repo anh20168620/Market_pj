@@ -126,14 +126,16 @@ function AdminScreen({ socket }) {
                   </li>
                 </Link>
               ))}
-              <li className="category_item">
-                <img
-                  src="http://localhost:3001/image_category/add_category.jpg"
-                  alt=""
-                  className="category_item_img"
-                />
-                <div className="category_item_name">Thêm danh mục mới</div>
-              </li>
+              <Link to="/admin/add-new-category">
+                <li className="category_item">
+                  <img
+                    src="http://localhost:3001/image_category/add_category.jpg"
+                    alt=""
+                    className="category_item_img"
+                  />
+                  <div className="category_item_name">Thêm danh mục mới</div>
+                </li>
+              </Link>
             </ul>
             {/* </div> */}
           </div>

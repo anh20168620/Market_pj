@@ -12,12 +12,19 @@ router.get('/get', categoryController.get)
 router.get('/get-by-id/:categoryId', categoryController.getById)
 
 
-// Add categoryController
-router.post('/add-category', categoryController.add)
+// update name category
+router.post('/updateName/:categoryId', categoryController.updateName)
+
 
 // update image category
+router.post('/update-image/:categoryId', uploadImageCategory.single('imgCategory'), categoryController.updateImg)
 
-router.post('/update-image', uploadImageCategory.single('imgCategory'), categoryController.updateImg)
+// add new image category
+router.post('/add-new-image-category', uploadImageCategory.single('imgCategory'), categoryController.addNewImage)
+
+
+// Add categoryController
+router.post('/add-category', categoryController.add)
 
 
 module.exports = router
