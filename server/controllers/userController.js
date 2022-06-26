@@ -5,6 +5,7 @@ const TokenUser = require('../models/Token_user.model');
 const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
 const Notify = require('../models/Notify.model');
+const MailTemplate = require('../utils/mail.template');
 
 const userController = {
     // REGISTER
@@ -24,7 +25,8 @@ const userController = {
                 token: crypto.randomBytes(32).toString('hex'),
             }).save()
             const url = `${process.env.BASE_URL}user/${user._id}/verify/${token.token}`
-            await sendEmail(user.email, "Xác thực email", url);
+            // await sendEmail(user.email, "Xác thực email", url);
+            await sendEmail(user.email, "Xác thực email", MailTemplate(url));
 
 
             res.status(200).json({ success: true, message: "Một email được gửi đến tài khoản của bạn, vui lòng xác minh" })
@@ -53,7 +55,7 @@ const userController = {
                         token: crypto.randomBytes(32).toString('hex')
                     }).save()
                     const url = `${process.env.BASE_URL}user/${user._id}/verify/${token.token}`
-                    await sendEmail(user.email, "Xác thực email", url);
+                    await sendEmail(user.email, "Xác thực email", MailTemplate(url));
                 }
                 res.status(400).json({ success: false, message: "Một email được gửi đến tài khoản của bạn, vui lòng xác minh" })
 
