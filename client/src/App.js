@@ -25,6 +25,7 @@ import AdminDetailReport from './pages/AdminDetailReport';
 import PrivateAdminComponent from './components/PrivateAdminComponent';
 import UpdateCategory from './pages/UpdateCategory';
 import AddNewCategory from './pages/AddNewCategory';
+import UserDetailOfProduct from './pages/UserDetailOfProduct';
 
 const socket = io('http://localhost:3001', { transports: ['websocket', 'polling', 'flashsocket'] })
 
@@ -41,6 +42,7 @@ function App() {
           <Route path='/password-reset/:id/:token' element={<PasswordReset />} />
           <Route path='/product-by-category/:categoryName/:categoryId' element={<ProductByCategory />} />
           <Route path='/product-search/:wordSearch' element={<ProductSearchScreen />} />
+          <Route path='/infor-user-of-product/:userId' element={<UserDetailOfProduct />} />
 
 
 

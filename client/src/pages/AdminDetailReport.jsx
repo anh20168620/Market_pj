@@ -85,7 +85,7 @@ function AdminDetailReport({ socket }) {
           setMsg("Đã xóa báo cáo");
           setTimeout(() => {
             window.location = "/admin";
-          }, 2000);
+          }, 1500);
         }
       });
   };
@@ -102,7 +102,7 @@ function AdminDetailReport({ socket }) {
           setMsg(data.message);
           setTimeout(() => {
             deleteReport(reportId);
-          }, 2000);
+          }, 1500);
         }
       });
   };

@@ -32,9 +32,12 @@ router.get('/notify/:userId', userController.notify)
 // set status seen notify
 router.post('/notify-seen/:notifyId/:userId', userController.notifySeen)
 
-
 // delete notify user
 router.delete('/delete-notify/:notifyId/:userId', userController.deleteNotify)
+
+// get user by Id
+router.get('/get-user-by-id/:userId', userController.getUserById)
+
 
 
 module.exports = router

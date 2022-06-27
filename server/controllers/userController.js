@@ -265,6 +265,21 @@ const userController = {
 
         }
 
+    },
+
+    // get user by id
+    getUserById: async (req, res) => {
+        const userId = req.params.userId
+        try {
+            const user = await User.findById(userId)
+            if (user) {
+                res.status(200).json({ success: true, user })
+            } else {
+                res.status(404).json({ success: false, message: "Không tìm thấy người dùng" })
+            }
+        } catch (error) {
+            return res.status(500).json({ success: false, message: error.message })
+        }
     }
 
 

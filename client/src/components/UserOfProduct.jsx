@@ -25,7 +25,10 @@ function UserOfProduct(props) {
     <>
       <div className="userOfProduct">
         {admin && <div className="user_title">Người đăng sản phẩm :</div>}
-        <div className="user_avatar_name">
+        <Link
+          to={`/infor-user-of-product/${user?._id}`}
+          className="user_avatar_name"
+        >
           {user?.avatar && (
             <img
               src={`http://localhost:3001/avatar/${user.avatar}`}
@@ -35,7 +38,7 @@ function UserOfProduct(props) {
           )}
 
           <div className="userOfProduct_name">{user.fullName}</div>
-        </div>
+        </Link>
         <div className="user_conctact">
           <div className="user_numberphone">
             <i className="fa-solid fa-phone"></i>
@@ -69,7 +72,10 @@ function UserOfProduct(props) {
         {admin && (
           <>
             <div className="user_title">Người báo cáo sản phẩm :</div>
-            <div className="user_avatar_name">
+            <Link
+              to={`/infor-user-of-product/${props.report?.userId?._id}`}
+              className="user_avatar_name"
+            >
               {props.report?.userId?.avatar ? (
                 <img
                   src={`http://localhost:3001/avatar/${props.report?.userId?.avatar}`}
@@ -91,7 +97,7 @@ function UserOfProduct(props) {
               <div className="userOfProduct_name">
                 {props.report?.userId?.fullName || props.userName}
               </div>
-            </div>
+            </Link>
             <div className="user_conctact">
               <div className="user_numberphone">
                 <i className="fa-solid fa-phone"></i>
