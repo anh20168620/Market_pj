@@ -43,6 +43,7 @@ function App() {
           <Route path='/product-by-category/:categoryName/:categoryId' element={<ProductByCategory />} />
           <Route path='/product-search/:wordSearch' element={<ProductSearchScreen />} />
           <Route path='/infor-user-of-product/:userId' element={<UserDetailOfProduct />} />
+          <Route path='/product-detail/:productId' element={<ProductDetail socket={socket} />} />
 
 
 
@@ -53,7 +54,6 @@ function App() {
             <Route path='/change-password' element={<ChangePasswordScreen />} />
             <Route path='/your-post' element={<YourPostScreen />} />
             <Route path='/update-post/:productId' element={<UpdatePostScreen />} />
-            <Route path='/product-detail/:productId' element={<ProductDetail socket={socket} />} />
             <Route path='/your-like-product' element={<LikeProductScreen />} />
             <Route path='/chat/' exact={true} element={<ChatScreen socket={socket} />} />
             <Route path='/chat/:ownId/:userId/:productId' element={<ChatDetailScreen socket={socket} />} />

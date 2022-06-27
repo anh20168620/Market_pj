@@ -133,20 +133,21 @@ function Header() {
   // get total chat unseen
   useEffect(() => {
     const getTotalMessageUnseen = async () => {
-      await fetch(
-        `http://localhost:3001/chat/get-chat/${JSON.parse(auth)?._id}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.success) {
-            const chatUnseen = data.chat.filter(
-              (item) =>
-                item.seen === false &&
-                item.lastMessageId.sender !== JSON.parse(auth)._id
-            );
-            setTotalMessage(chatUnseen.length);
-          }
-        });
+      auth &&
+        (await fetch(
+          `http://localhost:3001/chat/get-chat/${JSON.parse(auth)?._id}`
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              const chatUnseen = data.chat.filter(
+                (item) =>
+                  item.seen === false &&
+                  item.lastMessageId.sender !== JSON.parse(auth)._id
+              );
+              setTotalMessage(chatUnseen.length);
+            }
+          }));
     };
     getTotalMessageUnseen();
   }, [auth]);
