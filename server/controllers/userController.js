@@ -210,7 +210,7 @@ const userController = {
 
     // get total user
     total: async (req, res) => {
-        const total = await User.find().countDocuments()
+        const total = await User.find({ isActive: true }).countDocuments()
         res.status(200).json({ success: true, total })
     },
 

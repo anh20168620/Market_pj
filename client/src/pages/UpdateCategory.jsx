@@ -182,6 +182,20 @@ function UpdateCategory() {
     setImg(null);
   };
 
+  // delete subCategory
+  const handleDeleteSubCategory = async () => {
+    await fetch(`http://localhost:3001/sub-category/delete/${subCategoryId}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          reload();
+          hiddenModalConfirmDelete();
+        }
+      });
+  };
+
   return (
     <div>
       <HeaderAdmin />
@@ -227,7 +241,11 @@ function UpdateCategory() {
 
               <br></br>
               {imgPreview && (
-                <img src={imgPreview.preview} alt="" className="preview_img" />
+                <img
+                  src={imgPreview.preview}
+                  alt=""
+                  className="preview_img_category"
+                />
               )}
               <div className="update_category_img">
                 <label className="update_category_lable">
@@ -319,8 +337,7 @@ function UpdateCategory() {
 
       {showModalConfirmDelete && (
         <ModalConfirmDelete
-          subCategoryId={subCategoryId}
-          reload={reload}
+          callBackDelete={handleDeleteSubCategory}
           hiddenModalConfirmDelete={hiddenModalConfirmDelete}
         />
       )}

@@ -36,8 +36,10 @@
   margin-bottom: 20px;
 }
 
-.preview_img {
+.preview_img_category {
   width: 125px;
   height: 125px;
   margin-left: 30px;
+  display: block;
+  margin-top: 20px;
 }

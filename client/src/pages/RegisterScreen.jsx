@@ -13,8 +13,13 @@ function RegisterScreen() {
 
   const [msg, setMsg] = useState("");
   const [err, setErr] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const collectData = async () => {
+    setLoading(true);
+    setMsg("");
+    setErr("");
+
     let result = await fetch("http://localhost:3001/user/register", {
       method: "POST",
       body: JSON.stringify({
@@ -30,8 +35,10 @@ function RegisterScreen() {
     if (result.success) {
       setErr("");
       setMsg(result.message);
+      setLoading(false);
     } else {
       setErr(result.message);
+      setLoading(false);
       setMsg("");
     }
   };
@@ -102,6 +109,7 @@ function RegisterScreen() {
                 />
                 {msg && <div className="success_msg">{msg}</div>}
                 {err && <div className="err_msg">{err}</div>}
+                {loading && <div className="loading"></div>}
 
                 <button
                   onClick={collectData}

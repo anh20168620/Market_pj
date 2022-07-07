@@ -7,6 +7,7 @@ import Footer from "./../components/Footer";
 import UserOfProduct from "./../components/UserOfProduct";
 import "../assets/css/adminDetailReport.css";
 import ModalSendNotify from "./../components/ModalSendNotify";
+import ModalConfirmDelete from "../components/ModalConfirmDelete";
 
 function AdminDetailReport({ socket }) {
   const [product, setProduct] = useState({});
@@ -16,8 +17,15 @@ function AdminDetailReport({ socket }) {
   const [msg, setMsg] = useState("");
   const [show, setShow] = useState(false);
   const [reciverId, setReciverId] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const [showModalConfirmDelete, setShowModalConfirmDelete] = useState(false);
 
   const param = useParams();
+
+  const hiddenModalConfirmDelete = () => {
+    setShowModalConfirmDelete(false);
+  };
 
   // get reports
   useEffect(() => {
@@ -93,12 +101,20 @@ function AdminDetailReport({ socket }) {
   // delete product
 
   const deleteProduct = async (productId, reportId) => {
+    setLoading(true);
+    hiddenModalConfirmDelete();
     await fetch(`http://localhost:3001/product/delete/${productId}`, {
       method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: report.title,
+        content: report.content,
+      }),
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
+          setLoading(false);
           setMsg(data.message);
           setTimeout(() => {
             deleteReport(reportId);
@@ -145,12 +161,13 @@ function AdminDetailReport({ socket }) {
                 <br />
               </div>
               {msg && <div className="success_msg">{msg}</div>}
+              {loading && <div className="loading"></div>}
               <div className="admin_handle_report">
                 <div
                   className="admin_handle_option btn"
-                  onClick={() =>
-                    deleteProduct(report.productId._id, report._id)
-                  }
+                  onClick={() => {
+                    setShowModalConfirmDelete(true);
+                  }}
                 >
                   Xóa bài đăng
                 </div>
@@ -182,6 +199,12 @@ function AdminDetailReport({ socket }) {
           reciverId={reciverId}
           callbackHidden={hiddenModalSendNotify}
           socket={socket}
+        />
+      )}
+      {showModalConfirmDelete && (
+        <ModalConfirmDelete
+          callBackDelete={() => deleteProduct(report.productId._id, report._id)}
+          hiddenModalConfirmDelete={hiddenModalConfirmDelete}
         />
       )}
     </div>

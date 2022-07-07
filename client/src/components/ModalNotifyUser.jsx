@@ -2,10 +2,15 @@ import React from "react";
 import moment from "moment";
 
 function ModalNotifyUser({ notify, seenNotify, handleDelete }) {
+  const auth = localStorage.getItem("user");
+
+  !auth && (window.location = "/login");
+
   return (
     <div>
       <div className="modal_notify_container">
-        {notify.length > 0 ? (
+        {notify.length > 0 &&
+          auth &&
           notify.map((item, index) => (
             <div key={index}>
               <div
@@ -38,8 +43,8 @@ function ModalNotifyUser({ notify, seenNotify, handleDelete }) {
                 </div>
               </div>
             </div>
-          ))
-        ) : (
+          ))}
+        {notify.length === 0 && auth && (
           <div className="modal_notify_content">
             Bạn không có thông báo nào.
           </div>

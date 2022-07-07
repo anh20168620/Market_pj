@@ -6,8 +6,11 @@ function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [msg, setMsg] = useState("");
   const [err, setErr] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmid = async (e) => {
+    setLoading(true);
+    setMsg("");
     e.preventDefault();
     try {
       await fetch(`http://localhost:3001/password-reset`, {
@@ -22,6 +25,7 @@ function ForgotPassword() {
         .then((data) => {
           if (data.success) {
             setMsg(data.message);
+            setLoading(false);
             setErr("");
           } else {
             setErr(data.message);
@@ -49,6 +53,7 @@ function ForgotPassword() {
             />
             {msg && <div className="success_msg">{msg}</div>}
             {err && <div className="err_msg">{err}</div>}
+            {loading && <div className="loading"></div>}
             <button className="btn btn-register" type="submit">
               Submit
             </button>

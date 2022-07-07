@@ -1,4 +1,6 @@
 const Product = require('../models/Product.model')
+const sendEmail = require('../utils/sendEmail');
+const mailNotifyTemplate = require('../utils/mailNotify.template')
 const Category = require('../models/Category.model')
 const SubCategory = require('../models/SubCategory.model')
 const User = require('../models/User.model')
@@ -345,7 +347,7 @@ const productController = {
                     isActive: false
 
                 })
-                res.status(201).json({ success: true, message: "Sửa tin thành công, đợi xét duyệt tin của bạn" })
+                res.status(201).json({ success: true, message: "Sửa tin đăng thành công" })
             }
         } catch (error) {
             res.status(500).json({ success: false, message: error.message })
@@ -858,11 +860,12 @@ const productController = {
         const productId = req.params.productId
         try {
             if (productId) {
+                const product = await Product.findById(productId)
+                const user = await User.findById(product.userId)
                 const total = await Product.find({ show: true }).countDocuments()
-                console.log(productId, total);
                 await Product.findByIdAndDelete(productId)
+                await sendEmail(user.email, "Thông báo xóa bài đăng do vi phạm", mailNotifyTemplate(req.body.title, req.body.content, product.title))
                 res.status(200).json({ success: true, total: total - 1, message: 'Sản phẩm xóa thành công' })
-
             }
         } catch (error) {
             res.status(500).json({ success: false, message: error.message })

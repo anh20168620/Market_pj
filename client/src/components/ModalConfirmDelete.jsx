@@ -1,24 +1,7 @@
 import React from "react";
 import "../assets/css/modalConfirmDelete.css";
 
-function ModalConfirmDelete({
-  subCategoryId,
-  reload,
-  hiddenModalConfirmDelete,
-}) {
-  // delete subCategory
-  const handleDeleteSubCategory = async () => {
-    await fetch(`http://localhost:3001/sub-category/delete/${subCategoryId}`, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          reload();
-          hiddenModalConfirmDelete();
-        }
-      });
-  };
+function ModalConfirmDelete({ callBackDelete, hiddenModalConfirmDelete }) {
   return (
     <div>
       <div className="modal_confirm_delete" onClick={hiddenModalConfirmDelete}>
@@ -28,10 +11,10 @@ function ModalConfirmDelete({
         >
           <div className="modal_confirm_delete_body">
             <div className="modal_confirm_delete_title">
-              Bạn muốn xóa loại sản phẩm này ?
+              Bạn chắc chắn muốn xóa ?
             </div>
             <div className="modal_confirm_delete_btn">
-              <div className="btn" onClick={handleDeleteSubCategory}>
+              <div className="btn" onClick={callBackDelete}>
                 Xóa
               </div>
               <div className="btn" onClick={hiddenModalConfirmDelete}>

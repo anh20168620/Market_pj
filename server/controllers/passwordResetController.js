@@ -4,6 +4,7 @@ const TokenUser = require('../models/Token_user.model');
 const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
 const Joi = require('joi');
+const MailForgotPasswordTemplate = require('../utils/mailForgotPassword.template');
 
 // send link reset password
 const sendLinkReset = async (req, res) => {
@@ -27,7 +28,7 @@ const sendLinkReset = async (req, res) => {
         }
 
         const url = `${process.env.BASE_URL}password-reset/${user._id}/${token.token}`
-        await sendEmail(user.email, "Đặt lại mật khẩu", url);
+        await sendEmail(user.email, "Đặt lại mật khẩu", MailForgotPasswordTemplate(url));
 
         res.status(200).json({ success: true, message: "Link đặt lại mật khẩu đã được gửi tới email của bạn", url })
     } catch (error) {

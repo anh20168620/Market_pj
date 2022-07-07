@@ -227,8 +227,8 @@ function UpdatePostScreen() {
                       setErr("");
                       setMsg(responseData.message);
                       setTimeout(() => {
-                        window.location = "/";
-                      }, 2000);
+                        window.location = "/your-post";
+                      }, 1500);
                     }
                   })
                   .catch((err) => {

@@ -104,7 +104,7 @@ function ModalSendNotify({ callbackHidden, reciverId, socket }) {
                 className="btn-send-notify btn"
                 onClick={reciverId ? handleSubmidNotify : handleSubmidNotifys}
               >
-                Gửi báo cáo
+                Gửi thông báo
               </div>
             )}
           </div>

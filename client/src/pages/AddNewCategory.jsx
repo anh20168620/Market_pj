@@ -73,7 +73,11 @@ function AddNewCategory() {
             />
 
             {imgPreview && (
-              <img src={imgPreview.preview} alt="" className="preview_img" />
+              <img
+                src={imgPreview.preview}
+                alt=""
+                className="preview_img_category"
+              />
             )}
             <div className="update_category_img">
               <label className="update_category_lable">

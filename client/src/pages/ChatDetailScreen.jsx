@@ -125,7 +125,7 @@ function ChatDetailScreen({ socket }) {
 
   // create new message
   const handleSubmid = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     const message = {
       sender: param.ownId,
       content: newMessage,
@@ -224,6 +224,11 @@ function ChatDetailScreen({ socket }) {
       });
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSubmid();
+    }
+  };
   return (
     <div>
       <Header />
@@ -298,9 +303,7 @@ function ChatDetailScreen({ socket }) {
                     placeholder="Viết tin nhắn..."
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
-                    onKeyPress={(event) => {
-                      if (event.key === "Enter") handleSubmid();
-                    }}
+                    onKeyPress={(e) => handleKeyPress(e)}
                   />
                   <button className="chat_submit btn" onClick={handleSubmid}>
                     <i className="fa-regular fa-paper-plane"></i>
