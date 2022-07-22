@@ -5,7 +5,7 @@ exports.validatePostProduct = [
     check('categoryId')
         .not()
         .isEmpty()
-        .withMessage('Chọn danh mục tin đăng')
+        .withMessage('Vui lòng chọn danh mục tin đăng!')
         .custom((value, { req }) => {
             if (!value) {
                 const images = req.body.image
@@ -20,7 +20,7 @@ exports.validatePostProduct = [
     check('subCategoryId')
         .not()
         .isEmpty()
-        .withMessage('Chọn loại sản phẩm')
+        .withMessage('Vui lòng chọn loại sản phẩm!')
         .custom((value, { req }) => {
             if (!value) {
                 const images = req.body.image
@@ -34,7 +34,7 @@ exports.validatePostProduct = [
     check('title')
         .not()
         .isEmpty()
-        .withMessage('Nhập tiêu đề')
+        .withMessage('Vui lòng nhập tiêu đề!')
         .isLength({ min: 10, max: 50 })
         .withMessage('Tiêu đề từ 10-50 ký tự')
         .custom((value, { req }) => {
@@ -50,7 +50,7 @@ exports.validatePostProduct = [
     check('price')
         .not()
         .isEmpty()
-        .withMessage('Nhập giá sản phẩm')
+        .withMessage('Vui lòng nhập giá sản phẩm!')
         .custom((value, { req }) => {
             if (!value) {
                 const images = req.body.image
@@ -64,7 +64,7 @@ exports.validatePostProduct = [
     check('brand')
         .not()
         .isEmpty()
-        .withMessage('Nhập hãng(thương hiệu,xuất xứ)')
+        .withMessage('Vui lòng nhập hãng(thương hiệu,xuất xứ)!')
         .custom((value, { req }) => {
             if (!value) {
                 const images = req.body.image
@@ -78,7 +78,7 @@ exports.validatePostProduct = [
     check('description')
         .not()
         .isEmpty()
-        .withMessage('Nhập mô tả sản phẩm')
+        .withMessage('Vui lòng nhập mô tả sản phẩm!')
         .isLength({ min: 10, max: 1500 })
         .withMessage('Nhập mô tả sản phẩm từ 10-1500 ký tự').
         custom((value, { req }) => {
@@ -94,7 +94,7 @@ exports.validatePostProduct = [
     check('address')
         .not()
         .isEmpty()
-        .withMessage('Nhập địa chỉ')
+        .withMessage('Vui lòng nhập địa chỉ!')
         .custom((value, { req }) => {
             if (!value) {
                 const images = req.body.image
@@ -108,7 +108,7 @@ exports.validatePostProduct = [
     check('typeOfSell')
         .not()
         .isEmpty()
-        .withMessage('Nhập dạng bán hàng')
+        .withMessage('Vui lòng nhập dạng bán hàng!')
         .custom((value, { req }) => {
             if (!value) {
                 const images = req.body.image

@@ -12,6 +12,7 @@ function ProductDetail({ socket }) {
   const [product, setProduct] = useState({});
   const param = useParams();
   const [show, setShow] = useState(false);
+  const auth = localStorage.getItem("user");
 
   useEffect(() => {
     fetch(
@@ -33,7 +34,12 @@ function ProductDetail({ socket }) {
   }, []);
 
   const showModal = () => {
-    setShow(true);
+    if (auth) {
+      setShow(true);
+    } else {
+      setShow(false);
+      window.location = "/login";
+    }
   };
 
   const hideModal = () => {

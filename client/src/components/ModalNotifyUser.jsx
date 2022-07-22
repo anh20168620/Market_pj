@@ -37,7 +37,7 @@ function ModalNotifyUser({ notify, seenNotify, handleDelete }) {
                       className="modal_notify_btn"
                       onClick={() => handleDelete(item._id)}
                     >
-                      Xóa báo cáo
+                      Xóa thông báo
                     </div>
                   </div>
                 </div>

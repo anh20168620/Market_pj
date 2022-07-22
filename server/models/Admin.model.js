@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
-// fullName
+
 // email
 // password
-// avatar
-// notify
+
 
 const Schema = mongoose.Schema;
 

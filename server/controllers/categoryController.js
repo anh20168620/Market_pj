@@ -56,8 +56,12 @@ const category = {
         const newName = req.body.nameCategory
 
         try {
-            const category = await Category.findByIdAndUpdate(categoryId, { name: newName })
-            res.status(200).json({ success: true, category: category, message: "Đổi tên danh mục thành công" })
+            if (newName.length < 6 || newName.length > 30) {
+                res.status(400).json({ success: false, message: "Tên danh mục phải từ 6 đến 30 ký tự!" })
+            } else {
+                const category = await Category.findByIdAndUpdate(categoryId, { name: newName })
+                res.status(200).json({ success: true, category: category, message: "Đổi tên danh mục thành công" })
+            }
         } catch (error) {
             return res.status(500).json({ error: error.message });
         }
@@ -97,13 +101,16 @@ const category = {
         const name = req.body.name
 
         try {
-            const newCategory = await new Category({
-                image: image,
-                name: name
-            })
-            await newCategory.save()
-            res.status(200).json({ success: true, message: "Thêm danh mục thành công !" })
-
+            if (name.length < 6 || name.length > 30) {
+                res.status(400).json({ success: false, message: "Tên danh mục phải từ 6 đến 30 ký tự!" })
+            } else {
+                const newCategory = await new Category({
+                    image: image,
+                    name: name
+                })
+                await newCategory.save()
+                res.status(200).json({ success: true, message: "Thêm danh mục thành công !" })
+            }
         } catch (error) {
             return res.status(500).json({ error: error.message });
         }

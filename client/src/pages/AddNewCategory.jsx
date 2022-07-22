@@ -46,6 +46,8 @@ function AddNewCategory() {
                 setTimeout(() => {
                   setMsg("");
                 }, 1500);
+              } else {
+                setErr(dataResponse.message);
               }
             });
         } else {

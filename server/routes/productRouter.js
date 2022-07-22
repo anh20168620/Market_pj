@@ -13,10 +13,10 @@ router.post('/image-product/:id', (req, res, next) => {
 
         if (err instanceof multer.MulterError) {
             if (err.code === 'LIMIT_FILE_SIZE') {
-                return res.json({ success: false, message: "Chọn ảnh dưới 6MB" })
+                return res.json({ success: false, message: "Vui lòng chọn ảnh dưới 6MB!" })
             }
             if (err.code === 'LIMIT_FILE_COUNT') {
-                return res.json({ success: false, message: "Chỉ chọn từ 1 đến 3 ảnh" })
+                return res.json({ success: false, message: "Chỉ chọn từ 1 đến 3 ảnh!" })
             }
 
         } else if (err) {

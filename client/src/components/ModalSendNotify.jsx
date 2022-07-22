@@ -69,7 +69,7 @@ function ModalSendNotify({ callbackHidden, reciverId, socket }) {
           </div>
           <div className="modal_body">
             <label htmlFor="title" className="modal_label">
-              <div className="modal_title">Tiêu đề :</div>
+              <div className="modal_title">Tiêu đề (ít nhất 10 ký tự) :</div>
               <input
                 className="modal_input"
                 id="title"
@@ -78,10 +78,15 @@ function ModalSendNotify({ callbackHidden, reciverId, socket }) {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
+              <div className="textarea_count">
+                {title.length}/{500}
+              </div>
             </label>
 
             <label className="modal_label" htmlFor="textarea">
-              <div className="modal_title">Nội dung thông báo :</div>
+              <div className="modal_title">
+                Nội dung thông báo (từ 10 đến 500 ký tự) :
+              </div>
               <textarea
                 className="modal_textArea"
                 name=""
@@ -99,14 +104,16 @@ function ModalSendNotify({ callbackHidden, reciverId, socket }) {
               </div>
             </label>
             {msg && <div className="success_msg">{msg}</div>}
-            {title && content && (
-              <div
-                className="btn-send-notify btn"
-                onClick={reciverId ? handleSubmidNotify : handleSubmidNotifys}
-              >
-                Gửi thông báo
-              </div>
-            )}
+            {title.length >= 10 &&
+              content.length < 500 &&
+              content.length >= 10 && (
+                <div
+                  className="btn-send-notify btn"
+                  onClick={reciverId ? handleSubmidNotify : handleSubmidNotifys}
+                >
+                  Gửi thông báo
+                </div>
+              )}
           </div>
         </div>
       </section>

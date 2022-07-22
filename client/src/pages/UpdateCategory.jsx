@@ -20,6 +20,7 @@ function UpdateCategory() {
   const [show, setShow] = useState(false);
   const [msg, setMsg] = useState("");
   const [err, setErr] = useState("");
+  const [err1, setErr1] = useState("");
 
   const [showModalAddSubCategory, setShowModalAddSubCategory] = useState(false);
   const [showModalConfirmDelete, setShowModalConfirmDelete] = useState(false);
@@ -111,10 +112,13 @@ function UpdateCategory() {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
+          setErr1("");
           setMsg(data.message);
           setTimeout(() => {
             setMsg("");
           }, 1500);
+        } else {
+          setErr1(data.message);
         }
       });
   };
@@ -174,7 +178,6 @@ function UpdateCategory() {
         }
       });
   };
-
   // cancel update image category
 
   const handleCancelUpdateImageCategory = () => {
@@ -237,7 +240,12 @@ function UpdateCategory() {
                   Hủy
                 </div>
               }
-              {msg && <div className="success_msg">{msg}</div>}
+              <div className="update_category_lable">
+                {msg && <div className="success_msg">{msg}</div>}
+              </div>
+              <div className="update_category_lable">
+                {err1 && <div className="err_msg">{err1}</div>}
+              </div>
 
               <br></br>
               {imgPreview && (

@@ -6,7 +6,7 @@ exports.validateUserRegister = [
         .trim()
         .not()
         .isEmpty()
-        .withMessage('Tên là bắt buộc!')
+        .withMessage('Họ và tên là bắt buộc!')
         .isLength({ min: 3, max: 20 })
         .withMessage('Tên phải nằm trong phạm vi 3 ký tự đến 20 ký tự! '),
     check('numberPhone')
@@ -16,13 +16,13 @@ exports.validateUserRegister = [
         .matches(/(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b/)
         .withMessage('Số điện thoại không hợp lệ!'),
     check('email')
+        .not()
+        .isEmpty()
+        .withMessage('Email là bắt buộc!')
         .matches(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
         .withMessage('Email không hợp lệ!')
         .isEmail()
         .withMessage('Email không hợp lệ!')
-        .not()
-        .isEmpty()
-        .withMessage('Email là bắt buộc!')
         .normalizeEmail()
         .isLowercase()
         .withMessage('Email không hợp lệ!')
@@ -39,7 +39,7 @@ exports.validateUserRegister = [
         .isEmpty()
         .withMessage('Mật khẩu là bắt buộc!')
         .isLength({ min: 6, max: 20 })
-        .withMessage('Mật khẩu phải từ 6 đến 20 ký tự'),
+        .withMessage('Mật khẩu phải từ 6 đến 20 ký tự!'),
     check('confirmPassword')
         .trim()
         .not()

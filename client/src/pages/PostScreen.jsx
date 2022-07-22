@@ -150,7 +150,7 @@ function PostScreen() {
             }
           });
       } else {
-        setErr("Vui lòng chọn ảnh");
+        setErr("Vui lòng chọn ảnh!");
         setLoading(false);
       }
     } catch (error) {

@@ -106,7 +106,7 @@ function ModalReport(props) {
             )}
 
             {message && <div className="success_msg msg_report">{message}</div>}
-            {report && description && description.length > 10 && (
+            {report && description && description.length >= 10 && (
               <div className="btn btn_report_submit" onClick={submitReport}>
                 Gửi báo cáo
               </div>
